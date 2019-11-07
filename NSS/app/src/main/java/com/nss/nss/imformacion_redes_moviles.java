@@ -1,12 +1,17 @@
 package com.nss.nss;
 
 import android.content.Context;
+import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.telephony.TelephonyManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+import android.widget.Toast;
 
 
 /**
@@ -23,6 +28,13 @@ public class imformacion_redes_moviles extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
+    ListView listaDatos;
+    String[] datos ={"Operador:","Intensidad","Tipo de red","Tipo de red telefonica","Ip","Imei","Mac",
+            "Mascara de subred","MCC","MNC","Velocidad"};
+
+String [] datosSim;
+
+
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
@@ -32,6 +44,46 @@ public class imformacion_redes_moviles extends Fragment {
     public imformacion_redes_moviles() {
         // Required empty public constructor
     }
+
+
+
+    public void getImformationRedesMoviles(){
+        /*this class are for get imformation about the state of the telephone*/
+        TelephonyManager tm = (TelephonyManager)getActivity().getSystemService(Context.TELEPHONY_SERVICE);
+        ConnectivityManager con = (ConnectivityManager)getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+        datosSim = new String[10];
+        datosSim[0]=tm.getSimOperator();
+        datosSim[2]=getTypeOfNetwork();
+        Toast.makeText(getContext(),datos[2],Toast.LENGTH_SHORT).show();
+    }
+
+
+    /*this method return the type of the red in one var wich store the type of the red*/
+    public String getTypeOfNetwork(){
+
+        TelephonyManager tm2 = (TelephonyManager)getActivity().getSystemService(Context.TELEPHONY_SERVICE);
+        switch (tm2.getNetworkType()){
+            case TelephonyManager.NETWORK_TYPE_1xRTT: return "1xRTT";
+            case TelephonyManager.NETWORK_TYPE_CDMA: return "CDMA";
+            case TelephonyManager.NETWORK_TYPE_EDGE: return "EDGE";
+            case TelephonyManager.NETWORK_TYPE_EHRPD: return "eHRPD";
+            case TelephonyManager.NETWORK_TYPE_EVDO_0: return "EVDO rev. 0";
+            case TelephonyManager.NETWORK_TYPE_EVDO_A: return "EVDO rev. A";
+            case TelephonyManager.NETWORK_TYPE_EVDO_B: return "EVDO rev. B";
+            case TelephonyManager.NETWORK_TYPE_GPRS: return "GPRS";
+            case TelephonyManager.NETWORK_TYPE_HSDPA: return "HSDPA";
+            case TelephonyManager.NETWORK_TYPE_HSPA: return "HSPA";
+            case TelephonyManager.NETWORK_TYPE_HSPAP: return "HSPA+";
+            case TelephonyManager.NETWORK_TYPE_HSUPA: return "HSUPA";
+            case TelephonyManager.NETWORK_TYPE_IDEN: return "iDen";
+            case TelephonyManager.NETWORK_TYPE_LTE: return "LTE";
+            case TelephonyManager.NETWORK_TYPE_UMTS: return "UMTS";
+            case TelephonyManager.NETWORK_TYPE_UNKNOWN: return "Unknown";
+        }
+        throw new RuntimeException("New type of network");
+
+    }
+
 
     /**
      * Use this factory method to create a new instance of
@@ -58,13 +110,25 @@ public class imformacion_redes_moviles extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        /*this code is only for initit componets*/
+        Toast.makeText(getContext(),"hell",Toast.LENGTH_SHORT).show();
+
+        View vista = inflater.inflate(R.layout.fragment_imformacion_redes_moviles,container,false);
+     listaDatos = vista.findViewById(R.id.listaDeDatosRedes);
+
+        ArrayAdapter datosRedes = new ArrayAdapter(getActivity(),android.R.layout.simple_list_item_activated_1, datos);
+        listaDatos.setAdapter(datosRedes);
+       getImformationRedesMoviles();
+
+
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_imformacion_redes_moviles, container, false);
+        return vista;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -83,6 +147,7 @@ public class imformacion_redes_moviles extends Fragment {
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");
         }
+
     }
 
     @Override
