@@ -50,17 +50,19 @@ String [] datosSim;
     public void getImformationRedesMoviles(){
         /*this class are for get imformation about the state of the telephone*/
         TelephonyManager tm = (TelephonyManager)getActivity().getSystemService(Context.TELEPHONY_SERVICE);
+
         ConnectivityManager con = (ConnectivityManager)getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
         datosSim = new String[10];
         datosSim[0]=tm.getSimOperator();
         datosSim[2]=getTypeOfNetwork();
-        Toast.makeText(getContext(),datos[2],Toast.LENGTH_SHORT).show();
+
+
+        Toast.makeText(getContext(),"MI hello",Toast.LENGTH_SHORT).show();
     }
 
 
     /*this method return the type of the red in one var wich store the type of the red*/
     public String getTypeOfNetwork(){
-
         TelephonyManager tm2 = (TelephonyManager)getActivity().getSystemService(Context.TELEPHONY_SERVICE);
         switch (tm2.getNetworkType()){
             case TelephonyManager.NETWORK_TYPE_1xRTT: return "1xRTT";
@@ -117,7 +119,7 @@ String [] datosSim;
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         /*this code is only for initit componets*/
-        Toast.makeText(getContext(),"hell",Toast.LENGTH_SHORT).show();
+        /*this code show when you */
 
         View vista = inflater.inflate(R.layout.fragment_imformacion_redes_moviles,container,false);
      listaDatos = vista.findViewById(R.id.listaDeDatosRedes);
