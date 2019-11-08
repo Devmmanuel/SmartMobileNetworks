@@ -6,8 +6,8 @@
     android:background="#FFEB3B"
     tools:context=".imformacion_redes_moviles" >
 
-    <GridView
-        android:numColumns="2"
+    <ListView
+        android:id="@+id/listaDeDatosRedes"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 </FrameLayout>
