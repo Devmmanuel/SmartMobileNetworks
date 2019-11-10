@@ -33,7 +33,8 @@ public class RedesMovilesActivity extends AppCompatActivity implements
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                recreate();
+                Snackbar.make(view, "Refrescando la activity", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
         });
