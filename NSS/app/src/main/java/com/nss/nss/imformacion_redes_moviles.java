@@ -1,17 +1,26 @@
 package com.nss.nss;
 
+
+import android.Manifest;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
+import android.telephony.SignalStrength;
 import android.telephony.TelephonyManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ListView;
-import android.widget.Toast;
+import android.widget.GridView;
+import java.util.ArrayList;
+import java.net.InetAddress;
+import java.net.NetworkInterface;
+import java.net.SocketException;
+import java.util.Enumeration;
 
 
 /**
@@ -28,12 +37,20 @@ public class imformacion_redes_moviles extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-    ListView listaDatos;
-    String[] datos ={"Operador:","Intensidad","Tipo de red","Tipo de red telefonica","Ip","Imei","Mac",
-            "Mascara de subred","MCC","MNC","Velocidad"};
+    /**
+     * var to store content of the data
+     */
 
-String [] datosSim;
-
+    private String roaming;
+    private String MccAndMnc;
+    private String phoneType = "Unknown";
+    private String dataConected;
+    private ArrayList<String> datosRM = new ArrayList<>();
+    private ArrayAdapter datosRedes;
+    private TelephonyManager tm;
+    private ConnectivityManager con;
+    private SignalStrength signal;
+    private GridView listaDatos;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -43,48 +60,149 @@ String [] datosSim;
 
     public imformacion_redes_moviles() {
         // Required empty public constructor
+
+    }
+
+
+    public void getImformationRedesMoviles() {
+        /*this method are for get imformation about the state of the telephone
+         * this method get the date what after sshow in the GriedView*/
+        datosRM.add("Operaror");
+        datosRM.add(tm.getNetworkOperatorName());
+        datosRM.add("Tipo de red telefonica");
+        datosRM.add(getTypeOfNetwork());
+        datosRM.add("Tipo de red");
+        datosRM.add(getTypeOfNetwork234());
+        datosRM.add("Codigo de pais");
+        datosRM.add(tm.getSimCountryIso());
+        datosRM.add("mcc");
+        MccAndMnc = tm.getNetworkOperator();
+        datosRM.add(MccAndMnc.substring(0,3));
+        datosRM.add("mnc");
+        datosRM.add(MccAndMnc.substring(4,6));
+        datosRM.add("Roamig");
+        if(tm.isNetworkRoaming())
+            roaming = "True";
+        else
+            roaming = "False";
+        datosRM.add(roaming);
+        datosRM.add("Phone type");
+        datosRM.add(getPhoneType());
+        datosRM.add("Data conected");
+        datosRM.add(getDataConected());
+        datosRM.add("Imei");
+        datosRM.add(getnImei());
+
     }
 
 
 
-    public void getImformationRedesMoviles(){
-        /*this class are for get imformation about the state of the telephone*/
-        TelephonyManager tm = (TelephonyManager)getActivity().getSystemService(Context.TELEPHONY_SERVICE);
-
-        ConnectivityManager con = (ConnectivityManager)getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
-        datosSim = new String[10];
-        datosSim[0]=tm.getSimOperator();
-        datosSim[2]=getTypeOfNetwork();
-
-
-        Toast.makeText(getContext(),"MI hello",Toast.LENGTH_SHORT).show();
+    public String getnImei(){
+        int chekarPermiso = ContextCompat.checkSelfPermission(getContext(),Manifest.permission.READ_PHONE_STATE);
+        if(chekarPermiso == PackageManager.PERMISSION_GRANTED)
+            return tm.getImei();
+        else
+            return "Desconocido";
     }
 
+
+    public String getPhoneType(){
+        switch (tm.getPhoneType()){
+            case(TelephonyManager.PHONE_TYPE_CDMA):
+                phoneType = " CDMA";break;
+            case(TelephonyManager.PHONE_TYPE_GSM):
+                phoneType = " GMS";break;
+            case(TelephonyManager.PHONE_TYPE_NONE):
+                phoneType = " NONE";break;
+            case(TelephonyManager.PHONE_TYPE_SIP):
+                phoneType = " SIP";break;
+        }
+        return  phoneType;
+    }
+
+    public String getDataConected(){
+          int estadoDeRed = tm.getDataState();
+          switch (estadoDeRed){
+              case TelephonyManager.DATA_DISCONNECTED:
+                  dataConected = "Desconectado";break;
+              case TelephonyManager.DATA_CONNECTED:
+               dataConected = "Conectado";
+
+          }
+        return dataConected;
+    }
 
     /*this method return the type of the red in one var wich store the type of the red*/
-    public String getTypeOfNetwork(){
-        TelephonyManager tm2 = (TelephonyManager)getActivity().getSystemService(Context.TELEPHONY_SERVICE);
-        switch (tm2.getNetworkType()){
-            case TelephonyManager.NETWORK_TYPE_1xRTT: return "1xRTT";
-            case TelephonyManager.NETWORK_TYPE_CDMA: return "CDMA";
-            case TelephonyManager.NETWORK_TYPE_EDGE: return "EDGE";
-            case TelephonyManager.NETWORK_TYPE_EHRPD: return "eHRPD";
-            case TelephonyManager.NETWORK_TYPE_EVDO_0: return "EVDO rev. 0";
-            case TelephonyManager.NETWORK_TYPE_EVDO_A: return "EVDO rev. A";
-            case TelephonyManager.NETWORK_TYPE_EVDO_B: return "EVDO rev. B";
-            case TelephonyManager.NETWORK_TYPE_GPRS: return "GPRS";
-            case TelephonyManager.NETWORK_TYPE_HSDPA: return "HSDPA";
-            case TelephonyManager.NETWORK_TYPE_HSPA: return "HSPA";
-            case TelephonyManager.NETWORK_TYPE_HSPAP: return "HSPA+";
-            case TelephonyManager.NETWORK_TYPE_HSUPA: return "HSUPA";
-            case TelephonyManager.NETWORK_TYPE_IDEN: return "iDen";
-            case TelephonyManager.NETWORK_TYPE_LTE: return "LTE";
-            case TelephonyManager.NETWORK_TYPE_UMTS: return "UMTS";
-            case TelephonyManager.NETWORK_TYPE_UNKNOWN: return "Unknown";
+    public String getTypeOfNetwork() {
+        int networkType = tm.getNetworkType();
+        switch (networkType) {
+            case TelephonyManager.NETWORK_TYPE_1xRTT:
+                return "1xRTT";
+            case TelephonyManager.NETWORK_TYPE_CDMA:
+                return "CDMA";
+            case TelephonyManager.NETWORK_TYPE_EDGE:
+                return "EDGE";
+            case TelephonyManager.NETWORK_TYPE_EHRPD:
+                return "eHRPD";
+            case TelephonyManager.NETWORK_TYPE_EVDO_0:
+                return "EVDO rev. 0";
+            case TelephonyManager.NETWORK_TYPE_EVDO_A:
+                return "EVDO rev. A";
+            case TelephonyManager.NETWORK_TYPE_EVDO_B:
+                return "EVDO rev. B";
+            case TelephonyManager.NETWORK_TYPE_GPRS:
+                return "GPRS";
+            case TelephonyManager.NETWORK_TYPE_HSDPA:
+                return "HSDPA";
+            case TelephonyManager.NETWORK_TYPE_HSPA:
+                return "HSPA";
+            case TelephonyManager.NETWORK_TYPE_HSPAP:
+                return "HSPA+";
+            case TelephonyManager.NETWORK_TYPE_HSUPA:
+                return "HSUPA";
+            case TelephonyManager.NETWORK_TYPE_IDEN:
+                return "iDen";
+            case TelephonyManager.NETWORK_TYPE_LTE:
+                return "LTE";
+            case TelephonyManager.NETWORK_TYPE_UMTS:
+                return "UMTS";
+            case TelephonyManager.NETWORK_TYPE_UNKNOWN:
+                return "Unknown";
         }
         throw new RuntimeException("New type of network");
 
     }
+
+/*this method return type 2G,3G,4G*/
+    public String getTypeOfNetwork234() {
+        int networkType = tm.getNetworkType();
+        switch (networkType) {
+            case TelephonyManager.NETWORK_TYPE_GPRS:
+            case TelephonyManager.NETWORK_TYPE_EDGE:
+            case TelephonyManager.NETWORK_TYPE_CDMA:
+            case TelephonyManager.NETWORK_TYPE_1xRTT:
+            case TelephonyManager.NETWORK_TYPE_IDEN:
+            return  "2G";
+            case TelephonyManager.NETWORK_TYPE_UMTS:
+            case TelephonyManager.NETWORK_TYPE_EVDO_0:
+            case TelephonyManager.NETWORK_TYPE_EVDO_A:
+            case TelephonyManager.NETWORK_TYPE_HSDPA:
+            case TelephonyManager.NETWORK_TYPE_HSUPA:
+            case TelephonyManager.NETWORK_TYPE_HSPA:
+            case TelephonyManager.NETWORK_TYPE_EVDO_B:
+            case TelephonyManager.NETWORK_TYPE_EHRPD:
+            case TelephonyManager.NETWORK_TYPE_HSPAP:
+            return "3G";
+            case TelephonyManager.NETWORK_TYPE_LTE:
+            return  "4G";
+            case TelephonyManager.NETWORK_TYPE_UNKNOWN:
+                return "Unknown";
+        }
+        throw new RuntimeException("New type of network");
+
+    }
+
+
 
 
     /**
@@ -105,6 +223,8 @@ String [] datosSim;
         return fragment;
     }
 
+
+    /*this code only are invoke when the activity begin*/
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -112,22 +232,23 @@ String [] datosSim;
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        tm = (TelephonyManager) getActivity().getSystemService(Context.TELEPHONY_SERVICE);
+        con = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
 
+        datosRedes = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_activated_1, datosRM);
+        getImformationRedesMoviles();
     }
 
+    /*this code is invoke whe you move between first and last fragment*/
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         /*this code is only for initit componets*/
         /*this code show when you */
+        View vista = inflater.inflate(R.layout.fragment_imformacion_redes_moviles, container, false);
 
-        View vista = inflater.inflate(R.layout.fragment_imformacion_redes_moviles,container,false);
-     listaDatos = vista.findViewById(R.id.listaDeDatosRedes);
-
-        ArrayAdapter datosRedes = new ArrayAdapter(getActivity(),android.R.layout.simple_list_item_activated_1, datos);
+        listaDatos = vista.findViewById(R.id.FIRM_gridViewDatos);
         listaDatos.setAdapter(datosRedes);
-       getImformationRedesMoviles();
-
 
         // Inflate the layout for this fragment
         return vista;
