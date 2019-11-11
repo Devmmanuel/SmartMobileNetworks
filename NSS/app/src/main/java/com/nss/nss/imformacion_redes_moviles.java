@@ -1,6 +1,8 @@
 package com.nss.nss;
 
 
+import android.telephony.PhoneStateListener;
+import android.telephony.TelephonyManager;
 import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
@@ -10,17 +12,18 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.telephony.SignalStrength;
-import android.telephony.TelephonyManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.GridView;
+import android.widget.Toast;
+
 import java.util.ArrayList;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
-import java.net.SocketException;
-import java.util.Enumeration;
+import java.util.Collections;
+import java.util.List;
 
 
 /**
@@ -45,12 +48,15 @@ public class imformacion_redes_moviles extends Fragment {
     private String MccAndMnc;
     private String phoneType = "Unknown";
     private String dataConected;
-    private ArrayList<String> datosRM = new ArrayList<>();
+    private List<String> datosRM = new ArrayList<>();
     private ArrayAdapter datosRedes;
     private TelephonyManager tm;
     private ConnectivityManager con;
     private SignalStrength signal;
     private GridView listaDatos;
+    TelephonyManager mTelephonyManager;
+    MyPhoneStateListener mPhoneStatelistener;
+    int mSignalStrength = 0;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -81,18 +87,38 @@ public class imformacion_redes_moviles extends Fragment {
         datosRM.add("mnc");
         datosRM.add(MccAndMnc.substring(4,6));
         datosRM.add("Roamig");
-        if(tm.isNetworkRoaming())
-            roaming = "True";
-        else
-            roaming = "False";
-        datosRM.add(roaming);
+        datosRM.add(getStateRoaming());
         datosRM.add("Phone type");
         datosRM.add(getPhoneType());
         datosRM.add("Data conected");
         datosRM.add(getDataConected());
         datosRM.add("Imei");
         datosRM.add(getnImei());
+        datosRM.add("ip");
+        datosRM.add(getMobileIPAddress());
+        datosRM.add("Dbm");
+        datosRM.add(String.valueOf(mSignalStrength));
+    }
 
+    public String getStateRoaming(){
+        if(tm.isNetworkRoaming())
+            return "False";
+        else return "True";
+    }
+
+    public static String getMobileIPAddress() {
+        try {
+            List<NetworkInterface> interfaces = Collections.list(NetworkInterface.getNetworkInterfaces());
+            for (NetworkInterface intf : interfaces) {
+                List<InetAddress> addrs = Collections.list(intf.getInetAddresses());
+                for (InetAddress addr : addrs) {
+                    if (!addr.isLoopbackAddress()) {
+                        return  addr.getHostAddress();
+                    }
+                }
+            }
+        } catch (Exception ex) { } // for now eat exceptions
+        return "-";
     }
 
 
@@ -234,7 +260,9 @@ public class imformacion_redes_moviles extends Fragment {
         }
         tm = (TelephonyManager) getActivity().getSystemService(Context.TELEPHONY_SERVICE);
         con = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
-
+        //mPhoneStatelistener = new MyPhoneStateListener();
+        //mTelephonyManager = (TelephonyManager)getContext().getSystemService(Context.TELEPHONY_SERVICE);
+        //mTelephonyManager.listen(mPhoneStatelistener, PhoneStateListener.LISTEN_SIGNAL_STRENGTHS);
         datosRedes = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_activated_1, datosRM);
         getImformationRedesMoviles();
     }
@@ -271,6 +299,19 @@ public class imformacion_redes_moviles extends Fragment {
                     + " must implement OnFragmentInteractionListener");
         }
 
+    }
+
+
+    class MyPhoneStateListener extends PhoneStateListener {
+
+        @Override
+        public void onSignalStrengthsChanged(SignalStrength signalStrength) {
+            super.onSignalStrengthsChanged(signalStrength);
+            mSignalStrength = signalStrength.getGsmSignalStrength();
+            mSignalStrength = (2 * mSignalStrength) - 113; // -> dBm
+            Toast.makeText(getContext(),"Cambio red"+mSignalStrength,Toast.LENGTH_LONG).show();
+
+        }
     }
 
     @Override
