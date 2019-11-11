@@ -1,6 +1,7 @@
 package com.nss.nss;
 
 
+import android.os.Build;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
 import android.Manifest;
@@ -126,7 +127,9 @@ public class imformacion_redes_moviles extends Fragment {
     public String getnImei(){
         int chekarPermiso = ContextCompat.checkSelfPermission(getContext(),Manifest.permission.READ_PHONE_STATE);
         if(chekarPermiso == PackageManager.PERMISSION_GRANTED)
-            return tm.getImei();
+            if(Build.VERSION.SDK_INT >= 26)
+                return tm.getImei();
+            else return tm.getDeviceId();
         else
             return "Desconocido";
     }
