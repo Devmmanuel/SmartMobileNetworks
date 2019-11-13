@@ -7,7 +7,7 @@
 
     <com.github.anastr.speedviewlib.SpeedView
         android:id="@+id/speedView"
-        android:layout_width="200dp"
-        android:layout_height="200dp"/>
+        android:layout_width="match_parent"
+        android:layout_height="115dp" />
 
 </FrameLayout>
