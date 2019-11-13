@@ -309,14 +309,15 @@ public class imformacion_redes_moviles extends Fragment {
 
     class MyPhoneStateListener extends PhoneStateListener {
 
+        //este metodo imforma mediante un Toask la velocidad de asu y dbm para las redes 2G
         @Override
         public void onSignalStrengthsChanged(SignalStrength signalStrength) {
             super.onSignalStrengthsChanged(signalStrength);
-            int ss =signalStrength.getCdmaDbm();
+            int ss =signalStrength.getGsmSignalStrength();//as
             mSignalStrength = signalStrength.getGsmSignalStrength();
             mSignalStrength = (2 * mSignalStrength) - 113; // -> dBm
             //al poner esto y detruir la actividad da un error
-            //Toast.makeText(getContext()," "+ss+mSignalStrength,Toast.LENGTH_LONG).show();
+            Toast.makeText(getContext()," "+ss+mSignalStrength,Toast.LENGTH_LONG).show();
 
         }
     }
