@@ -84,9 +84,9 @@ public class imformacion_redes_moviles extends Fragment {
         datosRM.add(tm.getSimCountryIso());
         datosRM.add("mcc");
         MccAndMnc = tm.getNetworkOperator();
-        datosRM.add(MccAndMnc.substring(0,3));
+        datosRM.add(MccAndMnc.substring(0, 3));
         datosRM.add("mnc");
-        datosRM.add(MccAndMnc.substring(4,6));
+        datosRM.add(MccAndMnc.substring(4, 6));
         datosRM.add("Roamig");
         datosRM.add(getStateRoaming());
         datosRM.add("Phone type");
@@ -99,6 +99,7 @@ public class imformacion_redes_moviles extends Fragment {
         datosRM.add(getMobileIPAddress());
         datosRM.add("Dbm");
         datosRM.add(String.valueOf(mSignalStrength));
+
     }
 
     public String getStateRoaming(){
@@ -106,6 +107,7 @@ public class imformacion_redes_moviles extends Fragment {
             return "False";
         else return "True";
     }
+
 
     public static String getMobileIPAddress() {
         try {
@@ -121,7 +123,6 @@ public class imformacion_redes_moviles extends Fragment {
         } catch (Exception ex) { } // for now eat exceptions
         return "-";
     }
-
 
 
     public String getnImei(){
@@ -263,11 +264,12 @@ public class imformacion_redes_moviles extends Fragment {
         }
         tm = (TelephonyManager) getActivity().getSystemService(Context.TELEPHONY_SERVICE);
         con = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
-        //mPhoneStatelistener = new MyPhoneStateListener();
+        mPhoneStatelistener = new MyPhoneStateListener();
         //mTelephonyManager = (TelephonyManager)getContext().getSystemService(Context.TELEPHONY_SERVICE);
-        //mTelephonyManager.listen(mPhoneStatelistener, PhoneStateListener.LISTEN_SIGNAL_STRENGTHS);
+        tm.listen(mPhoneStatelistener, PhoneStateListener.LISTEN_SIGNAL_STRENGTHS);
         datosRedes = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_activated_1, datosRM);
         getImformationRedesMoviles();
+
     }
 
     /*this code is invoke whe you move between first and last fragment*/
@@ -310,12 +312,15 @@ public class imformacion_redes_moviles extends Fragment {
         @Override
         public void onSignalStrengthsChanged(SignalStrength signalStrength) {
             super.onSignalStrengthsChanged(signalStrength);
+            int ss =signalStrength.getCdmaDbm();
             mSignalStrength = signalStrength.getGsmSignalStrength();
             mSignalStrength = (2 * mSignalStrength) - 113; // -> dBm
-            Toast.makeText(getContext(),"Cambio red"+mSignalStrength,Toast.LENGTH_LONG).show();
+            //al poner esto y detruir la actividad da un error
+            //Toast.makeText(getContext()," "+ss+mSignalStrength,Toast.LENGTH_LONG).show();
 
         }
     }
+
 
     @Override
     public void onDetach() {
