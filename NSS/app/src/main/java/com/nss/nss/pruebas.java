@@ -4,9 +4,13 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.telephony.PhoneStateListener;
+import android.telephony.SignalStrength;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.github.anastr.speedviewlib.SpeedView;
 
@@ -28,6 +32,9 @@ public class pruebas extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
+    private SpeedView Sv;
+    private TextView Tv;
 
     private OnFragmentInteractionListener mListener;
 
@@ -62,12 +69,31 @@ public class pruebas extends Fragment {
         }
     }
 
+    int mSignalStrength;
+    int ss;
+    class MyPhoneStateListener extends PhoneStateListener {
+
+        //este metodo imforma mediante un Toask la velocidad de asu y dbm para las redes 2G
+        @Override
+        public void onSignalStrengthsChanged(SignalStrength signalStrength) {
+            super.onSignalStrengthsChanged(signalStrength);
+            int ss =signalStrength.getGsmSignalStrength();//as
+            mSignalStrength = signalStrength.getGsmSignalStrength();
+            mSignalStrength = (2 * mSignalStrength) - 113; // -> dBm
+            //al poner esto y detruir la actividad da un error
+            Toast.makeText(getContext()," "+ss+mSignalStrength,Toast.LENGTH_LONG).show();
+            Sv.speedTo(ss,1);
+        }
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View vista= inflater.inflate(R.layout.fragment_pruebas, container, false);
+        View vista = inflater.inflate(R.layout.fragment_pruebas, container, false);
         SpeedView speedometer = vista.findViewById(R.id.speedView);
-        speedometer.speedTo(50,1);
+        TextView tw = vista.findViewById(R.id.dbm);
+
+        tw.setText(String.valueOf(ss));
         return vista;
     }
 
