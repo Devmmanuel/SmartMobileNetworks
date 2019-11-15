@@ -2,7 +2,6 @@ package com.nss.nss;
 
 
 import android.os.Build;
-import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
 import android.Manifest;
 import android.content.Context;
@@ -18,7 +17,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.GridView;
-import android.widget.Toast;
 import java.util.ArrayList;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
@@ -54,9 +52,7 @@ public class imformacion_redes_moviles extends Fragment {
     private ConnectivityManager con;
     private SignalStrength signal;
     private GridView listaDatos;
-    TelephonyManager mTelephonyManager;
-    MyPhoneStateListener mPhoneStatelistener;
-    int mSignalStrength = 0;
+    private int mSignalStrength = 0;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -293,9 +289,7 @@ public class imformacion_redes_moviles extends Fragment {
         }
         tm = (TelephonyManager) getActivity().getSystemService(Context.TELEPHONY_SERVICE);
         con = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
-        mPhoneStatelistener = new MyPhoneStateListener();
-        //mTelephonyManager = (TelephonyManager)getContext().getSystemService(Context.TELEPHONY_SERVICE);
-        tm.listen(mPhoneStatelistener, PhoneStateListener.LISTEN_SIGNAL_STRENGTHS);
+
         datosRedes = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_activated_1, datosRM);
         getImformationRedesMoviles();
 
@@ -316,7 +310,6 @@ public class imformacion_redes_moviles extends Fragment {
         return vista;
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);
@@ -334,23 +327,6 @@ public class imformacion_redes_moviles extends Fragment {
         }
 
     }
-
-
-    class MyPhoneStateListener extends PhoneStateListener {
-
-        //este metodo imforma mediante un Toask la velocidad de asu y dbm para las redes 2G
-        @Override
-        public void onSignalStrengthsChanged(SignalStrength signalStrength) {
-            super.onSignalStrengthsChanged(signalStrength);
-            int ss =signalStrength.getGsmSignalStrength();//as
-            mSignalStrength = signalStrength.getGsmSignalStrength();
-            mSignalStrength = (2 * mSignalStrength) - 113; // -> dBm
-            //al poner esto y detruir la actividad da un error
-            Toast.makeText(getContext()," "+ss+mSignalStrength,Toast.LENGTH_LONG).show();
-
-        }
-    }
-
 
     @Override
     public void onDetach() {
