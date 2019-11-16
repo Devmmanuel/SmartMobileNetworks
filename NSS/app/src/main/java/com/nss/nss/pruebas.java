@@ -33,7 +33,9 @@ public class pruebas extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    private SpeedView speedView;
+
+    private  phone phoneListen;
+    private SpeedView speedometer;
     private TextView tw;
     private TelephonyManager tm;
     private int mSignalStrength;
@@ -70,35 +72,40 @@ public class pruebas extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
         tm = (TelephonyManager)getActivity().getSystemService(Context.TELEPHONY_SERVICE);
-        MyPhoneStateListener phoneListen = new MyPhoneStateListener();
+        phoneListen = new phone();
         tm.listen(phoneListen,PhoneStateListener.LISTEN_SIGNAL_STRENGTHS);
     }
 
-    class MyPhoneStateListener extends PhoneStateListener {
 
-        //este metodo imforma mediante un Toask la velocidad de asu y dbm para las redes 2G
+    class phone extends PhoneStateListener{
+
         @Override
         public void onSignalStrengthsChanged(SignalStrength signalStrength) {
             super.onSignalStrengthsChanged(signalStrength);
-            int ss =signalStrength.getGsmSignalStrength();//as
-            mSignalStrength = signalStrength.getGsmSignalStrength();
-            mSignalStrength = (2 * mSignalStrength) - 113; // -> dBm
-            //al poner esto y detruir la actividad da un error
-            speedView.speedTo(ss);
-            tw.setText(String.valueOf(ss));
-
-            //Toast.makeText(getContext()," "+ss+mSignalStrength,Toast.LENGTH_LONG).show();
-
+            Toast.makeText(getActivity(),String.valueOf(signalStrength.getGsmSignalStrength()),Toast.LENGTH_SHORT).show();
+            float dbm = (float) signalStrength.getGsmSignalStrength();
+            speedometer.speedTo(dbm);
         }
+
+
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        tm.listen(phoneListen,PhoneStateListener.LISTEN_SIGNAL_STRENGTHS);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View vista = inflater.inflate(R.layout.fragment_pruebas, container, false);
-        speedView = vista.findViewById(R.id.speedView);
+        speedometer = vista.findViewById(R.id.speedView);
+        speedometer.setWithTremble(false);
+        speedometer.setUnitUnderSpeedText(true);
+        speedometer.setUnit("dbm");
         tw = vista.findViewById(R.id.dbm);
 
         return vista;
