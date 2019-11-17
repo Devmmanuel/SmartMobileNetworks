@@ -139,6 +139,11 @@ public class pruebas extends Fragment {
     }
 
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        tm.listen(phoneListen,PhoneStateListener.LISTEN_NONE);
+    }
 
     /**
      * This interface must be implemented by activities that contain this
