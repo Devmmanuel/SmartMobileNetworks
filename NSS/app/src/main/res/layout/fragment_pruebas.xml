@@ -5,16 +5,27 @@
     android:layout_height="match_parent"
     tools:context=".pruebas">
 
-    <com.github.anastr.speedviewlib.SpeedView
-        android:id="@+id/speedView"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        />
+        android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/dbm"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/textview" />
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <com.github.anastr.speedviewlib.SpeedView
+                android:id="@+id/speedView"
+                android:layout_width="285dp"
+                android:layout_height="265dp" />
+
+            <com.github.anastr.speedviewlib.DeluxeSpeedView
+                android:id="@+id/speedView4"
+                android:layout_width="285dp"
+                android:layout_height="265dp" />
+
+        </LinearLayout>
+    </ScrollView>
+
 
 </FrameLayout>
