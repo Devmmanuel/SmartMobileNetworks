@@ -99,12 +99,23 @@ public class imformacion_redes_moviles extends Fragment {
 
     }
 
+    /**
+     *
+     * @return String
+     * Este metodo regresa un String con el
+     * estado del roaming activado , desactivado
+     */
     public String getStateRoaming(){
         if(tm.isNetworkRoaming())
             return "False";
         else return "True";
     }
 
+
+    /**
+     *
+     * @return String
+     */
     public static String getMacAddr() {
         try {
             List<NetworkInterface> all = Collections.list(NetworkInterface.getNetworkInterfaces());
@@ -134,6 +145,12 @@ public class imformacion_redes_moviles extends Fragment {
         return "";
     }
 
+
+    /** @return String
+     * Este metodo es usado para obtener la direccion ip actual del dispositivo
+     * Al ser un metodo statico se puede llamar sin la creacion de un objeto
+     *
+     */
     public static String getMobileIPAddress() {
         try {
             List<NetworkInterface> interfaces = Collections.list(NetworkInterface.getNetworkInterfaces());
@@ -149,7 +166,14 @@ public class imformacion_redes_moviles extends Fragment {
         return "-";
     }
 
-
+    /**
+     * @return String
+     * metodo el cual obtiene el imei del dispositivo  y nos regresa un string con el imei
+     * es es nesesario tener el permiso de
+     * READ_PHONE_STATE  en el archivo Manisfest y en versiones superios o igual a la api 26 es necesario
+     * verificar tambien desde la aplicacion ya que si no se verifica no nos dejara utilizar el metodo
+     *
+     */
     public String getnImei(){
         int chekarPermiso = ContextCompat.checkSelfPermission(getContext(),Manifest.permission.READ_PHONE_STATE);
         if(chekarPermiso == PackageManager.PERMISSION_GRANTED)
@@ -160,6 +184,12 @@ public class imformacion_redes_moviles extends Fragment {
             return "Desconocido";
     }
 
+
+    /** @return String
+     * El metodo getPhoneType nos regresa el phoneTYpe en una variable del tipo
+     * String con el dispositvio es necesario
+     * la creaacion de un objeto TelephonyManager para hacer uso del metodo
+     */
 
     public String getPhoneType(){
         switch (tm.getPhoneType()){
@@ -175,6 +205,11 @@ public class imformacion_redes_moviles extends Fragment {
         return  phoneType;
     }
 
+    /**
+     * @return String
+     * Este metodo usa un objeto de telephonyManager para determinar
+     * las conexion de datos en el dispositivo esta actualmente conectada
+     */
     public String getDataConected(){
           int estadoDeRed = tm.getDataState();
           switch (estadoDeRed){
@@ -187,7 +222,11 @@ public class imformacion_redes_moviles extends Fragment {
         return dataConected;
     }
 
-    /*this method return the type of the red in one var wich store the type of the red*/
+    /**
+     * @return String
+     * Metodo el cual nos regresa el tipo de red en el cual nos encontramos
+     *
+     */
     public String getTypeOfNetwork() {
         int networkType = tm.getNetworkType();
         switch (networkType) {
@@ -228,7 +267,12 @@ public class imformacion_redes_moviles extends Fragment {
 
     }
 
-/*this method return type 2G,3G,4G*/
+    /**
+     *
+     * @return String
+     * Nos regresa un String con el tipo de conexion al cual estamos
+     * conectados (2G,3G,4G)
+     */
     public String getTypeOfNetwork234() {
         int networkType = tm.getNetworkType();
         switch (networkType) {
