@@ -84,13 +84,15 @@ public class pruebas extends Fragment {
         @Override
         public void onSignalStrengthsChanged(SignalStrength signalStrength) {
             super.onSignalStrengthsChanged(signalStrength);
-            Toast.makeText(getActivity(),String.valueOf(signalStrength.getGsmSignalStrength()),Toast.LENGTH_SHORT).show();
-            float dbm = (float) signalStrength.getGsmSignalStrength();
-            speedometer.speedTo(dbm);
+            float asu = (float) signalStrength.getGsmSignalStrength();
+            float dbm = (2 * asu) - 113;
+            Toast.makeText(getActivity(),String.valueOf(dbm),Toast.LENGTH_SHORT).show();
+            speedometer.speedTo(asu);
         }
 
 
     }
+
 
     @Override
     public void onResume() {
@@ -105,7 +107,7 @@ public class pruebas extends Fragment {
         speedometer = vista.findViewById(R.id.speedView);
         speedometer.setWithTremble(false);
         speedometer.setUnitUnderSpeedText(true);
-        speedometer.setUnit("dbm");
+        speedometer.setUnit("asu");
         tw = vista.findViewById(R.id.dbm);
 
         return vista;
