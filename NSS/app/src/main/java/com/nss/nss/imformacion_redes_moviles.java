@@ -11,7 +11,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
-import android.telephony.SignalStrength;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,7 +41,6 @@ public class imformacion_redes_moviles extends Fragment {
      * var to store content of the data
      */
 
-    private String roaming;
     private String MccAndMnc;
     private String phoneType = "Unknown";
     private String dataConected;
@@ -50,9 +48,9 @@ public class imformacion_redes_moviles extends Fragment {
     private ArrayAdapter datosRedes;
     private TelephonyManager tm;
     private ConnectivityManager con;
-    private SignalStrength signal;
     private GridView listaDatos;
     private int mSignalStrength = 0;
+    private imformacionDispositivos info;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -70,11 +68,11 @@ public class imformacion_redes_moviles extends Fragment {
         /*this method are for get imformation about the state of the telephone
          * this method get the date what after sshow in the GriedView*/
         datosRM.add("Operaror");
-        datosRM.add(tm.getNetworkOperatorName());
+        datosRM.add(info.getOperator(tm));
         datosRM.add("Tipo de red telefonica");
-        datosRM.add(getTypeOfNetwork());
+        datosRM.add(info.getTypeOfNetwork(tm));
         datosRM.add("Tipo de red");
-        datosRM.add(getTypeOfNetwork234());
+        datosRM.add(info.getTypeOfNetwork234(tm));
         datosRM.add("Codigo de pais");
         datosRM.add(tm.getSimCountryIso());
         datosRM.add("mcc");
@@ -83,226 +81,21 @@ public class imformacion_redes_moviles extends Fragment {
         datosRM.add("mnc");
         datosRM.add(MccAndMnc.substring(4, 6));
         datosRM.add("Roamig");
-        datosRM.add(getStateRoaming());
+        datosRM.add(info.getStateRoaming(tm));
         datosRM.add("Phone type");
-        datosRM.add(getPhoneType());
+        datosRM.add(info.getPhoneType(tm));
         datosRM.add("Data conected");
-        datosRM.add(getDataConected());
+        datosRM.add(info.getDataConected(tm));
         datosRM.add("Imei");
-        datosRM.add(getnImei());
+        datosRM.add(info.getnImei(getContext(),tm));
         datosRM.add("ip");
-        datosRM.add(getMobileIPAddress());
+        datosRM.add(info.getMobileIPAddress());
         datosRM.add("Dbm");
         datosRM.add(String.valueOf(mSignalStrength));
         datosRM.add("Mac");
-        datosRM.add(getMacAddr());
+        datosRM.add(info.getMacAddress());
 
     }
-
-    /**
-     *
-     * @return String
-     * Este metodo regresa un String con el
-     * estado del roaming activado , desactivado
-     */
-    public String getStateRoaming(){
-        if(tm.isNetworkRoaming())
-            return "False";
-        else return "True";
-    }
-
-
-    /**
-     *
-     * @return String
-     */
-    public static String getMacAddr() {
-        try {
-            List<NetworkInterface> all = Collections.list(NetworkInterface.getNetworkInterfaces());
-            for (NetworkInterface nif : all) {
-                if (!nif.getName().equalsIgnoreCase("wlan0")) continue;
-
-                byte[] macBytes = nif.getHardwareAddress();
-                if (macBytes == null) {
-                    return "";
-                }
-
-                StringBuilder res1 = new StringBuilder();
-                for (byte b : macBytes) {
-                    String hex = Integer.toHexString(b & 0xFF);
-                    if (hex.length() == 1)
-                        hex = "0".concat(hex);
-                    res1.append(hex.concat(":"));
-                }
-
-                if (res1.length() > 0) {
-                    res1.deleteCharAt(res1.length() - 1);
-                }
-                return res1.toString();
-            }
-        } catch (Exception ex) {
-        }
-        return "";
-    }
-
-
-    /** @return String
-     * Este metodo es usado para obtener la direccion ip actual del dispositivo
-     * Al ser un metodo statico se puede llamar sin la creacion de un objeto
-     *
-     */
-    public static String getMobileIPAddress() {
-        try {
-            List<NetworkInterface> interfaces = Collections.list(NetworkInterface.getNetworkInterfaces());
-            for (NetworkInterface intf : interfaces) {
-                List<InetAddress> addrs = Collections.list(intf.getInetAddresses());
-                for (InetAddress addr : addrs) {
-                    if (!addr.isLoopbackAddress()) {
-                        return  addr.getHostAddress();
-                    }
-                }
-            }
-        } catch (Exception ex) { } // for now eat exceptions
-        return "-";
-    }
-
-    /**
-     * @return String
-     * metodo el cual obtiene el imei del dispositivo  y nos regresa un string con el imei
-     * es es nesesario tener el permiso de
-     * READ_PHONE_STATE  en el archivo Manisfest y en versiones superios o igual a la api 26 es necesario
-     * verificar tambien desde la aplicacion ya que si no se verifica no nos dejara utilizar el metodo
-     *
-     */
-    public String getnImei(){
-        int chekarPermiso = ContextCompat.checkSelfPermission(getContext(),Manifest.permission.READ_PHONE_STATE);
-        if(chekarPermiso == PackageManager.PERMISSION_GRANTED)
-            if(Build.VERSION.SDK_INT >= 26)
-                return tm.getImei();
-            else return tm.getDeviceId();
-        else
-            return "Desconocido";
-    }
-
-
-    /** @return String
-     * El metodo getPhoneType nos regresa el phoneTYpe en una variable del tipo
-     * String con el dispositvio es necesario
-     * la creaacion de un objeto TelephonyManager para hacer uso del metodo
-     */
-
-    public String getPhoneType(){
-        switch (tm.getPhoneType()){
-            case(TelephonyManager.PHONE_TYPE_CDMA):
-                phoneType = " CDMA";break;
-            case(TelephonyManager.PHONE_TYPE_GSM):
-                phoneType = " GMS";break;
-            case(TelephonyManager.PHONE_TYPE_NONE):
-                phoneType = " NONE";break;
-            case(TelephonyManager.PHONE_TYPE_SIP):
-                phoneType = " SIP";break;
-        }
-        return  phoneType;
-    }
-
-    /**
-     * @return String
-     * Este metodo usa un objeto de telephonyManager para determinar
-     * las conexion de datos en el dispositivo esta actualmente conectada
-     */
-    public String getDataConected(){
-          int estadoDeRed = tm.getDataState();
-          switch (estadoDeRed){
-              case TelephonyManager.DATA_DISCONNECTED:
-                  dataConected = "Desconectado";break;
-              case TelephonyManager.DATA_CONNECTED:
-               dataConected = "Conectado";
-
-          }
-        return dataConected;
-    }
-
-    /**
-     * @return String
-     * Metodo el cual nos regresa el tipo de red en el cual nos encontramos
-     *
-     */
-    public String getTypeOfNetwork() {
-        int networkType = tm.getNetworkType();
-        switch (networkType) {
-            case TelephonyManager.NETWORK_TYPE_1xRTT:
-                return "1xRTT";
-            case TelephonyManager.NETWORK_TYPE_CDMA:
-                return "CDMA";
-            case TelephonyManager.NETWORK_TYPE_EDGE:
-                return "EDGE";
-            case TelephonyManager.NETWORK_TYPE_EHRPD:
-                return "eHRPD";
-            case TelephonyManager.NETWORK_TYPE_EVDO_0:
-                return "EVDO rev. 0";
-            case TelephonyManager.NETWORK_TYPE_EVDO_A:
-                return "EVDO rev. A";
-            case TelephonyManager.NETWORK_TYPE_EVDO_B:
-                return "EVDO rev. B";
-            case TelephonyManager.NETWORK_TYPE_GPRS:
-                return "GPRS";
-            case TelephonyManager.NETWORK_TYPE_HSDPA:
-                return "HSDPA";
-            case TelephonyManager.NETWORK_TYPE_HSPA:
-                return "HSPA";
-            case TelephonyManager.NETWORK_TYPE_HSPAP:
-                return "HSPA+";
-            case TelephonyManager.NETWORK_TYPE_HSUPA:
-                return "HSUPA";
-            case TelephonyManager.NETWORK_TYPE_IDEN:
-                return "iDen";
-            case TelephonyManager.NETWORK_TYPE_LTE:
-                return "LTE";
-            case TelephonyManager.NETWORK_TYPE_UMTS:
-                return "UMTS";
-            case TelephonyManager.NETWORK_TYPE_UNKNOWN:
-                return "Unknown";
-        }
-        throw new RuntimeException("New type of network");
-
-    }
-
-    /**
-     *
-     * @return String
-     * Nos regresa un String con el tipo de conexion al cual estamos
-     * conectados (2G,3G,4G)
-     */
-    public String getTypeOfNetwork234() {
-        int networkType = tm.getNetworkType();
-        switch (networkType) {
-            case TelephonyManager.NETWORK_TYPE_GPRS:
-            case TelephonyManager.NETWORK_TYPE_EDGE:
-            case TelephonyManager.NETWORK_TYPE_CDMA:
-            case TelephonyManager.NETWORK_TYPE_1xRTT:
-            case TelephonyManager.NETWORK_TYPE_IDEN:
-            return  "2G";
-            case TelephonyManager.NETWORK_TYPE_UMTS:
-            case TelephonyManager.NETWORK_TYPE_EVDO_0:
-            case TelephonyManager.NETWORK_TYPE_EVDO_A:
-            case TelephonyManager.NETWORK_TYPE_HSDPA:
-            case TelephonyManager.NETWORK_TYPE_HSUPA:
-            case TelephonyManager.NETWORK_TYPE_HSPA:
-            case TelephonyManager.NETWORK_TYPE_EVDO_B:
-            case TelephonyManager.NETWORK_TYPE_EHRPD:
-            case TelephonyManager.NETWORK_TYPE_HSPAP:
-            return "3G";
-            case TelephonyManager.NETWORK_TYPE_LTE:
-            return  "4G";
-            case TelephonyManager.NETWORK_TYPE_UNKNOWN:
-                return "Unknown";
-        }
-        throw new RuntimeException("New type of network");
-
-    }
-
-
-
 
     /**
      * Use this factory method to create a new instance of
@@ -331,9 +124,9 @@ public class imformacion_redes_moviles extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        info = new imformacionDispositivos();
         tm = (TelephonyManager) getActivity().getSystemService(Context.TELEPHONY_SERVICE);
         con = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
-
         datosRedes = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_activated_1, datosRM);
         getImformationRedesMoviles();
 
@@ -377,6 +170,8 @@ public class imformacion_redes_moviles extends Fragment {
         super.onDetach();
         mListener = null;
     }
+
+
 
     /**
      * This interface must be implemented by activities that contain this
