@@ -11,6 +11,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -42,6 +43,15 @@ public class Inicio extends AppCompatActivity implements View.OnClickListener {
                     (this,new String[]{Manifest.permission.READ_PHONE_STATE},
                             123);
     }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if ((keyCode == KeyEvent.KEYCODE_BACK)) {
+            super.finish();
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
 
     @Override
     public void onClick(View v) {
