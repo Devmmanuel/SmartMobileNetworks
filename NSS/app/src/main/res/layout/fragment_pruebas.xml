@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#285375"
     tools:context=".pruebas">
 
     <ScrollView
@@ -14,6 +15,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
+
             <com.github.anastr.speedviewlib.SpeedView
                 android:id="@+id/speedView"
                 android:layout_width="285dp"
@@ -23,6 +25,13 @@
                 android:id="@+id/speedDeluxe"
                 android:layout_width="285dp"
                 android:layout_height="265dp" />
+
+            <Button
+                android:id="@+id/button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/btnIniciarPrueb" />
+
 
         </LinearLayout>
     </ScrollView>
