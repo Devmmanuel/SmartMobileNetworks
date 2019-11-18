@@ -109,7 +109,7 @@ public class pruebas extends Fragment {
                 if(info.getTypeOfNetwork234(tm)=="4G"){
                     dbm = Integer.parseInt(partInfo[8]);
                     asu = esDbm(Integer.parseInt(partInfo[8])-140);
-                    Toast.makeText(getActivity(), "4G"+dbm+" "+asu, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "4G"+dbm+" "+asu+allInfo, Toast.LENGTH_SHORT).show();
                 }
 
             }catch (Exception e){
