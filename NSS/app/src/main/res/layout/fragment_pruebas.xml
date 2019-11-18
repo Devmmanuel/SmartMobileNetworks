@@ -20,7 +20,7 @@
                 android:layout_height="265dp" />
 
             <com.github.anastr.speedviewlib.DeluxeSpeedView
-                android:id="@+id/speedView4"
+                android:id="@+id/speedDeluxe"
                 android:layout_width="285dp"
                 android:layout_height="265dp" />
 
