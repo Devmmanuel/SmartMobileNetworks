@@ -2,6 +2,7 @@ package com.nss.nss;
 
 import android.content.Context;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.telephony.PhoneStateListener;
@@ -46,6 +47,7 @@ public class pruebas extends Fragment {
     private int asu;
     private int dbm;
     private Toast mensaje;
+
     public pruebas() {
         // Required empty public constructor
     }
@@ -87,27 +89,32 @@ public class pruebas extends Fragment {
         @Override
         public void onSignalStrengthsChanged(SignalStrength signalStrength) {
             super.onSignalStrengthsChanged(signalStrength);
-            allInfo = signalStrength.toString();
-            partInfo = allInfo.split(" ");
-            if(info.getTypeOfNetwork234(tm)=="2G"){
-                asu = signalStrength.getGsmSignalStrength();
-                 dbm = esAsu(asu);
-                enviarMensaje("2G"+asu+dbm);
-                ponerMedidaSpeed(dbm,asu);
-            }
-            if(info.getTypeOfNetwork234(tm)=="3G"){
-                dbm = Integer.parseInt(partInfo[14]);
-                asu = esDbm(Integer.parseInt(partInfo[14]));
-                enviarMensaje("3G "+dbm+asu);
-                ponerMedidaSpeed(dbm,asu);
-            }
-            if(info.getTypeOfNetwork234(tm)=="4G"){
-                dbm = Integer.parseInt(partInfo[8]);
-                asu = esDbm(Integer.parseInt(partInfo[8])-140);
-                Toast.makeText(getActivity(), "4G"+dbm+" "+asu, Toast.LENGTH_SHORT).show();
-            }
 
+            try {
+                allInfo = signalStrength.toString();
+                partInfo = allInfo.split(" ");
+                if(info.getTypeOfNetwork234(tm)=="2G"){
+                    asu = signalStrength.getGsmSignalStrength();
+                    dbm = esAsu(asu);
+                    enviarMensaje("2G"+asu+dbm);
+                    ponerMedidaSpeed(dbm,asu);
+                }
+                /**en this point work in alcatel 5033A*/
+                if(info.getTypeOfNetwork234(tm)=="3G"){
+                    dbm = Integer.parseInt(partInfo[14]);//14
+                    asu = esDbm(Integer.parseInt(partInfo[14]));//14
+                    enviarMensaje("3G "+dbm+" "+asu);
+                    ponerMedidaSpeed(dbm,asu);
+                }
+                if(info.getTypeOfNetwork234(tm)=="4G"){
+                    dbm = Integer.parseInt(partInfo[8]);
+                    asu = esDbm(Integer.parseInt(partInfo[8])-140);
+                    Toast.makeText(getActivity(), "4G"+dbm+" "+asu, Toast.LENGTH_SHORT).show();
+                }
 
+            }catch (Exception e){
+                enviarMensaje(e.getMessage());
+            }
         }
     }
 
