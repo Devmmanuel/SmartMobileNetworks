@@ -7,11 +7,12 @@ import android.support.v4.app.Fragment;
 import android.telephony.PhoneStateListener;
 import android.telephony.SignalStrength;
 import android.telephony.TelephonyManager;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 import android.widget.Toast;
+import com.github.anastr.speedviewlib.DeluxeSpeedView;
 import com.github.anastr.speedviewlib.SpeedView;
 
 
@@ -36,13 +37,15 @@ public class pruebas extends Fragment {
 
     private  phone phoneListen;
     private SpeedView speedometer;
-    private TextView tw;
+    private DeluxeSpeedView speedDeluxe;
     private TelephonyManager tm;
-    private int mSignalStrength;
-    private int ss;
     private OnFragmentInteractionListener mListener;
-
-
+    private String allInfo;/**variable que almacena imformacion sobre las redes moviles*/
+    private String [] partInfo;/**Array que almacena cada elemento de allInfo*/
+    private imformacionDispositivos info;/**objeto que usaremos para obtener imformacion del dispositivo*/
+    private int asu;
+    private int dbm;
+    private Toast mensaje;
     public pruebas() {
         // Required empty public constructor
     }
@@ -72,7 +75,7 @@ public class pruebas extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-
+        info = new imformacionDispositivos();
         tm = (TelephonyManager)getActivity().getSystemService(Context.TELEPHONY_SERVICE);
         phoneListen = new phone();
         tm.listen(phoneListen,PhoneStateListener.LISTEN_SIGNAL_STRENGTHS);
@@ -84,13 +87,53 @@ public class pruebas extends Fragment {
         @Override
         public void onSignalStrengthsChanged(SignalStrength signalStrength) {
             super.onSignalStrengthsChanged(signalStrength);
-            float asu = (float) signalStrength.getGsmSignalStrength();
-            float dbm = (2 * asu) - 113;
-            Toast.makeText(getActivity(),String.valueOf(dbm),Toast.LENGTH_SHORT).show();
-            speedometer.speedTo(asu);
+            allInfo = signalStrength.toString();
+            partInfo = allInfo.split(" ");
+            if(info.getTypeOfNetwork234(tm)=="2G"){
+                asu = signalStrength.getGsmSignalStrength();
+                 dbm = esAsu(asu);
+                enviarMensaje("2G"+asu+dbm);
+                ponerMedidaSpeed(dbm,asu);
+            }
+            if(info.getTypeOfNetwork234(tm)=="3G"){
+                dbm = Integer.parseInt(partInfo[14]);
+                asu = esDbm(Integer.parseInt(partInfo[14]));
+                enviarMensaje("3G "+dbm+asu);
+                ponerMedidaSpeed(dbm,asu);
+            }
+            if(info.getTypeOfNetwork234(tm)=="4G"){
+                dbm = Integer.parseInt(partInfo[8]);
+                asu = esDbm(Integer.parseInt(partInfo[8])-140);
+                Toast.makeText(getActivity(), "4G"+dbm+" "+asu, Toast.LENGTH_SHORT).show();
+            }
+
+
         }
+    }
 
+    public void enviarMensaje(String say){
+        mensaje = Toast.makeText(getActivity(),say,Toast.LENGTH_LONG);
+        mensaje.setGravity(Gravity.CENTER,0,0);
+        mensaje.show();
+    }
 
+    /**
+     * metodo el cual recibe como parametro un int el cual es el dbm y
+     * regresa un asu
+     */
+    public int esAsu(int asu){
+        int dbm = ((2*asu) -113);
+        return dbm;
+    }
+
+    public int esDbm(int dbm){
+        int asu = (dbm+120);
+        return asu;
+    }
+
+    public void ponerMedidaSpeed(int pasu, int pdbm){
+      speedometer.speedTo(pasu);
+      speedDeluxe.speedTo(pdbm);
     }
 
 
@@ -105,10 +148,17 @@ public class pruebas extends Fragment {
                              Bundle savedInstanceState) {
         View vista = inflater.inflate(R.layout.fragment_pruebas, container, false);
         speedometer = vista.findViewById(R.id.speedView);
+        speedDeluxe = vista.findViewById(R.id.speedDeluxe);
         speedometer.setWithTremble(false);
+        speedDeluxe.setWithTremble(false);
         speedometer.setUnitUnderSpeedText(true);
-        speedometer.setUnit("asu");
-        tw = vista.findViewById(R.id.dbm);
+        speedDeluxe.setUnitUnderSpeedText(true);
+        speedometer.setUnit("dbm");
+        speedDeluxe.setUnit("asu");
+        speedometer.setMinSpeed(-113);
+        speedometer.setMaxSpeed(-51);
+        speedDeluxe.setMinSpeed(0);
+        speedDeluxe.setMaxSpeed(31);
 
         return vista;
     }
