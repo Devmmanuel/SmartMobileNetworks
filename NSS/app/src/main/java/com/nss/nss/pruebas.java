@@ -108,14 +108,21 @@ public class pruebas extends Fragment {
                 }
                 if(info.getTypeOfNetwork234(tm)=="4G"){
                     dbm = Integer.parseInt(partInfo[8]);
-                    asu = esDbm(Integer.parseInt(partInfo[8])-140);
-                    Toast.makeText(getActivity(), "4G"+dbm+" "+asu+allInfo, Toast.LENGTH_SHORT).show();
+                    asu = esDbm(Integer.parseInt(partInfo[8]));//140
+                    Toast.makeText(getActivity(), "4G"+dbm+" "+asu, Toast.LENGTH_SHORT).show();
                 }
 
             }catch (Exception e){
                 enviarMensaje(e.getMessage());
             }
         }
+    }
+
+    public String obtenerMarca(){
+        String marca ="DESCONOCIDO";
+        if(Build.MANUFACTURER == "TLC") marca = "TLC";
+        if(Build.MANUFACTURER == "motorola") marca ="motorola";
+        return marca;
     }
 
     public void enviarMensaje(String say){
