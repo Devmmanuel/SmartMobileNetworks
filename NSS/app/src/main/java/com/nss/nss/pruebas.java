@@ -226,6 +226,13 @@ public class pruebas extends Fragment {
         mensaje.show();
     }
 
+    public void btnPrueba(){
+        if(btnIniciarPrueba.getText().toString().equalsIgnoreCase("Detener"))
+            btnIniciarPrueba.setText("Iniciar prueba");
+        else
+            btnIniciarPrueba.setText("Detener");
+    }
+
     /**
      * @return int
      * metodo el cual recibe como parametro un int el cual es el asu y
@@ -292,7 +299,7 @@ public class pruebas extends Fragment {
             @Override
             public void onClick(View view) {
                 permitirGirar = true;
-                btnIniciarPrueba.setText("Detener");
+                btnPrueba();
             }
         });
         speedometer.setWithTremble(false);
