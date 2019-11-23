@@ -1,6 +1,8 @@
 package com.nss.nss;
 
+import android.content.ContentValues;
 import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -17,15 +19,20 @@ import android.telephony.CellSignalStrengthWcdma;
 import android.telephony.PhoneStateListener;
 import android.telephony.SignalStrength;
 import android.telephony.TelephonyManager;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
+
 import com.github.anastr.speedviewlib.DeluxeSpeedView;
 import com.github.anastr.speedviewlib.SpeedView;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 
@@ -48,20 +55,33 @@ public class pruebas extends Fragment {
     private String mParam2;
 
 
-    private  phone phoneListen;
+    private phone phoneListen;
     private SpeedView speedometer;
     private DeluxeSpeedView speedDeluxe;
     private TelephonyManager tm;
     private OnFragmentInteractionListener mListener;
-    private String allInfo;/**variable que almacena imformacion sobre las redes moviles*/
-    private String [] partInfo;/**Array que almacena cada elemento de allInfo*/
-    private imformacionDispositivos info;/**objeto que usaremos para obtener imformacion del dispositivo*/
+    private String allInfo;
+    /**
+     * variable que almacena imformacion sobre las redes moviles
+     */
+    private String[] partInfo;
+    /**
+     * Array que almacena cada elemento de allInfo
+     */
+    private imformacionDispositivos info;
+    /**
+     * objeto que usaremos para obtener imformacion del dispositivo
+     */
     private int asu;
     private int dbm;
     private Toast mensaje;
-    private  boolean permitirGirar = false;
+    private boolean permitirGirar = false;
     private Button btnIniciarPrueba;
-    private String [] medidas = new String[2];
+    private String[] medidas = new String[2];
+    private AdminSql sql;
+    private SQLiteDatabase db;
+
+
     public pruebas() {
         // Required empty public constructor
     }
@@ -92,54 +112,54 @@ public class pruebas extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
         info = new imformacionDispositivos();
-        tm = (TelephonyManager)getActivity().getSystemService(Context.TELEPHONY_SERVICE);
+        tm = (TelephonyManager) getActivity().getSystemService(Context.TELEPHONY_SERVICE);
         phoneListen = new phone();
-        tm.listen(phoneListen,PhoneStateListener.LISTEN_SIGNAL_STRENGTHS);
+        tm.listen(phoneListen, PhoneStateListener.LISTEN_SIGNAL_STRENGTHS);
 
     }
 
 
-    class phone extends PhoneStateListener{
+    class phone extends PhoneStateListener {
 
         @Override
         public void onSignalStrengthsChanged(SignalStrength signalStrength) {
             super.onSignalStrengthsChanged(signalStrength);
-
             try {
                 allInfo = signalStrength.toString();
                 partInfo = allInfo.split(" ");
                 /*metodo que se ejecuta cuando el tipo de red es 2G*/
-                if(info.getTypeOfNetwork234(tm)=="2G"){
+                if (info.getTypeOfNetwork234(tm) == "2G") {
                     asu = signalStrength.getGsmSignalStrength();
                     dbm = esAsu(asu);
-                    enviarMensaje("2G"+asu+dbm);
-                    ponerMedidaSpeed(dbm,asu);
+                    enviarMensaje("2G" + asu + dbm);
+                    ponerMedidaSpeed(dbm, asu);
                 }
                 /**en this point work in alcatel 5033A este metod se ejecuta cuando la red es 3G*/
-                if(info.getTypeOfNetwork234(tm)=="3G"){
+                if (info.getTypeOfNetwork234(tm) == "3G") {
                     /**codigo que se ejecuta cuando la version de android es 7.0*/
-                    if(Build.VERSION.RELEASE.equals("7.0")){
+                    if (Build.VERSION.RELEASE.equals("7.0")) {
                         //asu=Integer.parseInt(partInfo[1]);
                         //dbm=esAsu(asu);
                         medidas = getSignalStrength(getActivity());
-                        dbm =Integer.parseInt(medidas[0]);
+                        dbm = Integer.parseInt(medidas[0]);
                         asu = Integer.parseInt(medidas[1]);
-                    }else{
+                    } else {
                         dbm = Integer.parseInt(partInfo[14]);//14
                         asu = esDbm(Integer.parseInt(partInfo[14]));//14
                     }
-                    enviarMensaje("3G "+dbm+" "+asu);
-                    ponerMedidaSpeed(dbm,asu);
+                    enviarMensaje("3G " + dbm + " " + asu);
+                    ponerMedidaSpeed(dbm, asu);
                 }
                 /**este metodo se ejecuta cuando el tipo de red es 4G* */
-                if(info.getTypeOfNetwork234(tm)=="4G"){
+                if (info.getTypeOfNetwork234(tm) == "4G") {
                     dbm = Integer.parseInt(partInfo[9]);
                     asu = (Integer.parseInt(partInfo[2]));//140
-                    Toast.makeText(getActivity(), "4G"+dbm+" "+asu, Toast.LENGTH_SHORT).show();
-                    ponerMedidaSpeed(dbm,asu);
+                    Toast.makeText(getActivity(), "4G" + dbm + " " + asu, Toast.LENGTH_SHORT).show();
+                    ponerMedidaSpeed(dbm, asu);
                 }
+              //insertar(dbm,asu);
 
-            }catch (Exception e){
+            } catch (Exception e) {
                 enviarMensaje(e.getMessage());
                 //dbm = esAsu(Integer.parseInt(partInfo[1]));
                 //enviarMensaje(String.valueOf(dbm));
@@ -149,66 +169,75 @@ public class pruebas extends Fragment {
 
     }
 
-/*este metodo obtiene el dbm Level en  en diferentes tipos de redes**/
-    private  String[] getSignalStrength(Context context) throws SecurityException {
+    /*este metodo obtiene el dbm Level en  en diferentes tipos de redes**/
+    private String[] getSignalStrength(Context context) throws SecurityException {
         TelephonyManager telephonyManager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
         String[] strength = new String[2];
         List<CellInfo> cellInfos = telephonyManager.getAllCellInfo();
-        if(cellInfos != null) {
-            for (int i = 0 ; i < cellInfos.size() ; i++) {
+        if (cellInfos != null) {
+            for (int i = 0; i < cellInfos.size(); i++) {
                 if (cellInfos.get(i).isRegistered()) {
                     if (cellInfos.get(i) instanceof CellInfoWcdma) {
                         CellInfoWcdma cellInfoWcdma = (CellInfoWcdma) cellInfos.get(i);
                         CellSignalStrengthWcdma cellSignalStrengthWcdma = cellInfoWcdma.getCellSignalStrength();
-                        strength[0] = String.valueOf(cellSignalStrengthWcdma.getDbm()-31);
-                        strength[1] = String.valueOf(cellSignalStrengthWcdma.getAsuLevel()-16);
+                        strength[0] = String.valueOf(cellSignalStrengthWcdma.getDbm() - 31);
+                        strength[1] = String.valueOf(cellSignalStrengthWcdma.getAsuLevel() - 16);
                     } else if (cellInfos.get(i) instanceof CellInfoGsm) {
                         CellInfoGsm cellInfogsm = (CellInfoGsm) cellInfos.get(i);
                         CellSignalStrengthGsm cellSignalStrengthGsm = cellInfogsm.getCellSignalStrength();
-                        strength[0] = String.valueOf(cellSignalStrengthGsm.getDbm()-31);
-                        strength[1] = String.valueOf(cellSignalStrengthGsm.getAsuLevel()-16);
+                        strength[0] = String.valueOf(cellSignalStrengthGsm.getDbm() - 31);
+                        strength[1] = String.valueOf(cellSignalStrengthGsm.getAsuLevel() - 16);
                     } else if (cellInfos.get(i) instanceof CellInfoLte) {
                         CellInfoLte cellInfoLte = (CellInfoLte) cellInfos.get(i);
                         CellSignalStrengthLte cellSignalStrengthLte = cellInfoLte.getCellSignalStrength();
-                        strength[0] = String.valueOf(cellSignalStrengthLte.getDbm()-31);
-                        strength[1] = String.valueOf(cellSignalStrengthLte.getAsuLevel()-16);
+                        strength[0] = String.valueOf(cellSignalStrengthLte.getDbm() - 31);
+                        strength[1] = String.valueOf(cellSignalStrengthLte.getAsuLevel() - 16);
                     } else if (cellInfos.get(i) instanceof CellInfoCdma) {
                         CellInfoCdma cellInfoCdma = (CellInfoCdma) cellInfos.get(i);
                         CellSignalStrengthCdma cellSignalStrengthCdma = cellInfoCdma.getCellSignalStrength();
-                        strength[0] = String.valueOf(cellSignalStrengthCdma.getDbm()-31);
-                        strength[1] = String.valueOf(cellSignalStrengthCdma.getAsuLevel()-16);
+                        strength[0] = String.valueOf(cellSignalStrengthCdma.getDbm() - 31);
+                        strength[1] = String.valueOf(cellSignalStrengthCdma.getAsuLevel() - 16);
 
                     }
                 }
             }
-        }else Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show();
+        } else Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show();
         return strength;
     }
 
     /*este metodo regresa la version del dispositivo*/
-   public String androiVersion(){
-       String release = Build.VERSION.RELEASE;
-       return release;
-   }
+    public String androiVersion() {
+        String release = Build.VERSION.RELEASE;
+        return release;
+    }
 
-   /*metodo usado para realizacion de pruebas usando un Toast*/
-    public void enviarMensaje(String say){
-        mensaje = Toast.makeText(getActivity(),say,Toast.LENGTH_LONG);
-        mensaje.setGravity(Gravity.CENTER,0,0);
+    public String obtenerFecha() {
+        long ahora = System.currentTimeMillis();
+        Date fecha = new Date(ahora);
+        DateFormat df = new SimpleDateFormat("dd/MM/yy");
+        String salida = df.format(fecha);
+        return salida;
+    }
+
+    /*metodo usado para realizacion de pruebas usando un Toast*/
+    public void enviarMensaje(String say) {
+        mensaje = Toast.makeText(getActivity(), say, Toast.LENGTH_LONG);
+        mensaje.setGravity(Gravity.CENTER, 0, 0);
         mensaje.show();
     }
 
-    /**@return int
+    /**
+     * @return int
      * metodo el cual recibe como parametro un int el cual es el asu y
      * regresa un dbm
      */
-    public int esAsu(int asu){
-        int dbm = ((2*asu) -113);
+    public int esAsu(int asu) {
+        int dbm = ((2 * asu) - 113);
         return dbm;
     }
 
-    public int esDbm(int dbm){
-        int asu = (dbm+120);
+    public int esDbm(int dbm) {
+        int asu = (dbm + 120);
         return asu;
     }
 
@@ -219,18 +248,37 @@ public class pruebas extends Fragment {
      * metodo el cual poner el velocimetro en las medidas asu y dbm que se estan recibiendo
      * actualmente
      */
-    public void ponerMedidaSpeed(int pasu, int pdbm){
-        if(permitirGirar){
+    public void ponerMedidaSpeed(int pasu, int pdbm) {
+        if (permitirGirar) {
             speedometer.speedTo(pasu);
             speedDeluxe.speedTo(pdbm);
         }
+
     }
 
+    public void insertar(int iDbm , int iAsu) {
+        try {
+            sql = new AdminSql(getActivity(), "mydb", null, 1);
+            db = sql.getWritableDatabase();
+            ContentValues registro = new ContentValues();
+            registro.put("fecha", obtenerFecha());
+            registro.put("dbm", iDbm);
+            registro.put("asu", iAsu);
+            registro.put("pais", tm.getSimCountryIso());
+            registro.put("tipo_de_red", info.getTypeOfNetwork234(tm));
+            registro.put("tipo_de_red_telefonica", info.getTypeOfNetwork234(tm));
+            db.insert("historicosRedesMoviles", null, registro);
+            Toast.makeText(getActivity(), "Se cargaron los registros correctamente", Toast.LENGTH_SHORT).show();
+            db.close();
+        } catch (Exception e) {
+            Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT).show();
+        }
+    }
 
     @Override
     public void onResume() {
         super.onResume();
-        tm.listen(phoneListen,PhoneStateListener.LISTEN_SIGNAL_STRENGTHS);
+        tm.listen(phoneListen, PhoneStateListener.LISTEN_SIGNAL_STRENGTHS);
     }
 
     @Override
@@ -243,8 +291,8 @@ public class pruebas extends Fragment {
         btnIniciarPrueba.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               permitirGirar = true;
-               btnIniciarPrueba.setText("Detener");
+                permitirGirar = true;
+                btnIniciarPrueba.setText("Detener");
             }
         });
         speedometer.setWithTremble(false);
@@ -290,7 +338,7 @@ public class pruebas extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        tm.listen(phoneListen,PhoneStateListener.LISTEN_NONE);
+        tm.listen(phoneListen, PhoneStateListener.LISTEN_NONE);
     }
 
     /**
