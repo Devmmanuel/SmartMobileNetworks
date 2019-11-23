@@ -4,11 +4,11 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
     <color name="colorBackground">#FFFFFF</color>
-    <color name="colorNns1">#002b49</color>
+    <color name="colorNns1">#002B49</color>
     <color name="colorNns2">#36b0c9</color>
-    <color name="colorNnsAuxiliar">#e6ebef</color>
+    <color name="colorNnsAuxiliar">#E6EBEF</color>
     <color name="colorNnsAuxiliar2">#0f1f34</color>
     <color name="colorNnsAuxiliar3">#ff0000</color>
-    <color name="colorNnsAuxiliar4">#60db00</color>
-    <color name="colorNnsAuxiliar5">#ffd400</color>
+    <color name="colorNnsAuxiliar4">#60DB00</color>
+    <color name="colorNnsAuxiliar5">#FFD400</color>
 </resources>
