@@ -1,12 +1,23 @@
 package com.nss.nss;
 
 import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TableLayout;
+import android.widget.TableRow;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import java.util.ArrayList;
 
 
 /**
@@ -26,6 +37,13 @@ public class historicos_pruebas extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    private TableLayout table;
+    private AdminSql sql;
+    private SQLiteDatabase db;
+    private ArrayList<String> registros;
+    private int num_Rows;
+
+
 
     private OnFragmentInteractionListener mListener;
 
@@ -63,8 +81,26 @@ public class historicos_pruebas extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        View vista =inflater.inflate(R.layout.fragment_historicos_pruebas, container, false);
+        table = vista.findViewById(R.id.tablelayout);
+        regresarRegistros();
+        int contador = 0;
+        for (int i = 0; i < num_Rows; i++) {
+            TableRow tableRow = new TableRow(getActivity());
+            for (int j = 0; j < 7; j++) {
+                TextView textView = new TextView(getActivity());
+                textView.setPadding(11, 11, 11, 11);
+                textView.setBackgroundResource(R.color.colorNnsAuxiliar);
+                textView.setTypeface(Typeface.MONOSPACE);
+                textView.setTextColor(getResources().getColor(R.color.colorNnsAuxiliar2));
+                textView.setText(registros.get(contador));
+                tableRow.addView(textView);
+                contador++;
+            }
+            table.addView(tableRow);
+        }
 
-        return inflater.inflate(R.layout.fragment_historicos_pruebas, container, false);
+     return vista;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -72,6 +108,37 @@ public class historicos_pruebas extends Fragment {
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);
         }
+    }
+
+    /*** metodo el cual regresa un arrayLIst con todos los elementos de la base de datos
+     * @return ArrayList<String>
+     */
+    public ArrayList<String> regresarRegistros() {
+        try {
+            registros = new ArrayList<>();
+            sql = new AdminSql(getActivity(), "mydb", null, 1);
+            db = sql.getWritableDatabase();
+            Cursor fila = db.rawQuery("select * from historicosRedesMoviles", null);
+            num_Rows=fila.getCount();
+            if (fila.moveToFirst()) {
+                do {
+                    registros.add(fila.getString(0));
+                    registros.add(fila.getString(1));
+                    registros.add(fila.getString(2));
+                    registros.add(fila.getString(3));
+                    registros.add(fila.getString(4));
+                    registros.add(fila.getString(5));
+                    registros.add(fila.getString(6));
+                } while (fila.moveToNext());
+                Log.w("MENSAJE",registros.toString());
+                fila.close();
+            } else
+                Toast.makeText(getActivity(), "No hay ningun registro en la base de datos", Toast.LENGTH_SHORT).show();
+
+        } catch (Exception e) {
+            Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT).show();
+        }
+        return registros;
     }
 
     @Override

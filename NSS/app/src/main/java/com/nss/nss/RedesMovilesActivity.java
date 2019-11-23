@@ -26,7 +26,6 @@ public class RedesMovilesActivity extends AppCompatActivity implements
         viewPager.setAdapter(sectionsPagerAdapter);
         TabLayout tabs = findViewById(R.id.tabs);
         tabs.setupWithViewPager(viewPager);
-
     }
 
     /**
