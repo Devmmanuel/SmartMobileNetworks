@@ -12,6 +12,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -42,6 +44,9 @@ public class historicos_pruebas extends Fragment {
     private SQLiteDatabase db;
     private ArrayList<String> registros;
     private int num_Rows;
+    private Button btnBuscar;
+    private EditText txtBuscar;
+    private boolean buscando = false;
 
 
     private OnFragmentInteractionListener mListener;
@@ -82,7 +87,17 @@ public class historicos_pruebas extends Fragment {
                              Bundle savedInstanceState) {
         View vista = inflater.inflate(R.layout.fragment_historicos_pruebas, container, false);
         table = vista.findViewById(R.id.tablelayout);
-
+        btnBuscar = vista.findViewById(R.id.btnBuscar);
+        txtBuscar = vista.findViewById(R.id.txtBuscar);
+        btnBuscar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(getActivity(), "Botton presionado", Toast.LENGTH_SHORT).show();
+                table.removeAllViews();
+                buscando = true;
+                agregarRegistrosAtabla();
+            }
+        });
         agregarRegistrosAtabla();
         return vista;
     }
@@ -95,7 +110,11 @@ public class historicos_pruebas extends Fragment {
     }
 
     public void agregarRegistrosAtabla(){
-        regresarRegistros();
+         if(buscando==true){
+             regresarRegistrosConsulta(null,txtBuscar.getText().toString());
+             buscando = false;
+         }else
+             regresarRegistros();
         int contador = 0;
         for (int i = 0; i < num_Rows; i++) {
             TableRow tableRow = new TableRow(getActivity());
@@ -137,6 +156,34 @@ public class historicos_pruebas extends Fragment {
                 fila.close();
             } else
                 Toast.makeText(getActivity(), "No hay ningun registro en la base de datos", Toast.LENGTH_SHORT).show();
+
+        } catch (Exception e) {
+            Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT).show();
+        }
+        return registros;
+    }
+
+    public ArrayList<String> regresarRegistrosConsulta(View v, String buscado) {
+        try {
+            registros = new ArrayList<>();
+            sql = new AdminSql(getActivity(), "mydb", null, 1);
+            db = sql.getWritableDatabase();
+            Cursor fila = db.rawQuery("select * from historicosRedesMoviles where fecha='"+buscado+"'", null);
+            num_Rows = fila.getCount();
+            if (fila.moveToFirst()) {
+                do {
+                    registros.add(fila.getString(0));
+                    registros.add(fila.getString(1));
+                    registros.add(fila.getString(2));
+                    registros.add(fila.getString(3));
+                    registros.add(fila.getString(4));
+                    registros.add(fila.getString(5));
+                    registros.add(fila.getString(6));
+                } while (fila.moveToNext());
+                Log.w("MENSAJE", registros.toString());
+                fila.close();
+            } else
+                Toast.makeText(getActivity(), "No hay ningun registro en la base de datos wey", Toast.LENGTH_SHORT).show();
 
         } catch (Exception e) {
             Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT).show();
