@@ -96,6 +96,7 @@ public class historicos_pruebas extends Fragment {
                 table.removeAllViews();
                 buscando = true;
                 agregarRegistrosAtabla();
+                Log.w("M",regresarRegistros().toString());
             }
         });
         agregarRegistrosAtabla();
@@ -163,12 +164,17 @@ public class historicos_pruebas extends Fragment {
         return registros;
     }
 
-    public ArrayList<String> regresarRegistrosConsulta(View v, String buscado) {
+    public ArrayList<String> regresarRegistrosConsulta(View v, String pbuscador) {
         try {
+            String consulta;
+            if(pbuscador.equals("")){
+            consulta = "select * from historicosRedesMoviles";
+            }else
+            consulta="select * from historicosRedesMoviles where fecha='"+pbuscador+"'";
             registros = new ArrayList<>();
             sql = new AdminSql(getActivity(), "mydb", null, 1);
             db = sql.getWritableDatabase();
-            Cursor fila = db.rawQuery("select * from historicosRedesMoviles where fecha='"+buscado+"'", null);
+            Cursor fila = db.rawQuery(consulta, null);
             num_Rows = fila.getCount();
             if (fila.moveToFirst()) {
                 do {

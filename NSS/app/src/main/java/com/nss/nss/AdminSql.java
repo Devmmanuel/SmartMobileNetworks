@@ -18,7 +18,7 @@ public class AdminSql extends SQLiteOpenHelper {
             "tipo_de_red_telefonica TEXT" +
             ")";
     private String insertar = "insert into historicosRedesMoviles (fecha,dbm,asu,pais,tipo_de_red,tipo_de_red_telefonica)" +
-            " values ('22-10-2019',-113,23,'mx','4G','UMTS')";
+            " values ('22/10/2019',-113,23,'mx','4G','UMTS')";
 
     public AdminSql(@Nullable Context context, @Nullable String name, @Nullable SQLiteDatabase.CursorFactory factory, int version) {
         super(context, "historicosRedesMoviles", null, 1);

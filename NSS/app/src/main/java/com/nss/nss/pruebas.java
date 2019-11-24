@@ -277,7 +277,7 @@ public class pruebas extends Fragment {
             registro.put("asu", iAsu);
             registro.put("pais", tm.getSimCountryIso());
             registro.put("tipo_de_red", info.getTypeOfNetwork234(tm));
-            registro.put("tipo_de_red_telefonica", info.getTypeOfNetwork234(tm));
+            registro.put("tipo_de_red_telefonica", info.getTypeOfNetwork(tm));
             db.insert("historicosRedesMoviles", null, registro);
             Toast.makeText(getActivity(), "Se cargaron los registros correctamente", Toast.LENGTH_SHORT).show();
             db.close();
