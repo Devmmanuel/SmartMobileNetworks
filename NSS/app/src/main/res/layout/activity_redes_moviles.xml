@@ -4,12 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorNnsAuxiliar"
     tools:context=".RedesMovilesActivity">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#3F51B5"
+        android:background="@color/colorNns1"
         android:theme="@style/AppTheme.AppBarOverlay">
 
         <TextView
@@ -26,8 +27,8 @@
             android:id="@+id/tabs"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#3F51B5"
-            app:tabIndicatorColor="@android:color/background_dark" />
+            android:background="@color/colorNns1"
+            app:tabIndicatorColor="@color/colorNnsAuxiliar4" />
 
     </android.support.design.widget.AppBarLayout>
 

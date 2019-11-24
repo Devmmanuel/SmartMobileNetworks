@@ -44,7 +44,6 @@ public class historicos_pruebas extends Fragment {
     private int num_Rows;
 
 
-
     private OnFragmentInteractionListener mListener;
 
     public historicos_pruebas() {
@@ -81,8 +80,21 @@ public class historicos_pruebas extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View vista =inflater.inflate(R.layout.fragment_historicos_pruebas, container, false);
+        View vista = inflater.inflate(R.layout.fragment_historicos_pruebas, container, false);
         table = vista.findViewById(R.id.tablelayout);
+
+        agregarRegistrosAtabla();
+        return vista;
+    }
+
+    // TODO: Rename method, update argument and hook method into UI event
+    public void onButtonPressed(Uri uri) {
+        if (mListener != null) {
+            mListener.onFragmentInteraction(uri);
+        }
+    }
+
+    public void agregarRegistrosAtabla(){
         regresarRegistros();
         int contador = 0;
         for (int i = 0; i < num_Rows; i++) {
@@ -99,15 +111,6 @@ public class historicos_pruebas extends Fragment {
             }
             table.addView(tableRow);
         }
-
-     return vista;
-    }
-
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
     }
 
     /*** metodo el cual regresa un arrayLIst con todos los elementos de la base de datos
@@ -119,7 +122,7 @@ public class historicos_pruebas extends Fragment {
             sql = new AdminSql(getActivity(), "mydb", null, 1);
             db = sql.getWritableDatabase();
             Cursor fila = db.rawQuery("select * from historicosRedesMoviles", null);
-            num_Rows=fila.getCount();
+            num_Rows = fila.getCount();
             if (fila.moveToFirst()) {
                 do {
                     registros.add(fila.getString(0));
@@ -130,7 +133,7 @@ public class historicos_pruebas extends Fragment {
                     registros.add(fila.getString(5));
                     registros.add(fila.getString(6));
                 } while (fila.moveToNext());
-                Log.w("MENSAJE",registros.toString());
+                Log.w("MENSAJE", registros.toString());
                 fila.close();
             } else
                 Toast.makeText(getActivity(), "No hay ningun registro en la base de datos", Toast.LENGTH_SHORT).show();

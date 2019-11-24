@@ -6,6 +6,7 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.support.v4.content.ContextCompat;
 import android.telephony.TelephonyManager;
+
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.util.Collections;
@@ -20,22 +21,21 @@ public class imformacionDispositivos {
      * Este metodo regresa un String con el
      * estado del roaming activado , desactivado
      */
-    public String getStateRoaming(TelephonyManager tm){
-        if(tm.isNetworkRoaming())
+    public String getStateRoaming(TelephonyManager tm) {
+        if (tm.isNetworkRoaming())
             return "False";
         else return "True";
     }
 
-    public String getOperator(TelephonyManager tm){
+    public String getOperator(TelephonyManager tm) {
         String operatorName = tm.getNetworkOperatorName();
         return operatorName;
     }
 
     /**
-     *
      * @return String
      */
-    public  String getMacAddress() {
+    public String getMacAddress() {
         try {
             List<NetworkInterface> all = Collections.list(NetworkInterface.getNetworkInterfaces());
             for (NetworkInterface nif : all) {
@@ -65,23 +65,24 @@ public class imformacionDispositivos {
     }
 
 
-    /** @return String
+    /**
+     * @return String
      * Este metodo es usado para obtener la direccion ip actual del dispositivo
      * Al ser un metodo statico se puede llamar sin la creacion de un objeto
-     *
      */
-    public  String getMobileIPAddress() {
+    public String getMobileIPAddress() {
         try {
             List<NetworkInterface> interfaces = Collections.list(NetworkInterface.getNetworkInterfaces());
             for (NetworkInterface intf : interfaces) {
                 List<InetAddress> addrs = Collections.list(intf.getInetAddresses());
                 for (InetAddress addr : addrs) {
                     if (!addr.isLoopbackAddress()) {
-                        return  addr.getHostAddress();
+                        return addr.getHostAddress();
                     }
                 }
             }
-        } catch (Exception ex) { } // for now eat exceptions
+        } catch (Exception ex) {
+        } // for now eat exceptions
         return "-";
     }
 
@@ -91,12 +92,11 @@ public class imformacionDispositivos {
      * es es nesesario tener el permiso de
      * READ_PHONE_STATE  en el archivo Manisfest y en versiones superios o igual a la api 26 es necesario
      * verificar tambien desde la aplicacion ya que si no se verifica no nos dejara utilizar el metodo
-     *
      */
-    public String getnImei(Context context,TelephonyManager tm){
+    public String getnImei(Context context, TelephonyManager tm) {
         int chekarPermiso = ContextCompat.checkSelfPermission(context, Manifest.permission.READ_PHONE_STATE);
-        if(chekarPermiso == PackageManager.PERMISSION_GRANTED)
-            if(Build.VERSION.SDK_INT >= 26)
+        if (chekarPermiso == PackageManager.PERMISSION_GRANTED)
+            if (Build.VERSION.SDK_INT >= 26)
                 return tm.getImei();
             else return tm.getDeviceId();
         else
@@ -104,24 +104,29 @@ public class imformacionDispositivos {
     }
 
 
-    /** @return String
+    /**
+     * @return String
      * El metodo getPhoneType nos regresa el phoneTYpe en una variable del tipo
      * String con el dispositvio es necesario
      * la creaacion de un objeto TelephonyManager para hacer uso del metodo
      */
-    public String getPhoneType(TelephonyManager tm){
+    public String getPhoneType(TelephonyManager tm) {
         String phoneType = "Unknown";
-        switch (tm.getPhoneType()){
-            case(TelephonyManager.PHONE_TYPE_CDMA):
-                phoneType = " CDMA";break;
-            case(TelephonyManager.PHONE_TYPE_GSM):
-                phoneType = " GMS";break;
-            case(TelephonyManager.PHONE_TYPE_NONE):
-                phoneType = " NONE";break;
-            case(TelephonyManager.PHONE_TYPE_SIP):
-                phoneType = " SIP";break;
+        switch (tm.getPhoneType()) {
+            case (TelephonyManager.PHONE_TYPE_CDMA):
+                phoneType = " CDMA";
+                break;
+            case (TelephonyManager.PHONE_TYPE_GSM):
+                phoneType = " GMS";
+                break;
+            case (TelephonyManager.PHONE_TYPE_NONE):
+                phoneType = " NONE";
+                break;
+            case (TelephonyManager.PHONE_TYPE_SIP):
+                phoneType = " SIP";
+                break;
         }
-        return  phoneType;
+        return phoneType;
     }
 
     /**
@@ -129,12 +134,13 @@ public class imformacionDispositivos {
      * Este metodo usa un objeto de telephonyManager para determinar
      * las conexion de datos en el dispositivo esta actualmente conectada
      */
-    public String getDataConected(TelephonyManager tm){
+    public String getDataConected(TelephonyManager tm) {
         String dataConected = "";
         int estadoDeRed = tm.getDataState();
-        switch (estadoDeRed){
+        switch (estadoDeRed) {
             case TelephonyManager.DATA_DISCONNECTED:
-                dataConected = "Desconectado";break;
+                dataConected = "Desconectado";
+                break;
             case TelephonyManager.DATA_CONNECTED:
                 dataConected = "Conectado";
 
@@ -145,7 +151,6 @@ public class imformacionDispositivos {
     /**
      * @return String
      * Metodo el cual nos regresa el tipo de red en el cual nos encontramos
-     *
      */
     public String getTypeOfNetwork(TelephonyManager tm) {
         int networkType = tm.getNetworkType();
@@ -188,7 +193,6 @@ public class imformacionDispositivos {
     }
 
     /**
-     *
      * @return String
      * Nos regresa un String con el tipo de conexion al cual estamos
      * conectados (2G,3G,4G)
@@ -201,7 +205,7 @@ public class imformacionDispositivos {
             case TelephonyManager.NETWORK_TYPE_CDMA:
             case TelephonyManager.NETWORK_TYPE_1xRTT:
             case TelephonyManager.NETWORK_TYPE_IDEN:
-                return  "2G";
+                return "2G";
             case TelephonyManager.NETWORK_TYPE_UMTS:
             case TelephonyManager.NETWORK_TYPE_EVDO_0:
             case TelephonyManager.NETWORK_TYPE_EVDO_A:
@@ -213,7 +217,7 @@ public class imformacionDispositivos {
             case TelephonyManager.NETWORK_TYPE_HSPAP:
                 return "3G";
             case TelephonyManager.NETWORK_TYPE_LTE:
-                return  "4G";
+                return "4G";
             case TelephonyManager.NETWORK_TYPE_UNKNOWN:
                 return "Unknown";
         }

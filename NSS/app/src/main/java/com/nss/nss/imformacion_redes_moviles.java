@@ -1,7 +1,6 @@
 package com.nss.nss;
 
 
-
 import android.telephony.TelephonyManager;
 import android.content.Context;
 import android.net.ConnectivityManager;
@@ -86,7 +85,7 @@ public class imformacion_redes_moviles extends Fragment {
         datosRM.add("Data conected");
         datosRM.add(info.getDataConected(tm));
         datosRM.add("Imei");
-        datosRM.add(info.getnImei(getContext(),tm));
+        datosRM.add(info.getnImei(getContext(), tm));
         datosRM.add("ip");
         datosRM.add(info.getMobileIPAddress());
         datosRM.add("Dbm");
@@ -129,6 +128,7 @@ public class imformacion_redes_moviles extends Fragment {
         datosRedes = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_activated_1, datosRM);
         getImformationRedesMoviles();
 
+
     }
 
     /*this code is invoke whe you move between first and last fragment*/
@@ -141,7 +141,6 @@ public class imformacion_redes_moviles extends Fragment {
 
         listaDatos = vista.findViewById(R.id.FIRM_gridViewDatos);
         listaDatos.setAdapter(datosRedes);
-
         // Inflate the layout for this fragment
         return vista;
     }
@@ -169,7 +168,6 @@ public class imformacion_redes_moviles extends Fragment {
         super.onDetach();
         mListener = null;
     }
-
 
 
     /**

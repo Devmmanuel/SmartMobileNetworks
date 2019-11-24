@@ -82,6 +82,7 @@ public class pruebas extends Fragment {
     private SQLiteDatabase db;
 
 
+
     public pruebas() {
         // Required empty public constructor
     }
@@ -157,12 +158,15 @@ public class pruebas extends Fragment {
                     Toast.makeText(getActivity(), "4G" + dbm + " " + asu, Toast.LENGTH_SHORT).show();
                     ponerMedidaSpeed(dbm, asu);
                 }
-              //insertar(dbm,asu);
+                if(btnIniciarPrueba.getText().toString().equalsIgnoreCase("DETENER")){
+                    insertar(dbm,asu);
+                }
 
             } catch (Exception e) {
                 enviarMensaje(e.getMessage());
                 //dbm = esAsu(Integer.parseInt(partInfo[1]));
                 //enviarMensaje(String.valueOf(dbm));
+                Log.w("MENSAJE",e.getMessage());
             }
         }
 
@@ -226,8 +230,8 @@ public class pruebas extends Fragment {
         mensaje.show();
     }
 
-    public void btnPrueba(){
-        if(btnIniciarPrueba.getText().toString().equalsIgnoreCase("Detener"))
+    public void btnPrueba() {
+        if (btnIniciarPrueba.getText().toString().equalsIgnoreCase("Detener"))
             btnIniciarPrueba.setText("Iniciar prueba");
         else
             btnIniciarPrueba.setText("Detener");
@@ -263,7 +267,7 @@ public class pruebas extends Fragment {
 
     }
 
-    public void insertar(int iDbm , int iAsu) {
+    public void insertar(int iDbm, int iAsu) {
         try {
             sql = new AdminSql(getActivity(), "mydb", null, 1);
             db = sql.getWritableDatabase();

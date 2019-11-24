@@ -3,19 +3,17 @@ package com.nss.nss;
 
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
 
 
-
 import com.nss.nss.ui.main.SectionsPagerAdapter;
 
 public class RedesMovilesActivity extends AppCompatActivity implements
-        historicos_pruebas.OnFragmentInteractionListener,imformacion_redes_moviles.OnFragmentInteractionListener,
-        pruebas.OnFragmentInteractionListener{
+        historicos_pruebas.OnFragmentInteractionListener, imformacion_redes_moviles.OnFragmentInteractionListener,
+        pruebas.OnFragmentInteractionListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,7 +28,7 @@ public class RedesMovilesActivity extends AppCompatActivity implements
 
     /**
      * metodo el cual destrulle la activity de redes moviles cuando presionamos el boton de retroseso
-     * */
+     */
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if ((keyCode == KeyEvent.KEYCODE_BACK)) {

@@ -27,7 +27,7 @@ public class Inicio extends AppCompatActivity implements View.OnClickListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_inicio);
-        Toolbar toolbar =  findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         btnMenuRedesMoviles = findViewById(R.id.btnMovil);
@@ -36,11 +36,11 @@ public class Inicio extends AppCompatActivity implements View.OnClickListener {
     }
 
     /*este metodo sirve para dar permisos a las aplicacion ya que si no le damos los permios suficientes a la aplicacion no pedemos
-    * usar algunos metodos de PhoneManeger*/
-    public void darPermisosApp(){
-        if(ContextCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED)
+     * usar algunos metodos de PhoneManeger*/
+    public void darPermisosApp() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED)
             ActivityCompat.requestPermissions
-                    (this,new String[]{Manifest.permission.READ_PHONE_STATE},
+                    (this, new String[]{Manifest.permission.READ_PHONE_STATE},
                             123);
     }
 
@@ -55,7 +55,7 @@ public class Inicio extends AppCompatActivity implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-        Intent intento = new Intent(Inicio.this,RedesMovilesActivity.class);
+        Intent intento = new Intent(Inicio.this, RedesMovilesActivity.class);
         startActivity(intento);
     }
 
