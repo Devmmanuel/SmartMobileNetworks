@@ -1,5 +1,7 @@
 package com.nss.nss;
 
+import android.app.Notification;
+import android.app.NotificationManager;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
@@ -286,6 +288,15 @@ public class pruebas extends Fragment {
         }
     }
 
+    public void enviarNotificacion(String mensajeNotificacion){
+        NotificationManager notif = (NotificationManager)getActivity().getSystemService(Context.NOTIFICATION_SERVICE);
+        Notification notify = new Notification.Builder(getActivity())
+                .setContentTitle("Cambio de red").setContentText(mensajeNotificacion)
+                .setContentTitle("Simple notificacion").setSmallIcon(R.drawable.ic_launcher_background).build();
+        notify.flags |= Notification.FLAG_AUTO_CANCEL;
+        notif.notify(0, notify);
+    }
+
     @Override
     public void onResume() {
         super.onResume();
@@ -312,11 +323,10 @@ public class pruebas extends Fragment {
         speedDeluxe.setUnitUnderSpeedText(true);
         speedometer.setUnit("dbm");
         speedDeluxe.setUnit("asu");
-        speedometer.setMinSpeed(-113);
+        speedometer.setMinSpeed(-120);
         speedometer.setMaxSpeed(-51);
         speedDeluxe.setMinSpeed(0);
         speedDeluxe.setMaxSpeed(63);
-
         return vista;
     }
 

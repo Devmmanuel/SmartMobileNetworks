@@ -186,7 +186,7 @@ public class imformacionDispositivos {
             case TelephonyManager.NETWORK_TYPE_UMTS:
                 return "UMTS";
             case TelephonyManager.NETWORK_TYPE_UNKNOWN:
-                return "Unknown";
+                return "Unk";
         }
         throw new RuntimeException("New type of network");
 
@@ -219,7 +219,7 @@ public class imformacionDispositivos {
             case TelephonyManager.NETWORK_TYPE_LTE:
                 return "4G";
             case TelephonyManager.NETWORK_TYPE_UNKNOWN:
-                return "Unknown";
+                return "Unk";
         }
         throw new RuntimeException("New type of network");
 
