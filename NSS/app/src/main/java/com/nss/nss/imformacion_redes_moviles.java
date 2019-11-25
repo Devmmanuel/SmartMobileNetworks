@@ -88,8 +88,6 @@ public class imformacion_redes_moviles extends Fragment {
         datosRM.add(info.getnImei(getContext(), tm));
         datosRM.add("ip");
         datosRM.add(info.getMobileIPAddress());
-        datosRM.add("Dbm");
-        datosRM.add(String.valueOf(mSignalStrength));
         datosRM.add("Mac");
         datosRM.add(info.getMacAddress());
 

@@ -92,7 +92,7 @@ public class historicos_pruebas extends Fragment {
         btnBuscar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getActivity(), "Botton presionado", Toast.LENGTH_SHORT).show();
+               // Toast.makeText(getActivity(), "Botton presionado", Toast.LENGTH_SHORT).show();
                 table.removeAllViews();
                 buscando = true;
                 agregarRegistrosAtabla();
@@ -155,11 +155,11 @@ public class historicos_pruebas extends Fragment {
                 } while (fila.moveToNext());
                 Log.w("MENSAJE", registros.toString());
                 fila.close();
-            } else
-                Toast.makeText(getActivity(), "No hay ningun registro en la base de datos", Toast.LENGTH_SHORT).show();
+            }
+            //*****else Toast.makeText(getActivity(), "No hay ningun registro en la base de datos", Toast.LENGTH_SHORT).show();
 
         } catch (Exception e) {
-            Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT).show();
+            ///Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT).show();
         }
         return registros;
     }
@@ -188,11 +188,11 @@ public class historicos_pruebas extends Fragment {
                 } while (fila.moveToNext());
                 Log.w("MENSAJE", registros.toString());
                 fila.close();
-            } else
-                Toast.makeText(getActivity(), "No hay ningun registro en la base de datos wey", Toast.LENGTH_SHORT).show();
+            }
+            ///***else Toast.makeText(getActivity(), "No hay ningun registro en la base de datos ", Toast.LENGTH_SHORT).show();
 
         } catch (Exception e) {
-            Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT).show();
+            //Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT).show();
         }
         return registros;
     }

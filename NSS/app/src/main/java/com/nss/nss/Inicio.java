@@ -38,10 +38,12 @@ public class Inicio extends AppCompatActivity implements View.OnClickListener {
     /*este metodo sirve para dar permisos a las aplicacion ya que si no le damos los permios suficientes a la aplicacion no pedemos
      * usar algunos metodos de PhoneManeger*/
     public void darPermisosApp() {
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED)
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED){
             ActivityCompat.requestPermissions
-                    (this, new String[]{Manifest.permission.READ_PHONE_STATE},
+                    (this, new String[]{Manifest.permission.READ_PHONE_STATE,Manifest.permission.ACCESS_COARSE_LOCATION},
                             123);
+        }
+
     }
 
     @Override

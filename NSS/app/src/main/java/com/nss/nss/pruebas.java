@@ -134,7 +134,7 @@ public class pruebas extends Fragment {
                 if (info.getTypeOfNetwork234(tm) == "2G") {
                     asu = signalStrength.getGsmSignalStrength();
                     dbm = esAsu(asu);
-                    enviarMensaje("2G" + asu + dbm);
+                   //*** enviarMensaje("2G" + asu + dbm);
                     ponerMedidaSpeed(dbm, asu);
                 }
                 /**en this point work in alcatel 5033A este metod se ejecuta cuando la red es 3G*/
@@ -150,14 +150,14 @@ public class pruebas extends Fragment {
                         dbm = Integer.parseInt(partInfo[14]);//14
                         asu = esDbm(Integer.parseInt(partInfo[14]));//14
                     }
-                    enviarMensaje("3G " + dbm + " " + asu);
+       //*********enviarMensaje("3G " + dbm + " " + asu);
                     ponerMedidaSpeed(dbm, asu);
                 }
                 /**este metodo se ejecuta cuando el tipo de red es 4G* */
                 if (info.getTypeOfNetwork234(tm) == "4G") {
                     dbm = Integer.parseInt(partInfo[9]);
                     asu = (Integer.parseInt(partInfo[2]));//140
-                    Toast.makeText(getActivity(), "4G" + dbm + " " + asu, Toast.LENGTH_SHORT).show();
+            //********** Toast.makeText(getActivity(), "4G" + dbm + " " + asu, Toast.LENGTH_SHORT).show();
                     ponerMedidaSpeed(dbm, asu);
                 }
                 if(btnIniciarPrueba.getText().toString().equalsIgnoreCase("DETENER")){
@@ -166,7 +166,7 @@ public class pruebas extends Fragment {
                 graf.setAsu(asu);
                 graf.setDbm(dbm);
             } catch (Exception e) {
-                enviarMensaje(e.getMessage());
+               ///***enviarMensaje(e.getMessage());
                 //dbm = esAsu(Integer.parseInt(partInfo[1]));
                 //enviarMensaje(String.valueOf(dbm));
                 Log.w("MENSAJE",e.getMessage());
@@ -282,10 +282,10 @@ public class pruebas extends Fragment {
             registro.put("tipo_de_red", info.getTypeOfNetwork234(tm));
             registro.put("tipo_de_red_telefonica", info.getTypeOfNetwork(tm));
             db.insert("historicosRedesMoviles", null, registro);
-            Toast.makeText(getActivity(), "Se cargaron los registros correctamente", Toast.LENGTH_SHORT).show();
+            //**Toast.makeText(getActivity(), "Se cargaron los registros correctamente", Toast.LENGTH_SHORT).show();
             db.close();
         } catch (Exception e) {
-            Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT).show();
+            //***Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
 

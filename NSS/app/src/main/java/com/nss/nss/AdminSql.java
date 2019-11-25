@@ -27,13 +27,13 @@ public class AdminSql extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(crearTabla);
-        db.execSQL(insertar);
+        //db.execSQL(insertar);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS historicosRedesMoviles");
         db.execSQL(crearTabla);
-        db.execSQL(insertar);
+        //db.execSQL(insertar);
     }
 }

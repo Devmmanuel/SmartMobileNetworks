@@ -159,19 +159,19 @@ public class grafica_medidas extends Fragment {
                         if (cellInfos.get(i) instanceof CellInfoWcdma) {
                             CellInfoWcdma cellInfoWcdma = (CellInfoWcdma) cellInfos.get(i);
                             CellSignalStrengthWcdma cellSignalStrengthWcdma = cellInfoWcdma.getCellSignalStrength();
-                            strength = String.valueOf(cellSignalStrengthWcdma.getDbm() - 15);
+                            strength = String.valueOf(cellSignalStrengthWcdma.getDbm() - 47);
                         } else if (cellInfos.get(i) instanceof CellInfoGsm) {
                             CellInfoGsm cellInfogsm = (CellInfoGsm) cellInfos.get(i);
                             CellSignalStrengthGsm cellSignalStrengthGsm = cellInfogsm.getCellSignalStrength();
-                            strength = String.valueOf(cellSignalStrengthGsm.getDbm() - 15);
+                            strength = String.valueOf(cellSignalStrengthGsm.getDbm() - 40);
                         } else if (cellInfos.get(i) instanceof CellInfoLte) {
                             CellInfoLte cellInfoLte = (CellInfoLte) cellInfos.get(i);
                             CellSignalStrengthLte cellSignalStrengthLte = cellInfoLte.getCellSignalStrength();
-                            strength = String.valueOf(cellSignalStrengthLte.getDbm() - 15);
+                            strength = String.valueOf(cellSignalStrengthLte.getDbm() - 3);
                         } else if (cellInfos.get(i) instanceof CellInfoCdma) {
                             CellInfoCdma cellInfoCdma = (CellInfoCdma) cellInfos.get(i);
                             CellSignalStrengthCdma cellSignalStrengthCdma = cellInfoCdma.getCellSignalStrength();
-                            strength = String.valueOf(cellSignalStrengthCdma.getDbm() - 15);
+                            strength = String.valueOf(cellSignalStrengthCdma.getDbm() - 40);
                         }
                     }
                 }
@@ -198,6 +198,12 @@ public class grafica_medidas extends Fragment {
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);
         }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+    handler.removeCallbacksAndMessages(null);
     }
 
     @Override
