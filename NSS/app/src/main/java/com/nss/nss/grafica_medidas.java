@@ -3,19 +3,35 @@ package com.nss.nss;
 import android.content.Context;
 import android.graphics.Color;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
+import android.telephony.CellInfo;
+import android.telephony.CellInfoCdma;
+import android.telephony.CellInfoGsm;
+import android.telephony.CellInfoLte;
+import android.telephony.CellInfoWcdma;
+import android.telephony.CellSignalStrengthCdma;
+import android.telephony.CellSignalStrengthGsm;
+import android.telephony.CellSignalStrengthLte;
+import android.telephony.CellSignalStrengthWcdma;
+import android.telephony.PhoneStateListener;
+import android.telephony.SignalStrength;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
+
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.GridLabelRenderer;
 import com.jjoe64.graphview.Viewport;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 
+import java.util.List;
 
 
 /**
@@ -39,6 +55,14 @@ public class grafica_medidas extends Fragment {
     private LineGraphSeries<DataPoint> series;
     private double lastXpoint = 1;
     private DbmAsu gra;
+    private TelephonyManager tm;
+    private String allInfo;
+    private String [] partInfo;
+    private imformacionDispositivos info;
+    private int dbm;
+    private int asu;
+    private String [] medidas = new String[2];
+
 
 
     private OnFragmentInteractionListener mListener;
@@ -73,6 +97,9 @@ public class grafica_medidas extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
         gra = new DbmAsu();
+        info = new imformacionDispositivos();
+        tm = (TelephonyManager) getActivity().getSystemService(Context.TELEPHONY_SERVICE);
+
     }
 
     @Override
@@ -120,14 +147,47 @@ public class grafica_medidas extends Fragment {
         return view;
     }
 
+
+    /*este metodo obtiene el dbm Level en  en diferentes tipos de redes**/
+        private String getSignalStrength(Context context) throws SecurityException {
+            TelephonyManager telephonyManager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
+            String strength="";
+            List<CellInfo> cellInfos = telephonyManager.getAllCellInfo();
+            if (cellInfos != null) {
+                for (int i = 0; i < cellInfos.size(); i++) {
+                    if (cellInfos.get(i).isRegistered()) {
+                        if (cellInfos.get(i) instanceof CellInfoWcdma) {
+                            CellInfoWcdma cellInfoWcdma = (CellInfoWcdma) cellInfos.get(i);
+                            CellSignalStrengthWcdma cellSignalStrengthWcdma = cellInfoWcdma.getCellSignalStrength();
+                            strength = String.valueOf(cellSignalStrengthWcdma.getDbm() - 15);
+                        } else if (cellInfos.get(i) instanceof CellInfoGsm) {
+                            CellInfoGsm cellInfogsm = (CellInfoGsm) cellInfos.get(i);
+                            CellSignalStrengthGsm cellSignalStrengthGsm = cellInfogsm.getCellSignalStrength();
+                            strength = String.valueOf(cellSignalStrengthGsm.getDbm() - 15);
+                        } else if (cellInfos.get(i) instanceof CellInfoLte) {
+                            CellInfoLte cellInfoLte = (CellInfoLte) cellInfos.get(i);
+                            CellSignalStrengthLte cellSignalStrengthLte = cellInfoLte.getCellSignalStrength();
+                            strength = String.valueOf(cellSignalStrengthLte.getDbm() - 15);
+                        } else if (cellInfos.get(i) instanceof CellInfoCdma) {
+                            CellInfoCdma cellInfoCdma = (CellInfoCdma) cellInfos.get(i);
+                            CellSignalStrengthCdma cellSignalStrengthCdma = cellInfoCdma.getCellSignalStrength();
+                            strength = String.valueOf(cellSignalStrengthCdma.getDbm() - 15);
+                        }
+                    }
+                }
+            } else Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show();
+            return strength;
+        }
+
+
     private void addRandomDataPoint(){
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
                 lastXpoint++;
-                series.appendData(new DataPoint(lastXpoint,-60),true,100);
+                series.appendData(new DataPoint(lastXpoint,Integer.parseInt(getSignalStrength(getActivity()))),true,100);
                 addRandomDataPoint();
-                Log.w("MENSAJE",String.valueOf(gra.getDbm()));
+                Log.w("MENSAJE",getSignalStrength(getActivity()));
             }
         },1000);
     }

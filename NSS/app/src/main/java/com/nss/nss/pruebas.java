@@ -28,10 +28,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
-
 import com.github.anastr.speedviewlib.DeluxeSpeedView;
 import com.github.anastr.speedviewlib.SpeedView;
-
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
