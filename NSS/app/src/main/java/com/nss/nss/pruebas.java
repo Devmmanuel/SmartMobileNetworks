@@ -82,6 +82,7 @@ public class pruebas extends Fragment {
     private String[] medidas = new String[2];
     private AdminSql sql;
     private SQLiteDatabase db;
+    private DbmAsu graf;
 
 
 
@@ -115,6 +116,7 @@ public class pruebas extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
         info = new imformacionDispositivos();
+        graf = new DbmAsu();
         tm = (TelephonyManager) getActivity().getSystemService(Context.TELEPHONY_SERVICE);
         phoneListen = new phone();
         tm.listen(phoneListen, PhoneStateListener.LISTEN_SIGNAL_STRENGTHS);
@@ -163,7 +165,8 @@ public class pruebas extends Fragment {
                 if(btnIniciarPrueba.getText().toString().equalsIgnoreCase("DETENER")){
                     insertar(dbm,asu);
                 }
-
+                graf.setAsu(asu);
+                graf.setDbm(dbm);
             } catch (Exception e) {
                 enviarMensaje(e.getMessage());
                 //dbm = esAsu(Integer.parseInt(partInfo[1]));
