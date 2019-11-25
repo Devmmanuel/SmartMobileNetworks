@@ -11,7 +11,8 @@
     <string name="tab1RM">Imformacion redes moviles</string>
     <string name="tab2RM">HIstoricos redes moviles</string>
     <string name="tab3RM">Pruebas</string>
-   <string name="btnIniciarPrueb">Iniciar prueba</string>
+    <string name="tab4RM">Grafica de frecuencia</string>
+    <string name="btnIniciarPrueb">Iniciar prueba</string>
 
 
     <!-- TODO: Remove or change this placeholder text -->

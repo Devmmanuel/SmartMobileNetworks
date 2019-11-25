@@ -16,7 +16,7 @@ import com.nss.nss.R;
 public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
     @StringRes
-    private static final int[] TAB_TITLES = new int[]{R.string.tab1RM, R.string.tab2RM , R.string.tab3RM};
+    private static final int[] TAB_TITLES = new int[]{R.string.tab1RM, R.string.tab4RM , R.string.tab2RM,R.string.tab3RM};
     private final Context mContext;
 
     public SectionsPagerAdapter(Context context, FragmentManager fm) {
@@ -40,6 +40,6 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
     @Override
     public int getCount() {
         // Show 2 total pages.
-        return 3;
+        return 4;
     }
 }

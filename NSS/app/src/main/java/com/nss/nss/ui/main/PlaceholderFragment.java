@@ -12,6 +12,7 @@ import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 
 import com.nss.nss.R;
+import com.nss.nss.grafica_medidas;
 import com.nss.nss.historicos_pruebas;
 import com.nss.nss.imformacion_redes_moviles;
 import com.nss.nss.pruebas;
@@ -29,8 +30,9 @@ public class PlaceholderFragment extends Fragment {
         Fragment fragment=null;
         switch (index){
             case 1: fragment = new imformacion_redes_moviles();break;
-            case 2: fragment = new historicos_pruebas();break;
-            case 3: fragment = new pruebas();break;
+            case 2: fragment = new grafica_medidas();break;
+            case 3: fragment = new historicos_pruebas();break;
+            case 4: fragment = new pruebas();break;
         }
         return fragment;
     }
