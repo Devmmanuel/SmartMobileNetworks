@@ -159,11 +159,11 @@ public class grafica_medidas extends Fragment {
                         if (cellInfos.get(i) instanceof CellInfoWcdma) {
                             CellInfoWcdma cellInfoWcdma = (CellInfoWcdma) cellInfos.get(i);
                             CellSignalStrengthWcdma cellSignalStrengthWcdma = cellInfoWcdma.getCellSignalStrength();
-                            strength = String.valueOf(cellSignalStrengthWcdma.getDbm() - 47);
+                            strength = String.valueOf(cellSignalStrengthWcdma.getDbm() - 31);
                         } else if (cellInfos.get(i) instanceof CellInfoGsm) {
                             CellInfoGsm cellInfogsm = (CellInfoGsm) cellInfos.get(i);
                             CellSignalStrengthGsm cellSignalStrengthGsm = cellInfogsm.getCellSignalStrength();
-                            strength = String.valueOf(cellSignalStrengthGsm.getDbm() - 40);
+                            strength = String.valueOf(cellSignalStrengthGsm.getDbm() - 31);
                         } else if (cellInfos.get(i) instanceof CellInfoLte) {
                             CellInfoLte cellInfoLte = (CellInfoLte) cellInfos.get(i);
                             CellSignalStrengthLte cellSignalStrengthLte = cellInfoLte.getCellSignalStrength();
@@ -171,7 +171,7 @@ public class grafica_medidas extends Fragment {
                         } else if (cellInfos.get(i) instanceof CellInfoCdma) {
                             CellInfoCdma cellInfoCdma = (CellInfoCdma) cellInfos.get(i);
                             CellSignalStrengthCdma cellSignalStrengthCdma = cellInfoCdma.getCellSignalStrength();
-                            strength = String.valueOf(cellSignalStrengthCdma.getDbm() - 40);
+                            strength = String.valueOf(cellSignalStrengthCdma.getDbm() - 31);
                         }
                     }
                 }

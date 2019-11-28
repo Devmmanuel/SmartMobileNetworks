@@ -81,6 +81,8 @@ public class pruebas extends Fragment {
     private AdminSql sql;
     private SQLiteDatabase db;
     private DbmAsu graf;
+    private String tituloMensajeNotificacion="La red cambio";
+    private NotificationHelpener notificacionHelpe; /**objeto el cual usaremos para enviar notificacion */
 
 
 
@@ -117,7 +119,7 @@ public class pruebas extends Fragment {
         graf = new DbmAsu();
         tm = (TelephonyManager) getActivity().getSystemService(Context.TELEPHONY_SERVICE);
         phoneListen = new phone();
-        tm.listen(phoneListen, PhoneStateListener.LISTEN_SIGNAL_STRENGTHS);
+        tm.listen(phoneListen, PhoneStateListener.LISTEN_SIGNAL_STRENGTHS |PhoneStateListener.LISTEN_DATA_CONNECTION_STATE);
 
     }
 
@@ -173,6 +175,19 @@ public class pruebas extends Fragment {
             }
         }
 
+        @Override
+        public void onDataConnectionStateChanged(int state, int networkType) {
+            super.onDataConnectionStateChanged(state, networkType);
+            String mensajeNotificacion="";
+           if(info.getTypeOfNetwork234(tm).equals("2G"))
+               mensajeNotificacion ="El tipo de red es 2G";
+            if(info.getTypeOfNetwork234(tm).equals("3G"))
+                mensajeNotificacion ="El tipo de red es 3G";
+            if(info.getTypeOfNetwork234(tm).equals("4G"))
+                mensajeNotificacion ="El tipo de red es 4G";
+            if(!mensajeNotificacion.equals(""))
+                notificacionHelpe.createNotification(mensajeNotificacion,tituloMensajeNotificacion);
+        }
 
     }
 
@@ -289,25 +304,17 @@ public class pruebas extends Fragment {
         }
     }
 
-    public void enviarNotificacion(String mensajeNotificacion){
-        NotificationManager notif = (NotificationManager)getActivity().getSystemService(Context.NOTIFICATION_SERVICE);
-        Notification notify = new Notification.Builder(getActivity())
-                .setContentTitle("Cambio de red").setContentText(mensajeNotificacion)
-                .setContentTitle("Simple notificacion").setSmallIcon(R.drawable.ic_launcher_background).build();
-        notify.flags |= Notification.FLAG_AUTO_CANCEL;
-        notif.notify(0, notify);
-    }
-
     @Override
     public void onResume() {
         super.onResume();
-        tm.listen(phoneListen, PhoneStateListener.LISTEN_SIGNAL_STRENGTHS);
+        tm.listen(phoneListen, PhoneStateListener.LISTEN_SIGNAL_STRENGTHS|PhoneStateListener.LISTEN_DATA_CONNECTION_STATE);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View vista = inflater.inflate(R.layout.fragment_pruebas, container, false);
+        notificacionHelpe = new NotificationHelpener(getActivity());
         speedometer = vista.findViewById(R.id.speedView);
         speedDeluxe = vista.findViewById(R.id.speedDeluxe);
         btnIniciarPrueba = vista.findViewById(R.id.btnIniciarPrueba);
