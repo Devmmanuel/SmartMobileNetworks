@@ -38,10 +38,6 @@ public class RedesMovilesActivity extends AppCompatActivity implements
         return super.onKeyDown(keyCode, event);
     }
 
-    public void add(){
-        Toast.makeText(this, "Hola wey", Toast.LENGTH_SHORT).show();
-    }
-
     @Override
     public void onFragmentInteraction(Uri uri) {
 

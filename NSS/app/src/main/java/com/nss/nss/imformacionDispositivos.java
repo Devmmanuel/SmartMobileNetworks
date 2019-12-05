@@ -5,11 +5,24 @@ import android.content.Context;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.support.v4.content.ContextCompat;
+import android.telephony.CellInfo;
+import android.telephony.CellInfoCdma;
+import android.telephony.CellInfoGsm;
+import android.telephony.CellInfoLte;
+import android.telephony.CellInfoWcdma;
+import android.telephony.CellSignalStrengthCdma;
+import android.telephony.CellSignalStrengthGsm;
+import android.telephony.CellSignalStrengthLte;
+import android.telephony.CellSignalStrengthWcdma;
 import android.telephony.TelephonyManager;
+import android.widget.Toast;
 
 import java.net.InetAddress;
 import java.net.NetworkInterface;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 public class imformacionDispositivos {
@@ -222,7 +235,49 @@ public class imformacionDispositivos {
                 return "Unk";
         }
         throw new RuntimeException("New type of network");
-
     }
+
+    /**
+     *
+     * @param context
+     * @return String
+     * @throws SecurityException
+     * Este metodo regresa un string con el actual dbm que se esta recibiendo en el dispositivo
+     */
+    public String[] getSignalStrength(Context context) throws SecurityException {
+        TelephonyManager telephonyManager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
+        String[] strength = new String[2];
+        List<CellInfo> cellInfos = telephonyManager.getAllCellInfo();
+        if (cellInfos != null) {
+            for (int i = 0; i < cellInfos.size(); i++) {
+                if (cellInfos.get(i).isRegistered()) {
+                    if (cellInfos.get(i) instanceof CellInfoWcdma) {
+                        CellInfoWcdma cellInfoWcdma = (CellInfoWcdma) cellInfos.get(i);
+                        CellSignalStrengthWcdma cellSignalStrengthWcdma = cellInfoWcdma.getCellSignalStrength();
+                        strength[0] = String.valueOf(cellSignalStrengthWcdma.getDbm() - 31);
+                        strength[1] = String.valueOf(cellSignalStrengthWcdma.getAsuLevel() - 16);
+                    } else if (cellInfos.get(i) instanceof CellInfoGsm) {
+                        CellInfoGsm cellInfogsm = (CellInfoGsm) cellInfos.get(i);
+                        CellSignalStrengthGsm cellSignalStrengthGsm = cellInfogsm.getCellSignalStrength();
+                        strength[0] = String.valueOf(cellSignalStrengthGsm.getDbm() - 31);
+                        strength[1] = String.valueOf(cellSignalStrengthGsm.getAsuLevel() - 16);
+                    } else if (cellInfos.get(i) instanceof CellInfoLte) {
+                        CellInfoLte cellInfoLte = (CellInfoLte) cellInfos.get(i);
+                        CellSignalStrengthLte cellSignalStrengthLte = cellInfoLte.getCellSignalStrength();
+                        strength[0] = String.valueOf(cellSignalStrengthLte.getDbm() - 31);
+                        strength[1] = String.valueOf(cellSignalStrengthLte.getAsuLevel() - 16);
+                    } else if (cellInfos.get(i) instanceof CellInfoCdma) {
+                        CellInfoCdma cellInfoCdma = (CellInfoCdma) cellInfos.get(i);
+                        CellSignalStrengthCdma cellSignalStrengthCdma = cellInfoCdma.getCellSignalStrength();
+                        strength[0] = String.valueOf(cellSignalStrengthCdma.getDbm() - 31);
+                        strength[1] = String.valueOf(cellSignalStrengthCdma.getAsuLevel() - 16);
+
+                    }
+                }
+            }
+        } else Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show();
+        return strength;
+    }
+
 
 }

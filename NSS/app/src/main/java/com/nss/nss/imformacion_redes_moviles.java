@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.GridView;
+import android.widget.Toast;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -40,14 +41,11 @@ public class imformacion_redes_moviles extends Fragment {
      */
 
     private String MccAndMnc;
-    private String phoneType = "Unknown";
-    private String dataConected;
     private List<String> datosRM = new ArrayList<>();
     private ArrayAdapter datosRedes;
     private TelephonyManager tm;
     private ConnectivityManager con;
     private GridView listaDatos;
-    private int mSignalStrength = 0;
     private imformacionDispositivos info;
 
     // TODO: Rename and change types of parameters
@@ -125,8 +123,6 @@ public class imformacion_redes_moviles extends Fragment {
         con = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
         datosRedes = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_activated_1, datosRM);
         getImformationRedesMoviles();
-
-
     }
 
     /*this code is invoke whe you move between first and last fragment*/
@@ -139,9 +135,11 @@ public class imformacion_redes_moviles extends Fragment {
 
         listaDatos = vista.findViewById(R.id.FIRM_gridViewDatos);
         listaDatos.setAdapter(datosRedes);
-        // Inflate the layout for this fragment
+
+
         return vista;
     }
+
 
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
@@ -161,12 +159,18 @@ public class imformacion_redes_moviles extends Fragment {
 
     }
 
+
     @Override
     public void onDetach() {
         super.onDetach();
         mListener = null;
     }
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        Toast.makeText(getActivity(), "Destroid view imformtion", Toast.LENGTH_SHORT).show();
+    }
 
     /**
      * This interface must be implemented by activities that contain this

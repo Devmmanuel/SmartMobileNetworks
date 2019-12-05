@@ -54,15 +54,6 @@ public class grafica_medidas extends Fragment {
     private Handler handler = new Handler();
     private LineGraphSeries<DataPoint> series;
     private double lastXpoint = 1;
-    private DbmAsu gra;
-    private TelephonyManager tm;
-    private String allInfo;
-    private String [] partInfo;
-    private imformacionDispositivos info;
-    private int dbm;
-    private int asu;
-    private String [] medidas = new String[2];
-
 
 
     private OnFragmentInteractionListener mListener;
@@ -96,9 +87,6 @@ public class grafica_medidas extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-        gra = new DbmAsu();
-        info = new imformacionDispositivos();
-        tm = (TelephonyManager) getActivity().getSystemService(Context.TELEPHONY_SERVICE);
 
     }
 
