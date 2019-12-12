@@ -5,9 +5,7 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.support.annotation.Nullable;
-import android.telephony.TelephonyManager;
 import android.util.Log;
-import android.widget.Toast;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -29,20 +27,20 @@ private  SQLiteDatabase db;
 
 
     public AdminSql(@Nullable Context context, @Nullable String name, @Nullable SQLiteDatabase.CursorFactory factory, int version) {
-        super(context, "historicosRedesMoviles", null, 1);
+        super(context, name, factory, version);
           db = this.getWritableDatabase();
     }
 
-    public void insertar(int iDbm, int iAsu, TelephonyManager tm, imformacionDispositivos info) {
+    public void insertar(int iDbm, int iAsu, imformacionDispositivos info) {
         try {
             db = AdminSql.this.getWritableDatabase();
             ContentValues registro = new ContentValues();
             registro.put("fecha", obtenerFecha());
             registro.put("dbm", iDbm);
             registro.put("asu", iAsu);
-            registro.put("pais", tm.getSimCountryIso());
-            registro.put("tipo_de_red", info.getTypeOfNetwork234(tm));
-            registro.put("tipo_de_red_telefonica", info.getTypeOfNetwork(tm));
+            registro.put("pais", info.getCodigoPais());
+            registro.put("tipo_de_red", info.getTypeOfNetwork234());
+            registro.put("tipo_de_red_telefonica", info.getTypeOfNetwork());
             db.insert("historicosRedesMoviles", null, registro);
             //**Toast.makeText(getActivity(), "Se cargaron los registros correctamente", Toast.LENGTH_SHORT).show();
             db.close();

@@ -1,24 +1,17 @@
 package com.nss.nss;
 
 
-import android.telephony.TelephonyManager;
 import android.content.Context;
-import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.GridView;
 import android.widget.Toast;
-
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 
@@ -40,11 +33,9 @@ public class imformacion_redes_moviles extends Fragment {
      * var to store content of the data
      */
 
-    private String MccAndMnc;
+
     private List<String> datosRM = new ArrayList<>();
     private ArrayAdapter datosRedes;
-    private TelephonyManager tm;
-    private ConnectivityManager con;
     private GridView listaDatos;
     private imformacionDispositivos info;
 
@@ -58,39 +49,6 @@ public class imformacion_redes_moviles extends Fragment {
         // Required empty public constructor
 
     }
-
-
-    public void getImformationRedesMoviles() {
-        /*this method are for get imformation about the state of the telephone
-         * this method get the date what after sshow in the GriedView*/
-        datosRM.add("Operaror");
-        datosRM.add(info.getOperator(tm));
-        datosRM.add("Tipo de red telefonica");
-        datosRM.add(info.getTypeOfNetwork(tm));
-        datosRM.add("Tipo de red");
-        datosRM.add(info.getTypeOfNetwork234(tm));
-        datosRM.add("Codigo de pais");
-        datosRM.add(tm.getSimCountryIso());
-        datosRM.add("mcc");
-        MccAndMnc = tm.getNetworkOperator();
-        datosRM.add(MccAndMnc.substring(0, 3));
-        datosRM.add("mnc");
-        datosRM.add(MccAndMnc.substring(4, 6));
-        datosRM.add("Roamig");
-        datosRM.add(info.getStateRoaming(tm));
-        datosRM.add("Phone type");
-        datosRM.add(info.getPhoneType(tm));
-        datosRM.add("Data conected");
-        datosRM.add(info.getDataConected(tm));
-        datosRM.add("Imei");
-        datosRM.add(info.getnImei(getContext(), tm));
-        datosRM.add("ip");
-        datosRM.add(info.getMobileIPAddress());
-        datosRM.add("Mac");
-        datosRM.add(info.getMacAddress());
-
-    }
-
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
@@ -118,19 +76,16 @@ public class imformacion_redes_moviles extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-        info = new imformacionDispositivos();
-        tm = (TelephonyManager) getActivity().getSystemService(Context.TELEPHONY_SERVICE);
-        con = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+        info = new imformacionDispositivos(getActivity());
         datosRedes = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_activated_1, datosRM);
-        getImformationRedesMoviles();
+        info.getImformationRedesMoviles(datosRM,getActivity());
     }
 
     /*this code is invoke whe you move between first and last fragment*/
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        /*this code is only for initit componets*/
-        /*this code show when you */
+
         View vista = inflater.inflate(R.layout.fragment_imformacion_redes_moviles, container, false);
 
         listaDatos = vista.findViewById(R.id.FIRM_gridViewDatos);

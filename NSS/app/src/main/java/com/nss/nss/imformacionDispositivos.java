@@ -16,17 +16,20 @@ import android.telephony.CellSignalStrengthLte;
 import android.telephony.CellSignalStrengthWcdma;
 import android.telephony.TelephonyManager;
 import android.widget.Toast;
-
 import java.net.InetAddress;
 import java.net.NetworkInterface;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Collections;
-import java.util.Date;
 import java.util.List;
 
 public class imformacionDispositivos {
 
+    private TelephonyManager tm;
+
+
+    public imformacionDispositivos(Context ctx){
+        tm = (TelephonyManager) ctx.getSystemService(Context.TELEPHONY_SERVICE);
+
+    }
 
     /**
      * @param
@@ -35,12 +38,74 @@ public class imformacionDispositivos {
      * estado del roaming activado , desactivado
      */
     public String getStateRoaming(TelephonyManager tm) {
-        if (tm.isNetworkRoaming())
-            return "False";
-        else return "True";
+        return String.valueOf(tm.isNetworkRoaming());
     }
 
-    public String getOperator(TelephonyManager tm) {
+
+    /**
+     * regresa un string con el codigo de pais
+     * @return String
+     */
+    public String getCodigoPais(){
+        return tm.getSimCountryIso();
+    }
+
+    /**
+     * regresa un String[] con mccymnc
+     * @return String []
+     */
+    public String[] getMccAndMnc(){
+        String infoMccYmnc = tm.getNetworkOperator();
+        String [] mccyMnc = new String[2];
+        mccyMnc[0]=infoMccYmnc.substring(0,3);
+        mccyMnc[1]=infoMccYmnc.substring(3,6);
+        return mccyMnc;
+    }
+
+
+    /**
+     *
+     * @param datosRM
+     * @param ctx
+     * recibe un Lista de tipo String y le asigna elementos
+     */
+    public void getImformationRedesMoviles(List<String> datosRM, Context ctx) {
+        /*this method are for get imformation about the state of the telephone
+         * this method get the date what after sshow in the GriedView*/
+        datosRM.add("Operaror");
+        datosRM.add(getOperator());
+        datosRM.add("Tipo de red telefonica");
+        datosRM.add(getTypeOfNetwork());
+        datosRM.add("Tipo de red");
+        datosRM.add(getTypeOfNetwork234());
+        datosRM.add("Codigo de pais");
+        datosRM.add(tm.getSimCountryIso());
+        datosRM.add("mcc");
+        datosRM.add(getMccAndMnc()[0]);
+        datosRM.add("mnc");
+        datosRM.add(getMccAndMnc()[1]);
+        datosRM.add("Roamig");
+        datosRM.add(getStateRoaming(tm));
+        datosRM.add("Phone type");
+        datosRM.add(getPhoneType());
+        datosRM.add("Data conected");
+        datosRM.add(getDataConected());
+        datosRM.add("Imei");
+        datosRM.add(getnImei(ctx));
+        datosRM.add("ip");
+        datosRM.add(getMobileIPAddress());
+        datosRM.add("Mac");
+        datosRM.add(getMacAddress());
+    }
+
+    /**
+     *
+     * @param
+     * @return String
+     * regresa un string con el nombre del operador
+     */
+
+    public String getOperator() {
         String operatorName = tm.getNetworkOperatorName();
         return operatorName;
     }
@@ -100,13 +165,14 @@ public class imformacionDispositivos {
     }
 
     /**
+     * @param context
      * @return String
      * metodo el cual obtiene el imei del dispositivo  y nos regresa un string con el imei
      * es es nesesario tener el permiso de
      * READ_PHONE_STATE  en el archivo Manisfest y en versiones superios o igual a la api 26 es necesario
      * verificar tambien desde la aplicacion ya que si no se verifica no nos dejara utilizar el metodo
      */
-    public String getnImei(Context context, TelephonyManager tm) {
+    public String getnImei(Context context) {
         int chekarPermiso = ContextCompat.checkSelfPermission(context, Manifest.permission.READ_PHONE_STATE);
         if (chekarPermiso == PackageManager.PERMISSION_GRANTED)
             if (Build.VERSION.SDK_INT >= 26)
@@ -123,7 +189,7 @@ public class imformacionDispositivos {
      * String con el dispositvio es necesario
      * la creaacion de un objeto TelephonyManager para hacer uso del metodo
      */
-    public String getPhoneType(TelephonyManager tm) {
+    public String getPhoneType() {
         String phoneType = "Unknown";
         switch (tm.getPhoneType()) {
             case (TelephonyManager.PHONE_TYPE_CDMA):
@@ -147,7 +213,7 @@ public class imformacionDispositivos {
      * Este metodo usa un objeto de telephonyManager para determinar
      * las conexion de datos en el dispositivo esta actualmente conectada
      */
-    public String getDataConected(TelephonyManager tm) {
+    public String getDataConected() {
         String dataConected = "";
         int estadoDeRed = tm.getDataState();
         switch (estadoDeRed) {
@@ -165,7 +231,7 @@ public class imformacionDispositivos {
      * @return String
      * Metodo el cual nos regresa el tipo de red en el cual nos encontramos
      */
-    public String getTypeOfNetwork(TelephonyManager tm) {
+    public String getTypeOfNetwork() {
         int networkType = tm.getNetworkType();
         switch (networkType) {
             case TelephonyManager.NETWORK_TYPE_1xRTT:
@@ -210,7 +276,7 @@ public class imformacionDispositivos {
      * Nos regresa un String con el tipo de conexion al cual estamos
      * conectados (2G,3G,4G)
      */
-    public String getTypeOfNetwork234(TelephonyManager tm) {
+    public String getTypeOfNetwork234() {
         int networkType = tm.getNetworkType();
         switch (networkType) {
             case TelephonyManager.NETWORK_TYPE_GPRS:
