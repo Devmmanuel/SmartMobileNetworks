@@ -16,17 +16,11 @@ import android.widget.EditText;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import java.util.ArrayList;
 
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link historicos_pruebas.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link historicos_pruebas#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class historicos_pruebas extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -44,7 +38,7 @@ public class historicos_pruebas extends Fragment {
     private Button btnBuscar;
     private EditText txtBuscar;
     private boolean buscando = false;
-
+    private AdminSql adminSql;
 
     private OnFragmentInteractionListener mListener;
 
@@ -77,6 +71,8 @@ public class historicos_pruebas extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        adminSql = new AdminSql(getActivity(),"mydb",null,1);
+        registros = new ArrayList<>();
     }
 
     @Override
@@ -89,11 +85,9 @@ public class historicos_pruebas extends Fragment {
         btnBuscar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               // Toast.makeText(getActivity(), "Botton presionado", Toast.LENGTH_SHORT).show();
                 table.removeAllViews();
                 buscando = true;
                 agregarRegistrosAtabla();
-                Log.w("M",regresarRegistros().toString());
             }
         });
         agregarRegistrosAtabla();
@@ -109,12 +103,13 @@ public class historicos_pruebas extends Fragment {
 
     public void agregarRegistrosAtabla(){
          if(buscando==true){
-             regresarRegistrosConsulta(null,txtBuscar.getText().toString());
+             registros =adminSql.regresarRegistrosConsulta(null,txtBuscar.getText().toString(),registros);
              buscando = false;
          }else
-             regresarRegistros();
+             registros=adminSql.regresarRegistros(registros);
         int contador = 0;
-        for (int i = 0; i < num_Rows; i++) {
+        Toast.makeText(getActivity(), ""+adminSql.getTotalRegistros(), Toast.LENGTH_SHORT).show();
+        for (int i = 0; i < adminSql.getTotalRegistros(); i++) {
             TableRow tableRow = new TableRow(getActivity());
             for (int j = 0; j < 7; j++) {
                 TextView textView = new TextView(getActivity());
@@ -130,69 +125,6 @@ public class historicos_pruebas extends Fragment {
         }
     }
 
-    /*** metodo el cual regresa un arrayLIst con todos los elementos de la base de datos
-     * @return ArrayList<String>
-     */
-    public ArrayList<String> regresarRegistros() {
-        try {
-            registros = new ArrayList<>();
-            sql = new AdminSql(getActivity(), "mydb", null, 1);
-            db = sql.getWritableDatabase();
-            Cursor fila = db.rawQuery("select * from historicosRedesMoviles", null);
-            num_Rows = fila.getCount();
-            if (fila.moveToFirst()) {
-                do {
-                    registros.add(fila.getString(0));
-                    registros.add(fila.getString(1));
-                    registros.add(fila.getString(2));
-                    registros.add(fila.getString(3));
-                    registros.add(fila.getString(4));
-                    registros.add(fila.getString(5));
-                    registros.add(fila.getString(6));
-                } while (fila.moveToNext());
-                Log.w("MENSAJE", registros.toString());
-                fila.close();
-            }
-            //*****else Toast.makeText(getActivity(), "No hay ningun registro en la base de datos", Toast.LENGTH_SHORT).show();
-
-        } catch (Exception e) {
-            ///Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT).show();
-        }
-        return registros;
-    }
-
-    public ArrayList<String> regresarRegistrosConsulta(View v, String pbuscador) {
-        try {
-            String consulta;
-            if(pbuscador.equals("")){
-            consulta = "select * from historicosRedesMoviles";
-            }else
-            consulta="select * from historicosRedesMoviles where fecha='"+pbuscador+"'";
-            registros = new ArrayList<>();
-            sql = new AdminSql(getActivity(), "mydb", null, 1);
-            db = sql.getWritableDatabase();
-            Cursor fila = db.rawQuery(consulta, null);
-            num_Rows = fila.getCount();
-            if (fila.moveToFirst()) {
-                do {
-                    registros.add(fila.getString(0));
-                    registros.add(fila.getString(1));
-                    registros.add(fila.getString(2));
-                    registros.add(fila.getString(3));
-                    registros.add(fila.getString(4));
-                    registros.add(fila.getString(5));
-                    registros.add(fila.getString(6));
-                } while (fila.moveToNext());
-                Log.w("MENSAJE", registros.toString());
-                fila.close();
-            }
-            ///***else Toast.makeText(getActivity(), "No hay ningun registro en la base de datos ", Toast.LENGTH_SHORT).show();
-
-        } catch (Exception e) {
-            //Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT).show();
-        }
-        return registros;
-    }
 
     @Override
     public void onAttach(Context context) {
