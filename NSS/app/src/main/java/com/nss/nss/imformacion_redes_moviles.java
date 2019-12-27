@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.GridView;
 import android.widget.Toast;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -49,6 +50,7 @@ public class imformacion_redes_moviles extends Fragment {
         // Required empty public constructor
 
     }
+
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
@@ -78,7 +80,7 @@ public class imformacion_redes_moviles extends Fragment {
         }
         info = new imformacionDispositivos(getActivity());
         datosRedes = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_activated_1, datosRM);
-        info.getImformationRedesMoviles(datosRM,getActivity());
+        info.getImformationRedesMoviles(datosRM, getActivity());
     }
 
     /*this code is invoke whe you move between first and last fragment*/
@@ -90,7 +92,6 @@ public class imformacion_redes_moviles extends Fragment {
 
         listaDatos = vista.findViewById(R.id.FIRM_gridViewDatos);
         listaDatos.setAdapter(datosRedes);
-
 
         return vista;
     }

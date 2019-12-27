@@ -7,8 +7,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.support.annotation.Nullable;
 import android.util.Log;
-import android.view.View;
-import android.widget.Toast;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -27,12 +25,13 @@ public class AdminSql extends SQLiteOpenHelper {
             "tipo_de_red TEXT," +
             "tipo_de_red_telefonica TEXT" +
             ")";
-private  SQLiteDatabase db;
-private int totalRegistros;
+    private SQLiteDatabase db;
+    private int totalRegistros;
+
 
     public AdminSql(@Nullable Context context, @Nullable String name, @Nullable SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);
-          db = this.getWritableDatabase();
+        db = this.getWritableDatabase();
     }
 
     public void insertar(int iDbm, int iAsu, imformacionDispositivos info) {
@@ -46,18 +45,18 @@ private int totalRegistros;
             registro.put("tipo_de_red", info.getTypeOfNetwork234());
             registro.put("tipo_de_red_telefonica", info.getTypeOfNetwork());
             db.insert("historicosRedesMoviles", null, registro);
-            //**Toast.makeText(getActivity(), "Se cargaron los registros correctamente", Toast.LENGTH_SHORT).show();
             db.close();
         } catch (Exception e) {
-         Log.w("Error",e.getMessage());
+            Log.w("Error", e.getMessage());
         }
     }
 
-    public void setTotalRegistros(int total){
+
+    public void setTotalRegistros(int total) {
         totalRegistros = total;
     }
 
-    public int getTotalRegistros(){
+    public int getTotalRegistros() {
         return totalRegistros;
     }
 
@@ -85,22 +84,22 @@ private int totalRegistros;
                 fila.close();
             }
         } catch (Exception e) {
-            Log.w("ERROR",e.getMessage());
+            Log.w("ERROR", e.getMessage());
         }
         return registros;
     }
 
-    public ArrayList<String> regresarRegistrosConsulta(View v, String pbuscador, ArrayList<String> registros) {
+    public ArrayList<String> regresarRegistrosConsulta(String pbuscador, ArrayList<String> registros) {
         try {
             String consulta;
-            if(pbuscador.equals("")){
-                consulta = "select * from historicosRedesMoviles";
-            }else
-                consulta="select * from historicosRedesMoviles where fecha='"+pbuscador+"'";
+            if (pbuscador.equals("")) {
+                consulta = "select * from historicosRedes";
+            } else
+                consulta = "select * from historicosRedesMoviles where fecha='" + pbuscador + "'";
             registros = new ArrayList<>();
             db = this.getWritableDatabase();
             Cursor fila = db.rawQuery(consulta, null);
-           setTotalRegistros(fila.getCount());
+            setTotalRegistros(fila.getCount());
             if (fila.moveToFirst()) {
                 do {
                     registros.add(fila.getString(0));
@@ -115,15 +114,13 @@ private int totalRegistros;
                 fila.close();
             }
         } catch (Exception e) {
-            Log.w("ERROR",e.getMessage());
+            Log.w("ERROR", e.getMessage());
         }
         return registros;
     }
 
-
-
     /**
-     *@return String
+     * @return String
      * regresa la fecha actual en formato dd/mm/yy
      */
 

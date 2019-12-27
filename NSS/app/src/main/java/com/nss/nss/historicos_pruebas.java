@@ -1,13 +1,11 @@
 package com.nss.nss;
 
 import android.content.Context;
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,14 +29,12 @@ public class historicos_pruebas extends Fragment {
     private String mParam1;
     private String mParam2;
     private TableLayout table;
-    private AdminSql sql;
-    private SQLiteDatabase db;
     private ArrayList<String> registros;
-    private int num_Rows;
     private Button btnBuscar;
     private EditText txtBuscar;
     private boolean buscando = false;
     private AdminSql adminSql;
+    private CalendarioDialog calendarioFecha;
 
     private OnFragmentInteractionListener mListener;
 
@@ -71,7 +67,7 @@ public class historicos_pruebas extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-        adminSql = new AdminSql(getActivity(),"mydb",null,1);
+        adminSql = new AdminSql(getActivity(), "mydb", null, 1);
         registros = new ArrayList<>();
     }
 
@@ -82,6 +78,12 @@ public class historicos_pruebas extends Fragment {
         table = vista.findViewById(R.id.tablelayout);
         btnBuscar = vista.findViewById(R.id.btnBuscar);
         txtBuscar = vista.findViewById(R.id.txtBuscar);
+        txtBuscar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                calendarioFecha = new CalendarioDialog(getActivity(), txtBuscar);
+            }
+        });
         btnBuscar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -101,14 +103,14 @@ public class historicos_pruebas extends Fragment {
         }
     }
 
-    public void agregarRegistrosAtabla(){
-         if(buscando==true){
-             registros =adminSql.regresarRegistrosConsulta(null,txtBuscar.getText().toString(),registros);
-             buscando = false;
-         }else
-             registros=adminSql.regresarRegistros(registros);
+    public void agregarRegistrosAtabla() {
+        if (buscando == true) {
+            registros = adminSql.regresarRegistrosConsulta(txtBuscar.getText().toString(), registros);
+            buscando = false;
+        } else
+            registros = adminSql.regresarRegistros(registros);
         int contador = 0;
-        Toast.makeText(getActivity(), ""+adminSql.getTotalRegistros(), Toast.LENGTH_SHORT).show();
+        Toast.makeText(getActivity(), "" + adminSql.getTotalRegistros(), Toast.LENGTH_SHORT).show();
         for (int i = 0; i < adminSql.getTotalRegistros(); i++) {
             TableRow tableRow = new TableRow(getActivity());
             for (int j = 0; j < 7; j++) {

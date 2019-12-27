@@ -112,9 +112,9 @@ public class grafica_medidas extends Fragment {
         gridlabel.setVerticalAxisTitleColor(Color.RED);
 
         series = new LineGraphSeries<>(new DataPoint[]{
-                new DataPoint(0,1),
-                new DataPoint(1,3),
-                new DataPoint(2,2),
+                new DataPoint(0, 1),
+                new DataPoint(1, 3),
+                new DataPoint(2, 2),
         });
 
         series.setColor(Color.CYAN);
@@ -140,47 +140,47 @@ public class grafica_medidas extends Fragment {
 
 
     /*este metodo obtiene el dbm Level en  en diferentes tipos de redes**/
-        private String getSignalStrength(Context context) throws SecurityException {
-            TelephonyManager telephonyManager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
-            String strength="";
-            List<CellInfo> cellInfos = telephonyManager.getAllCellInfo();
-            if (cellInfos != null) {
-                for (int i = 0; i < cellInfos.size(); i++) {
-                    if (cellInfos.get(i).isRegistered()) {
-                        if (cellInfos.get(i) instanceof CellInfoWcdma) {
-                            CellInfoWcdma cellInfoWcdma = (CellInfoWcdma) cellInfos.get(i);
-                            CellSignalStrengthWcdma cellSignalStrengthWcdma = cellInfoWcdma.getCellSignalStrength();
-                            strength = String.valueOf(cellSignalStrengthWcdma.getDbm() - 31);
-                        } else if (cellInfos.get(i) instanceof CellInfoGsm) {
-                            CellInfoGsm cellInfogsm = (CellInfoGsm) cellInfos.get(i);
-                            CellSignalStrengthGsm cellSignalStrengthGsm = cellInfogsm.getCellSignalStrength();
-                            strength = String.valueOf(cellSignalStrengthGsm.getDbm() - 31);
-                        } else if (cellInfos.get(i) instanceof CellInfoLte) {
-                            CellInfoLte cellInfoLte = (CellInfoLte) cellInfos.get(i);
-                            CellSignalStrengthLte cellSignalStrengthLte = cellInfoLte.getCellSignalStrength();
-                            strength = String.valueOf(cellSignalStrengthLte.getDbm() - 3);
-                        } else if (cellInfos.get(i) instanceof CellInfoCdma) {
-                            CellInfoCdma cellInfoCdma = (CellInfoCdma) cellInfos.get(i);
-                            CellSignalStrengthCdma cellSignalStrengthCdma = cellInfoCdma.getCellSignalStrength();
-                            strength = String.valueOf(cellSignalStrengthCdma.getDbm() - 31);
-                        }
+    private String getSignalStrength(Context context) throws SecurityException {
+        TelephonyManager telephonyManager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
+        String strength = "";
+        List<CellInfo> cellInfos = telephonyManager.getAllCellInfo();
+        if (cellInfos != null) {
+            for (int i = 0; i < cellInfos.size(); i++) {
+                if (cellInfos.get(i).isRegistered()) {
+                    if (cellInfos.get(i) instanceof CellInfoWcdma) {
+                        CellInfoWcdma cellInfoWcdma = (CellInfoWcdma) cellInfos.get(i);
+                        CellSignalStrengthWcdma cellSignalStrengthWcdma = cellInfoWcdma.getCellSignalStrength();
+                        strength = String.valueOf(cellSignalStrengthWcdma.getDbm() - 31);
+                    } else if (cellInfos.get(i) instanceof CellInfoGsm) {
+                        CellInfoGsm cellInfogsm = (CellInfoGsm) cellInfos.get(i);
+                        CellSignalStrengthGsm cellSignalStrengthGsm = cellInfogsm.getCellSignalStrength();
+                        strength = String.valueOf(cellSignalStrengthGsm.getDbm() - 31);
+                    } else if (cellInfos.get(i) instanceof CellInfoLte) {
+                        CellInfoLte cellInfoLte = (CellInfoLte) cellInfos.get(i);
+                        CellSignalStrengthLte cellSignalStrengthLte = cellInfoLte.getCellSignalStrength();
+                        strength = String.valueOf(cellSignalStrengthLte.getDbm() - 3);
+                    } else if (cellInfos.get(i) instanceof CellInfoCdma) {
+                        CellInfoCdma cellInfoCdma = (CellInfoCdma) cellInfos.get(i);
+                        CellSignalStrengthCdma cellSignalStrengthCdma = cellInfoCdma.getCellSignalStrength();
+                        strength = String.valueOf(cellSignalStrengthCdma.getDbm() - 31);
                     }
                 }
-            } else Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show();
-            return strength;
-        }
+            }
+        } else Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show();
+        return strength;
+    }
 
 
-    private void addRandomDataPoint(){
+    private void addRandomDataPoint() {
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
                 lastXpoint++;
-                series.appendData(new DataPoint(lastXpoint,Integer.parseInt(getSignalStrength(getActivity()))),true,100);
+                series.appendData(new DataPoint(lastXpoint, Integer.parseInt(getSignalStrength(getActivity()))), true, 100);
                 addRandomDataPoint();
-                Log.w("MENSAJE",getSignalStrength(getActivity()));
+                Log.w("MENSAJE", getSignalStrength(getActivity()));
             }
-        },1000);
+        }, 1000);
     }
 
 
@@ -194,7 +194,7 @@ public class grafica_medidas extends Fragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-    handler.removeCallbacksAndMessages(null);
+        handler.removeCallbacksAndMessages(null);
     }
 
     @Override

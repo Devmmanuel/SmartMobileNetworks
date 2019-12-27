@@ -16,6 +16,7 @@ import android.telephony.CellSignalStrengthLte;
 import android.telephony.CellSignalStrengthWcdma;
 import android.telephony.TelephonyManager;
 import android.widget.Toast;
+
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.util.Collections;
@@ -26,7 +27,7 @@ public class imformacionDispositivos {
     private TelephonyManager tm;
 
 
-    public imformacionDispositivos(Context ctx){
+    public imformacionDispositivos(Context ctx) {
         tm = (TelephonyManager) ctx.getSystemService(Context.TELEPHONY_SERVICE);
 
     }
@@ -41,33 +42,32 @@ public class imformacionDispositivos {
         return String.valueOf(tm.isNetworkRoaming());
     }
 
-
     /**
      * regresa un string con el codigo de pais
+     *
      * @return String
      */
-    public String getCodigoPais(){
+    public String getCodigoPais() {
         return tm.getSimCountryIso();
     }
 
     /**
      * regresa un String[] con mccymnc
+     *
      * @return String []
      */
-    public String[] getMccAndMnc(){
+    public String[] getMccAndMnc() {
         String infoMccYmnc = tm.getNetworkOperator();
-        String [] mccyMnc = new String[2];
-        mccyMnc[0]=infoMccYmnc.substring(0,3);
-        mccyMnc[1]=infoMccYmnc.substring(3,6);
+        String[] mccyMnc = new String[2];
+        mccyMnc[0] = infoMccYmnc.substring(0, 3);
+        mccyMnc[1] = infoMccYmnc.substring(3, 6);
         return mccyMnc;
     }
 
 
     /**
-     *
      * @param datosRM
-     * @param ctx
-     * recibe un Lista de tipo String y le asigna elementos
+     * @param ctx     recibe un Lista de tipo String y le asigna elementos
      */
     public void getImformationRedesMoviles(List<String> datosRM, Context ctx) {
         /*this method are for get imformation about the state of the telephone
@@ -99,7 +99,6 @@ public class imformacionDispositivos {
     }
 
     /**
-     *
      * @param
      * @return String
      * regresa un string con el nombre del operador
@@ -181,7 +180,6 @@ public class imformacionDispositivos {
         else
             return "Desconocido";
     }
-
 
     /**
      * @return String
@@ -304,11 +302,9 @@ public class imformacionDispositivos {
     }
 
     /**
-     *
      * @param context
      * @return String
-     * @throws SecurityException
-     * Este metodo regresa un string con el actual dbm que se esta recibiendo en el dispositivo
+     * @throws SecurityException Este metodo regresa un string con el actual dbm que se esta recibiendo en el dispositivo
      */
     public String[] getSignalStrength(Context context) throws SecurityException {
         TelephonyManager telephonyManager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);

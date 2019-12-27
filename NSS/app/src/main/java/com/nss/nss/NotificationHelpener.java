@@ -23,10 +23,9 @@ public class NotificationHelpener {
     /**
      * Create and push the notification
      */
-    public void createNotification(String title, String message)
-    {
+    public void createNotification(String title, String message) {
         /**Creates an explicit intent for an Activity in your app**/
-        Intent resultIntent = new Intent(mContext ,RedesMovilesActivity.class);
+        Intent resultIntent = new Intent(mContext, RedesMovilesActivity.class);
         resultIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
         PendingIntent resultPendingIntent = PendingIntent.getActivity(mContext,
@@ -43,8 +42,7 @@ public class NotificationHelpener {
 
         mNotificationManager = (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
 
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O)
-        {
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
             int importance = NotificationManager.IMPORTANCE_HIGH;
             NotificationChannel notificationChannel = new NotificationChannel(NOTIFICATION_CHANNEL_ID,
                     "NOTIFICATION_CHANNEL_NAME", importance);

@@ -13,7 +13,7 @@ import com.nss.nss.ui.main.SectionsPagerAdapter;
 
 public class RedesMovilesActivity extends AppCompatActivity implements
         historicos_pruebas.OnFragmentInteractionListener, imformacion_redes_moviles.OnFragmentInteractionListener,
-        pruebas.OnFragmentInteractionListener,grafica_medidas.OnFragmentInteractionListener {
+        pruebas.OnFragmentInteractionListener, grafica_medidas.OnFragmentInteractionListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

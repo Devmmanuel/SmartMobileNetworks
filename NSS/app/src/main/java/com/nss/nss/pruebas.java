@@ -11,12 +11,12 @@ import android.telephony.PhoneStateListener;
 import android.telephony.SignalStrength;
 import android.telephony.TelephonyManager;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
+
 import com.github.anastr.speedviewlib.DeluxeSpeedView;
 import com.github.anastr.speedviewlib.SpeedView;
 
@@ -59,16 +59,16 @@ public class pruebas extends Fragment {
      */
     private int asu;
     private int dbm;
-    private Toast mensaje;
     private boolean permitirGirar = false;
     private Button btnIniciarPrueba;
     private String[] medidas = new String[2];
     private AdminSql sql;
-    private SQLiteDatabase db;
-    private String tituloMensajeNotificacion="La red cambio";
-    private NotificationHelpener notificacionHelpe; /**objeto el cual usaremos para enviar notificacion */
+    private String tituloMensajeNotificacion = "La red cambio";
+    private NotificationHelpener notificacionHelpe;
 
-
+    /**
+     * objeto el cual usaremos para enviar notificacion
+     */
 
 
     public pruebas() {
@@ -104,7 +104,7 @@ public class pruebas extends Fragment {
         sql = new AdminSql(getActivity(), "mydb", null, 1);
         tm = (TelephonyManager) getActivity().getSystemService(Context.TELEPHONY_SERVICE);
         phoneListen = new phone();
-        tm.listen(phoneListen, PhoneStateListener.LISTEN_SIGNAL_STRENGTHS |PhoneStateListener.LISTEN_DATA_CONNECTION_STATE);
+        tm.listen(phoneListen, PhoneStateListener.LISTEN_SIGNAL_STRENGTHS | PhoneStateListener.LISTEN_DATA_CONNECTION_STATE);
     }
 
 
@@ -120,7 +120,7 @@ public class pruebas extends Fragment {
                 if (info.getTypeOfNetwork234() == "2G") {
                     asu = signalStrength.getGsmSignalStrength();
                     dbm = esAsu(asu);
-                   //*** enviarMensaje("2G" + asu + dbm);
+                    //*** enviarMensaje("2G" + asu + dbm);
                     ponerMedidaSpeed(dbm, asu);
                 }
 
@@ -136,41 +136,41 @@ public class pruebas extends Fragment {
                         dbm = Integer.parseInt(partInfo[14]);//14
                         asu = esDbm(Integer.parseInt(partInfo[14]));//14
                     }
-       //*********enviarMensaje("3G " + dbm + " " + asu);
+                    //*********enviarMensaje("3G " + dbm + " " + asu);
                     ponerMedidaSpeed(dbm, asu);
                 }
                 /**este metodo se ejecuta cuando el tipo de red es 4G* */
                 if (info.getTypeOfNetwork234() == "4G") {
                     dbm = Integer.parseInt(partInfo[9]);
                     asu = (Integer.parseInt(partInfo[2]));//140
-                    Log.w("MENSAJE",dbm+"----"+asu);
-            //********** Toast.makeText(getActivity(), "4G" + dbm + " " + asu, Toast.LENGTH_SHORT).show();
+                    Log.w("MENSAJE", dbm + "----" + asu);
+                    //********** Toast.makeText(getActivity(), "4G" + dbm + " " + asu, Toast.LENGTH_SHORT).show();
                     ponerMedidaSpeed(dbm, asu);
                 }
-                if(btnIniciarPrueba.getText().toString().equalsIgnoreCase("DETENER")){
-                    sql.insertar(dbm,asu,info);
+                if (btnIniciarPrueba.getText().toString().equalsIgnoreCase("DETENER")) {
+                    sql.insertar(dbm, asu, info);
                 }
 
             } catch (Exception e) {
-               ///***enviarMensaje(e.getMessage());
+                ///***enviarMensaje(e.getMessage());
                 //dbm = esAsu(Integer.parseInt(partInfo[1]));
                 //enviarMensaje(String.valueOf(dbm));
-                Log.w("MENSAJE",e.getMessage());
+                Log.w("MENSAJE", e.getMessage());
             }
         }
 
         @Override
         public void onDataConnectionStateChanged(int state, int networkType) {
             super.onDataConnectionStateChanged(state, networkType);
-            String mensajeNotificacion="";
-           if(info.getTypeOfNetwork234().equals("2G"))
-               mensajeNotificacion ="El tipo de red es 2G";
-            if(info.getTypeOfNetwork234().equals("3G"))
-                mensajeNotificacion ="El tipo de red es 3G";
-            if(info.getTypeOfNetwork234().equals("4G"))
-                mensajeNotificacion ="El tipo de red es 4G";
-            if(!mensajeNotificacion.equals(""))
-                notificacionHelpe.createNotification(mensajeNotificacion,tituloMensajeNotificacion);
+            String mensajeNotificacion = "";
+            if (info.getTypeOfNetwork234().equals("2G"))
+                mensajeNotificacion = "El tipo de red es 2G";
+            if (info.getTypeOfNetwork234().equals("3G"))
+                mensajeNotificacion = "El tipo de red es 3G";
+            if (info.getTypeOfNetwork234().equals("4G"))
+                mensajeNotificacion = "El tipo de red es 4G";
+            if (!mensajeNotificacion.equals(""))
+                notificacionHelpe.createNotification(mensajeNotificacion, tituloMensajeNotificacion);
         }
 
     }
@@ -216,7 +216,7 @@ public class pruebas extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        tm.listen(phoneListen, PhoneStateListener.LISTEN_SIGNAL_STRENGTHS|PhoneStateListener.LISTEN_DATA_CONNECTION_STATE);
+        tm.listen(phoneListen, PhoneStateListener.LISTEN_SIGNAL_STRENGTHS | PhoneStateListener.LISTEN_DATA_CONNECTION_STATE);
     }
 
     @Override

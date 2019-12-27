@@ -27,12 +27,20 @@ public class PlaceholderFragment extends Fragment {
     private PageViewModel pageViewModel;
 
     public static Fragment newInstance(int index) {
-        Fragment fragment=null;
-        switch (index){
-            case 1: fragment = new imformacion_redes_moviles();break;
-            case 2: fragment = new grafica_medidas();break;
-            case 3: fragment = new historicos_pruebas();break;
-            case 4: fragment = new pruebas();break;
+        Fragment fragment = null;
+        switch (index) {
+            case 1:
+                fragment = new imformacion_redes_moviles();
+                break;
+            case 2:
+                fragment = new grafica_medidas();
+                break;
+            case 3:
+                fragment = new historicos_pruebas();
+                break;
+            case 4:
+                fragment = new pruebas();
+                break;
         }
         return fragment;
     }
