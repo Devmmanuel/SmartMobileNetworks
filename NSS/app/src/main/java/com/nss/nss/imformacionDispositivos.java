@@ -16,7 +16,6 @@ import android.telephony.CellSignalStrengthLte;
 import android.telephony.CellSignalStrengthWcdma;
 import android.telephony.TelephonyManager;
 import android.widget.Toast;
-
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.util.Collections;

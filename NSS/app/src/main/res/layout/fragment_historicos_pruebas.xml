@@ -20,7 +20,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:inputType="textPersonName" />
+                android:inputType="none"
+                android:textColor="@color/colorNns2" />
 
             <Button
                 android:id="@+id/btnBuscar"
@@ -32,24 +33,7 @@
             <TableLayout
                 android:id="@+id/tablelayout"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <TableRow
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
-
-                <TableRow
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
-
-                <TableRow
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
-
-                <TableRow
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
-            </TableLayout>
+                android:layout_height="match_parent"/>
         </LinearLayout>
     </ScrollView>
 </FrameLayout>

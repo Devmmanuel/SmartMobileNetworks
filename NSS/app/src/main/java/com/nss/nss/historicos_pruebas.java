@@ -1,7 +1,6 @@
 package com.nss.nss;
 
 import android.content.Context;
-import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
@@ -31,10 +30,11 @@ public class historicos_pruebas extends Fragment {
     private TableLayout table;
     private ArrayList<String> registros;
     private Button btnBuscar;
-    private EditText txtBuscar;
+    public static EditText txtBuscar;
     private boolean buscando = false;
     private AdminSql adminSql;
     private CalendarioDialog calendarioFecha;
+    private Button btnCalendarioFecha;
 
     private OnFragmentInteractionListener mListener;
 
@@ -69,6 +69,8 @@ public class historicos_pruebas extends Fragment {
         }
         adminSql = new AdminSql(getActivity(), "mydb", null, 1);
         registros = new ArrayList<>();
+        calendarioFecha = new CalendarioDialog(getActivity());
+
     }
 
     @Override
@@ -77,11 +79,13 @@ public class historicos_pruebas extends Fragment {
         View vista = inflater.inflate(R.layout.fragment_historicos_pruebas, container, false);
         table = vista.findViewById(R.id.tablelayout);
         btnBuscar = vista.findViewById(R.id.btnBuscar);
+        btnCalendarioFecha=calendarioFecha.getBtnDialog();
+
         txtBuscar = vista.findViewById(R.id.txtBuscar);
         txtBuscar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                calendarioFecha = new CalendarioDialog(getActivity(), txtBuscar);
+             calendarioFecha.mostar();
             }
         });
         btnBuscar.setOnClickListener(new View.OnClickListener() {
@@ -104,7 +108,7 @@ public class historicos_pruebas extends Fragment {
     }
 
     public void agregarRegistrosAtabla() {
-        if (buscando == true) {
+        if (buscando) {
             registros = adminSql.regresarRegistrosConsulta(txtBuscar.getText().toString(), registros);
             buscando = false;
         } else
