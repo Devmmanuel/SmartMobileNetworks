@@ -15,6 +15,14 @@ public class RedesMovilesActivity extends AppCompatActivity implements
         historicos_pruebas.OnFragmentInteractionListener, imformacion_redes_moviles.OnFragmentInteractionListener,
         pruebas.OnFragmentInteractionListener, grafica_medidas.OnFragmentInteractionListener {
 
+    private TabLayout tabs;
+    private int[] imagenes_tabs = {
+            R.mipmap.imformacion_foreground,
+            R.mipmap.grafica_foreground,
+            R.mipmap.historicos_foreground,
+            R.mipmap.pruebas_foreground
+    };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -22,8 +30,15 @@ public class RedesMovilesActivity extends AppCompatActivity implements
         SectionsPagerAdapter sectionsPagerAdapter = new SectionsPagerAdapter(this, getSupportFragmentManager());
         ViewPager viewPager = findViewById(R.id.view_pager);
         viewPager.setAdapter(sectionsPagerAdapter);
-        TabLayout tabs = findViewById(R.id.tabs);
+        tabs = findViewById(R.id.tabs);
         tabs.setupWithViewPager(viewPager);
+        ponerIconos();
+    }
+
+    public void ponerIconos() {
+        for (int i = 0; i < imagenes_tabs.length; i++)
+            tabs.getTabAt(i).setIcon(imagenes_tabs[i]);
+
     }
 
     /**
@@ -41,4 +56,6 @@ public class RedesMovilesActivity extends AppCompatActivity implements
     public void onFragmentInteraction(Uri uri) {
 
     }
+
+
 }

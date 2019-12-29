@@ -7,7 +7,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.support.annotation.Nullable;
 import android.util.Log;
-
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -93,7 +92,7 @@ public class AdminSql extends SQLiteOpenHelper {
         try {
             String consulta;
             if (pbuscador.equals("")) {
-                consulta = "select * from historicosRedes";
+                consulta = "select * from historicosRedesMoviles";
             } else
                 consulta = "select * from historicosRedesMoviles where fecha='" + pbuscador + "'";
             registros = new ArrayList<>();
