@@ -117,14 +117,16 @@ public class grafica_medidas extends Fragment {
                 new DataPoint(2, 2),
         });
 
-        series.setColor(Color.CYAN);
+        series.setColor(Color.GREEN);
+        series.setDrawBackground(true);
+        series.setBackgroundColor(Color.argb(50,0,255,0));
         series.setDrawDataPoints(true);
         series.setDataPointsRadius(6);
         series.setThickness(3);
 
         graph.addSeries(series);
 
-        viewport.setBackgroundColor(Color.parseColor("#1D2D6D"));
+        viewport.setBackgroundColor(Color.BLACK);
         viewport.setMinX(0);
         viewport.setMaxX(10);
         viewport.setXAxisBoundsManual(true);
