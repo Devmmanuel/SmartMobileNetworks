@@ -70,3 +70,6 @@ NSS/.idea/gradle.xml
 NSS/.idea/misc.xml
 NSS/.idea/runConfigurations.xml
 NSS/.idea/vcs.xml
+
+##file to igore
+NSS/.idea/assetWizardSettings.xml
