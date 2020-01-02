@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.KeyEvent;
 
 
@@ -36,10 +37,16 @@ public class RedesMovilesActivity extends AppCompatActivity implements
     }
 
     public void ponerIconos() {
-        for (int i = 0; i < imagenes_tabs.length; i++)
-            tabs.getTabAt(i).setIcon(imagenes_tabs[i]);
+        try {
+            for (int i = 0; i < imagenes_tabs.length; i++)
+                tabs.getTabAt(i).setIcon(imagenes_tabs[i]);
+
+        } catch (Exception e) {
+            Log.w("ERROR", e.getMessage());
+        }
 
     }
+
 
     /**
      * metodo el cual destrulle la activity de redes moviles cuando presionamos el boton de retroseso

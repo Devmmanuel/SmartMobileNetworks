@@ -4,13 +4,16 @@ package com.nss.nss;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
+import android.telephony.PhoneStateListener;
+import android.telephony.TelephonyManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.GridView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,6 +42,7 @@ public class imformacion_redes_moviles extends Fragment {
     private ArrayAdapter datosRedes;
     private GridView listaDatos;
     private imformacionDispositivos info;
+
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -80,7 +84,7 @@ public class imformacion_redes_moviles extends Fragment {
         }
         info = new imformacionDispositivos(getActivity());
         datosRedes = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_activated_1, datosRM);
-        info.getImformationRedesMoviles(datosRM, getActivity());
+        info.getImformationRedesMoviles(datosRM);
     }
 
     /*this code is invoke whe you move between first and last fragment*/
@@ -91,16 +95,22 @@ public class imformacion_redes_moviles extends Fragment {
         View vista = inflater.inflate(R.layout.fragment_imformacion_redes_moviles, container, false);
 
         listaDatos = vista.findViewById(R.id.FIRM_gridViewDatos);
-        listaDatos.setAdapter(datosRedes);
 
+        listaDatos.setAdapter(datosRedes);
+        actualizarGriedView();
         return vista;
     }
-
 
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);
         }
+    }
+
+    public void actualizarGriedView() {
+        datosRedes.clear();
+        info.getImformationRedesMoviles(datosRM);
+        Log.w("RR", "Actualizando");
     }
 
     @Override
@@ -125,7 +135,6 @@ public class imformacion_redes_moviles extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        Toast.makeText(getActivity(), "Destroid view imformtion", Toast.LENGTH_SHORT).show();
     }
 
     /**

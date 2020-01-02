@@ -2,7 +2,6 @@ package com.nss.nss;
 
 
 import android.content.Context;
-import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -15,7 +14,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.Toast;
 
 import com.github.anastr.speedviewlib.DeluxeSpeedView;
 import com.github.anastr.speedviewlib.SpeedView;
@@ -40,36 +38,13 @@ public class pruebas extends Fragment {
     private String mParam2;
 
 
-    private phone phoneListen;
+    private TelefonoMedida phoneListen;
     private SpeedView speedometer;
     private DeluxeSpeedView speedDeluxe;
     private TelephonyManager tm;
     private OnFragmentInteractionListener mListener;
-    private String allInfo;
-    /**
-     * variable que almacena imformacion sobre las redes moviles
-     */
-    private String[] partInfo;
-    /**
-     * Array que almacena cada elemento de allInfo
-     */
-    private imformacionDispositivos info;
-    /**
-     * objeto que usaremos para obtener imformacion del dispositivo
-     */
-    private int asu;
-    private int dbm;
-    private boolean permitirGirar = false;
-    private Button btnIniciarPrueba;
-    private String[] medidas = new String[2];
-    private AdminSql sql;
-    private String tituloMensajeNotificacion = "La red cambio";
-    private NotificationHelpener notificacionHelpe;
-
-    /**
-     * objeto el cual usaremos para enviar notificacion
-     */
-
+    public static Button btnIniciarPrueba;
+    private int escucharTelefono = PhoneStateListener.LISTEN_SIGNAL_STRENGTHS | PhoneStateListener.LISTEN_DATA_CONNECTION_STATE;
 
     public pruebas() {
         // Required empty public constructor
@@ -100,140 +75,48 @@ public class pruebas extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-        info = new imformacionDispositivos(getActivity());
-        sql = new AdminSql(getActivity(), "mydb", null, 1);
-        tm = (TelephonyManager) getActivity().getSystemService(Context.TELEPHONY_SERVICE);
-        phoneListen = new phone();
-        tm.listen(phoneListen, PhoneStateListener.LISTEN_SIGNAL_STRENGTHS | PhoneStateListener.LISTEN_DATA_CONNECTION_STATE);
-    }
-
-
-    class phone extends PhoneStateListener {
-
-        @Override
-        public void onSignalStrengthsChanged(SignalStrength signalStrength) {
-            super.onSignalStrengthsChanged(signalStrength);
-            try {
-                allInfo = signalStrength.toString();
-                partInfo = allInfo.split(" ");
-                /*metodo que se ejecuta cuando el tipo de red es 2G*/
-                if (info.getTypeOfNetwork234() == "2G") {
-                    asu = signalStrength.getGsmSignalStrength();
-                    dbm = esAsu(asu);
-                    //*** enviarMensaje("2G" + asu + dbm);
-                    ponerMedidaSpeed(dbm, asu);
-                }
-
-                if (info.getTypeOfNetwork234() == "3G") {
-                    /**codigo que se ejecuta cuando la version de android es 7.0*/
-                    if (Build.VERSION.RELEASE.equals("7.0")) {
-                        //asu=Integer.parseInt(partInfo[1]);
-                        //dbm=esAsu(asu);
-                        medidas = info.getSignalStrength(getActivity());
-                        dbm = Integer.parseInt(medidas[0]);
-                        asu = Integer.parseInt(partInfo[1]);
-                    } else {
-                        dbm = Integer.parseInt(partInfo[14]);//14
-                        asu = esDbm(Integer.parseInt(partInfo[14]));//14
-                    }
-                    //*********enviarMensaje("3G " + dbm + " " + asu);
-                    ponerMedidaSpeed(dbm, asu);
-                }
-                /**este metodo se ejecuta cuando el tipo de red es 4G* */
-                if (info.getTypeOfNetwork234() == "4G") {
-                    dbm = Integer.parseInt(partInfo[9]);
-                    asu = (Integer.parseInt(partInfo[2]));//140
-                    Log.w("MENSAJE", dbm + "----" + asu);
-                    //********** Toast.makeText(getActivity(), "4G" + dbm + " " + asu, Toast.LENGTH_SHORT).show();
-                    ponerMedidaSpeed(dbm, asu);
-                }
-                if (btnIniciarPrueba.getText().toString().equalsIgnoreCase("DETENER")) {
-                    sql.insertar(dbm, asu, info);
-                }
-
-            } catch (Exception e) {
-                ///***enviarMensaje(e.getMessage());
-                //dbm = esAsu(Integer.parseInt(partInfo[1]));
-                //enviarMensaje(String.valueOf(dbm));
-                Log.w("MENSAJE", e.getMessage());
-            }
-        }
-
-        @Override
-        public void onDataConnectionStateChanged(int state, int networkType) {
-            super.onDataConnectionStateChanged(state, networkType);
-            String mensajeNotificacion = "";
-            if (info.getTypeOfNetwork234().equals("2G"))
-                mensajeNotificacion = "El tipo de red es 2G";
-            if (info.getTypeOfNetwork234().equals("3G"))
-                mensajeNotificacion = "El tipo de red es 3G";
-            if (info.getTypeOfNetwork234().equals("4G"))
-                mensajeNotificacion = "El tipo de red es 4G";
-            if (!mensajeNotificacion.equals(""))
-                notificacionHelpe.createNotification(mensajeNotificacion, tituloMensajeNotificacion);
-        }
 
     }
+
 
     public void btnPrueba() {
         if (btnIniciarPrueba.getText().toString().equalsIgnoreCase("Detener"))
             btnIniciarPrueba.setText("Iniciar prueba");
-        else
+        else {
             btnIniciarPrueba.setText("Detener");
-    }
-
-    /**
-     * @return int
-     * metodo el cual recibe como parametro un int el cual es el asu y
-     * regresa un dbm
-     */
-    public int esAsu(int asu) {
-        int dbm = ((2 * asu) - 113);
-        return dbm;
-    }
-
-    public int esDbm(int dbm) {
-        int asu = (dbm + 120);
-        return asu;
-    }
-
-    /***
-     *
-     * @param pasu
-     * @param pdbm
-     * metodo el cual poner el velocimetro en las medidas asu y dbm que se estan recibiendo
-     * actualmente
-     */
-    public void ponerMedidaSpeed(int pasu, int pdbm) {
-        if (permitirGirar) {
-            speedometer.speedTo(pasu);
-            speedDeluxe.speedTo(pdbm);
         }
 
-
     }
+
 
     @Override
     public void onResume() {
         super.onResume();
-        tm.listen(phoneListen, PhoneStateListener.LISTEN_SIGNAL_STRENGTHS | PhoneStateListener.LISTEN_DATA_CONNECTION_STATE);
+        tm.listen(phoneListen, escucharTelefono);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View vista = inflater.inflate(R.layout.fragment_pruebas, container, false);
-        notificacionHelpe = new NotificationHelpener(getActivity());
+        btnIniciarPrueba = vista.findViewById(R.id.btnIniciarPrueba);
+        tm = (TelephonyManager) getActivity().getSystemService(Context.TELEPHONY_SERVICE);
         speedometer = vista.findViewById(R.id.speedView);
         speedDeluxe = vista.findViewById(R.id.speedDeluxe);
-        btnIniciarPrueba = vista.findViewById(R.id.btnIniciarPrueba);
+        phoneListen = new TelefonoMedida(getActivity(), speedometer, speedDeluxe);
+        tm.listen(phoneListen, escucharTelefono);
         btnIniciarPrueba.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                permitirGirar = true;
+                phoneListen.setPermitirGirar(true);
                 btnPrueba();
             }
         });
+        inicializarValoresSpeed();
+        return vista;
+    }
+
+    public void inicializarValoresSpeed() {
         speedometer.setWithTremble(false);
         speedDeluxe.setWithTremble(false);
         speedometer.setUnitUnderSpeedText(true);
@@ -244,7 +127,6 @@ public class pruebas extends Fragment {
         speedometer.setMaxSpeed(-51);
         speedDeluxe.setMinSpeed(0);
         speedDeluxe.setMaxSpeed(63);
-        return vista;
     }
 
     // TODO: Rename method, update argument and hook method into UI event

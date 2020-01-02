@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -35,6 +36,7 @@ public class historicos_pruebas extends Fragment {
     private AdminSql adminSql;
     private CalendarioDialog calendarioFecha;
     private Button btnCalendarioFecha;
+    private Spinner spinerFiltar;
 
     private OnFragmentInteractionListener mListener;
 
@@ -79,13 +81,11 @@ public class historicos_pruebas extends Fragment {
         View vista = inflater.inflate(R.layout.fragment_historicos_pruebas, container, false);
         table = vista.findViewById(R.id.tablelayout);
         btnBuscar = vista.findViewById(R.id.btnBuscar);
-        btnCalendarioFecha=calendarioFecha.getBtnDialog();
-
         txtBuscar = vista.findViewById(R.id.txtBuscar);
         txtBuscar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-             calendarioFecha.mostar();
+                calendarioFecha.mostar();
             }
         });
         btnBuscar.setOnClickListener(new View.OnClickListener() {

@@ -13,7 +13,7 @@ import java.util.Calendar;
 public class CalendarioDialog {
 
     private Calendar calendario;
-    public  DatePickerDialog seleccionarFecha;
+    public DatePickerDialog seleccionarFecha;
     private Context context;
     private int dia;
     private int mes;
@@ -32,11 +32,11 @@ public class CalendarioDialog {
                 }, anio, mes, dia);
     }
 
-    public Button getBtnDialog(){
+    public Button getBtnDialog() {
         return seleccionarFecha.getButton(DialogInterface.BUTTON_POSITIVE);
     }
 
-    public void mostar(){
+    public void mostar() {
         seleccionarFecha.show();
     }
 

@@ -7,6 +7,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.support.annotation.Nullable;
 import android.util.Log;
+import android.widget.Toast;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -26,6 +28,7 @@ public class AdminSql extends SQLiteOpenHelper {
             ")";
     private SQLiteDatabase db;
     private int totalRegistros;
+    private final String TABLE_NAME = "historicosRedesMoviles";
 
 
     public AdminSql(@Nullable Context context, @Nullable String name, @Nullable SQLiteDatabase.CursorFactory factory, int version) {
@@ -43,7 +46,7 @@ public class AdminSql extends SQLiteOpenHelper {
             registro.put("pais", info.getCodigoPais());
             registro.put("tipo_de_red", info.getTypeOfNetwork234());
             registro.put("tipo_de_red_telefonica", info.getTypeOfNetwork());
-            db.insert("historicosRedesMoviles", null, registro);
+            db.insert(TABLE_NAME, null, registro);
             db.close();
         } catch (Exception e) {
             Log.w("Error", e.getMessage());
@@ -92,7 +95,7 @@ public class AdminSql extends SQLiteOpenHelper {
         try {
             String consulta;
             if (pbuscador.equals("")) {
-                consulta = "select * from historicosRedesMoviles";
+                consulta = "select * from " + TABLE_NAME;
             } else
                 consulta = "select * from historicosRedesMoviles where fecha='" + pbuscador + "'";
             registros = new ArrayList<>();
@@ -129,6 +132,16 @@ public class AdminSql extends SQLiteOpenHelper {
         DateFormat df = new SimpleDateFormat("dd/MM/yy");
         String salida = df.format(fecha);
         return salida;
+    }
+
+    public void ejecutarConsulta(int id, Context ctx) {
+        String consultaEliminar = "delete from historicosRedesMoviles where id=" + id;
+        String mensaje = "";
+        db = this.getWritableDatabase();
+        db.execSQL(consultaEliminar);
+        mensaje = "Se ha ejecutado correctamente la consulta";
+        Toast.makeText(ctx, mensaje, Toast.LENGTH_SHORT).show();
+
     }
 
     @Override

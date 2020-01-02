@@ -16,6 +16,7 @@ import android.telephony.CellSignalStrengthLte;
 import android.telephony.CellSignalStrengthWcdma;
 import android.telephony.TelephonyManager;
 import android.widget.Toast;
+
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.util.Collections;
@@ -24,11 +25,12 @@ import java.util.List;
 public class imformacionDispositivos {
 
     private TelephonyManager tm;
+    private Context ctx;
 
 
     public imformacionDispositivos(Context ctx) {
         tm = (TelephonyManager) ctx.getSystemService(Context.TELEPHONY_SERVICE);
-
+        this.ctx = ctx;
     }
 
     /**
@@ -54,6 +56,8 @@ public class imformacionDispositivos {
      * regresa un String[] con mccymnc
      *
      * @return String []
+     * position 0 mcc
+     * position 1 mnc
      */
     public String[] getMccAndMnc() {
         String infoMccYmnc = tm.getNetworkOperator();
@@ -65,13 +69,10 @@ public class imformacionDispositivos {
 
 
     /**
-     * @param datosRM
-     * @param ctx     recibe un Lista de tipo String y le asigna elementos
+     * @param datosRM recibe un Lista de tipo String y le asigna elementos
      */
-    public void getImformationRedesMoviles(List<String> datosRM, Context ctx) {
-        /*this method are for get imformation about the state of the telephone
-         * this method get the date what after sshow in the GriedView*/
-        datosRM.add("Operaror");
+    public void getImformationRedesMoviles(List<String> datosRM) {
+        datosRM.add("Operador");
         datosRM.add(getOperator());
         datosRM.add("Tipo de red telefonica");
         datosRM.add(getTypeOfNetwork());
@@ -90,7 +91,7 @@ public class imformacionDispositivos {
         datosRM.add("Data conected");
         datosRM.add(getDataConected());
         datosRM.add("Imei");
-        datosRM.add(getnImei(ctx));
+        datosRM.add(getnImei());
         datosRM.add("ip");
         datosRM.add(getMobileIPAddress());
         datosRM.add("Mac");
@@ -104,8 +105,7 @@ public class imformacionDispositivos {
      */
 
     public String getOperator() {
-        String operatorName = tm.getNetworkOperatorName();
-        return operatorName;
+        return tm.getNetworkOperatorName();
     }
 
     /**
@@ -163,15 +163,15 @@ public class imformacionDispositivos {
     }
 
     /**
-     * @param context
+     * @param
      * @return String
      * metodo el cual obtiene el imei del dispositivo  y nos regresa un string con el imei
      * es es nesesario tener el permiso de
      * READ_PHONE_STATE  en el archivo Manisfest y en versiones superios o igual a la api 26 es necesario
      * verificar tambien desde la aplicacion ya que si no se verifica no nos dejara utilizar el metodo
      */
-    public String getnImei(Context context) {
-        int chekarPermiso = ContextCompat.checkSelfPermission(context, Manifest.permission.READ_PHONE_STATE);
+    public String getnImei() {
+        int chekarPermiso = ContextCompat.checkSelfPermission(ctx, Manifest.permission.READ_PHONE_STATE);
         if (chekarPermiso == PackageManager.PERMISSION_GRANTED)
             if (Build.VERSION.SDK_INT >= 26)
                 return tm.getImei();
@@ -212,8 +212,7 @@ public class imformacionDispositivos {
      */
     public String getDataConected() {
         String dataConected = "";
-        int estadoDeRed = tm.getDataState();
-        switch (estadoDeRed) {
+        switch (tm.getDataState()) {
             case TelephonyManager.DATA_DISCONNECTED:
                 dataConected = "Desconectado";
                 break;
@@ -301,12 +300,11 @@ public class imformacionDispositivos {
     }
 
     /**
-     * @param context
      * @return String
      * @throws SecurityException Este metodo regresa un string con el actual dbm que se esta recibiendo en el dispositivo
      */
-    public String[] getSignalStrength(Context context) throws SecurityException {
-        TelephonyManager telephonyManager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
+    public String[] getSignalStrength() throws SecurityException {
+        TelephonyManager telephonyManager = (TelephonyManager) ctx.getSystemService(Context.TELEPHONY_SERVICE);
         String[] strength = new String[2];
         List<CellInfo> cellInfos = telephonyManager.getAllCellInfo();
         if (cellInfos != null) {
@@ -336,7 +334,7 @@ public class imformacionDispositivos {
                     }
                 }
             }
-        } else Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show();
+        } else Toast.makeText(ctx, "Error", Toast.LENGTH_SHORT).show();
         return strength;
     }
 

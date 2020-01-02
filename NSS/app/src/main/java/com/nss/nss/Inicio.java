@@ -21,6 +21,7 @@ import android.widget.ImageButton;
 public class Inicio extends AppCompatActivity implements View.OnClickListener {
 
     ImageButton btnMenuRedesMoviles;
+    ImageButton btnWifi;
 
 
     @Override
@@ -31,7 +32,9 @@ public class Inicio extends AppCompatActivity implements View.OnClickListener {
         setSupportActionBar(toolbar);
 
         btnMenuRedesMoviles = findViewById(R.id.btnMovil);
+        btnWifi = findViewById(R.id.btnWifi);
         btnMenuRedesMoviles.setOnClickListener(this);
+        btnWifi.setOnClickListener(this);
         darPermisosApp();
     }
 
@@ -57,8 +60,15 @@ public class Inicio extends AppCompatActivity implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-        Intent intento = new Intent(Inicio.this, RedesMovilesActivity.class);
-        startActivity(intento);
+        if (v == btnMenuRedesMoviles) {
+            Intent intento = new Intent(Inicio.this, RedesMovilesActivity.class);
+            startActivity(intento);
+        }
+        if (v == btnWifi) {
+            Intent intento = new Intent(Inicio.this, SqlManager.class);
+            startActivity(intento);
+        }
+
     }
 
     @Override

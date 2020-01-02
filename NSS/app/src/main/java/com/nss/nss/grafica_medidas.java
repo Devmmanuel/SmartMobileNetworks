@@ -119,7 +119,7 @@ public class grafica_medidas extends Fragment {
 
         series.setColor(Color.GREEN);
         series.setDrawBackground(true);
-        series.setBackgroundColor(Color.argb(50,0,255,0));
+        series.setBackgroundColor(Color.argb(50, 0, 255, 0));
         series.setDrawDataPoints(true);
         series.setDataPointsRadius(6);
         series.setThickness(3);
