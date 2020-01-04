@@ -4,6 +4,7 @@ package com.nss.nss;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.DatePicker;
 
@@ -44,6 +45,7 @@ public class CalendarioDialog {
     public String cambiarAnio(int yy) {
         return String.valueOf(yy).substring(2, 4);
     }
+
 
     public void obtenerFecha() {
         calendario = Calendar.getInstance();

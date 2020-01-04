@@ -8,7 +8,6 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.widget.Toast;
-
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -134,8 +133,8 @@ public class AdminSql extends SQLiteOpenHelper {
         return salida;
     }
 
-    public void ejecutarConsulta(int id, Context ctx) {
-        String consultaEliminar = "delete from historicosRedesMoviles where id=" + id;
+    public void ejecutarConsulta(String id, Context ctx) {
+        String consultaEliminar = "delete from historicosRedesMoviles where id in(" + id+")";
         String mensaje = "";
         db = this.getWritableDatabase();
         db.execSQL(consultaEliminar);

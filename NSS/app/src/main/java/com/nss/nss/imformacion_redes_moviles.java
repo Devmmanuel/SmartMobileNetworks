@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.GridView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,6 +43,8 @@ public class imformacion_redes_moviles extends Fragment {
     private ArrayAdapter datosRedes;
     private GridView listaDatos;
     private imformacionDispositivos info;
+    private TelephonyManager tm;
+    private TelefonoMedida telefonoMedida;
 
 
     // TODO: Rename and change types of parameters
@@ -73,8 +76,6 @@ public class imformacion_redes_moviles extends Fragment {
         return fragment;
     }
 
-
-    /*this code only are invoke when the activity begin*/
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,12 +83,15 @@ public class imformacion_redes_moviles extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        tm = (TelephonyManager)getActivity().getSystemService(Context.TELEPHONY_SERVICE);
         info = new imformacionDispositivos(getActivity());
         datosRedes = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_activated_1, datosRM);
         info.getImformationRedesMoviles(datosRM);
+        telefonoMedida = new TelefonoMedida(datosRedes,getActivity(),datosRM);
+        /*funcional pruebas a LISTEN_DATA_CONECTION_STATE*/
+        tm.listen(telefonoMedida,PhoneStateListener.LISTEN_DATA_ACTIVITY| PhoneStateListener.LISTEN_DATA_CONNECTION_STATE);
     }
 
-    /*this code is invoke whe you move between first and last fragment*/
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -97,7 +101,7 @@ public class imformacion_redes_moviles extends Fragment {
         listaDatos = vista.findViewById(R.id.FIRM_gridViewDatos);
 
         listaDatos.setAdapter(datosRedes);
-        actualizarGriedView();
+
         return vista;
     }
 
@@ -107,11 +111,6 @@ public class imformacion_redes_moviles extends Fragment {
         }
     }
 
-    public void actualizarGriedView() {
-        datosRedes.clear();
-        info.getImformationRedesMoviles(datosRM);
-        Log.w("RR", "Actualizando");
-    }
 
     @Override
     public void onAttach(Context context) {
@@ -124,7 +123,6 @@ public class imformacion_redes_moviles extends Fragment {
         }
 
     }
-
 
     @Override
     public void onDetach() {

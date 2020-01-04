@@ -15,8 +15,8 @@ import android.telephony.CellSignalStrengthGsm;
 import android.telephony.CellSignalStrengthLte;
 import android.telephony.CellSignalStrengthWcdma;
 import android.telephony.TelephonyManager;
+import android.util.Log;
 import android.widget.Toast;
-
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.util.Collections;
@@ -67,35 +67,38 @@ public class imformacionDispositivos {
         return mccyMnc;
     }
 
-
     /**
      * @param datosRM recibe un Lista de tipo String y le asigna elementos
      */
     public void getImformationRedesMoviles(List<String> datosRM) {
-        datosRM.add("Operador");
-        datosRM.add(getOperator());
-        datosRM.add("Tipo de red telefonica");
-        datosRM.add(getTypeOfNetwork());
-        datosRM.add("Tipo de red");
-        datosRM.add(getTypeOfNetwork234());
-        datosRM.add("Codigo de pais");
-        datosRM.add(tm.getSimCountryIso());
-        datosRM.add("mcc");
-        datosRM.add(getMccAndMnc()[0]);
-        datosRM.add("mnc");
-        datosRM.add(getMccAndMnc()[1]);
-        datosRM.add("Roamig");
-        datosRM.add(getStateRoaming(tm));
-        datosRM.add("Phone type");
-        datosRM.add(getPhoneType());
-        datosRM.add("Data conected");
-        datosRM.add(getDataConected());
-        datosRM.add("Imei");
-        datosRM.add(getnImei());
-        datosRM.add("ip");
-        datosRM.add(getMobileIPAddress());
-        datosRM.add("Mac");
-        datosRM.add(getMacAddress());
+        try {
+            datosRM.add("Operador");
+            datosRM.add(getOperator());
+            datosRM.add("Tipo de red telefonica");
+            datosRM.add(getTypeOfNetwork());
+            datosRM.add("Tipo de red");
+            datosRM.add(getTypeOfNetwork234());
+            datosRM.add("Codigo de pais");
+            datosRM.add(tm.getSimCountryIso());
+            datosRM.add("mcc");
+            datosRM.add(getMccAndMnc()[0]);
+            datosRM.add("mnc");
+            datosRM.add(getMccAndMnc()[1]);
+            datosRM.add("Roamig");
+            datosRM.add(getStateRoaming(tm));
+            datosRM.add("Phone type");
+            datosRM.add(getPhoneType());
+            datosRM.add("Data conected");
+            datosRM.add(getDataConected());
+            datosRM.add("Imei");
+            datosRM.add(getnImei());
+            datosRM.add("ip");
+            datosRM.add(getMobileIPAddress());
+            datosRM.add("Mac");
+            datosRM.add(getMacAddress());
+        } catch (Exception e) {
+            Toast.makeText(ctx, e.getMessage(), Toast.LENGTH_SHORT).show();
+        }
     }
 
     /**
@@ -158,6 +161,7 @@ public class imformacionDispositivos {
                 }
             }
         } catch (Exception ex) {
+            Log.w("ERROR",ex.getMessage());
         } // for now eat exceptions
         return "-";
     }
@@ -218,6 +222,9 @@ public class imformacionDispositivos {
                 break;
             case TelephonyManager.DATA_CONNECTED:
                 dataConected = "Conectado";
+                break;
+                case TelephonyManager.DATA_CONNECTING:
+                    dataConected ="Conectando";
 
         }
         return dataConected;

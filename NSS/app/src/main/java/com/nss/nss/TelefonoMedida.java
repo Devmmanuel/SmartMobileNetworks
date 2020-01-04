@@ -5,11 +5,15 @@ import android.content.Context;
 import android.os.Build;
 import android.telephony.PhoneStateListener;
 import android.telephony.SignalStrength;
+import android.telephony.TelephonyManager;
 import android.util.Log;
+import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
 import com.github.anastr.speedviewlib.DeluxeSpeedView;
 import com.github.anastr.speedviewlib.SpeedView;
+
+import java.util.List;
 
 public class TelefonoMedida extends PhoneStateListener {
 
@@ -23,13 +27,15 @@ public class TelefonoMedida extends PhoneStateListener {
     private boolean permitirGirar;
     private NotificationHelpener notificacionHelpe;
     private String tituloMensajeNotificacion = "La red cambio";
+    private String nombreDeFragment;
+    /*variables usadas con instanciaos desde el fragmente de pruebas*/
     private SpeedView speedometer;
     private DeluxeSpeedView speedDeluxe;
     /*esta variable nos servida para saber en que fragment estamos ubicado y que metodos debemos de ejecutar dependiendo de que
      * fragment esramos ubicado*/
-    private String nombreDeFragment;
 
-    public boolean permitirCambiar = false;
+    private ArrayAdapter adaptadorDatosRedes;
+    private List<String> listDatosRm;
 
     public void setPermitirGirar(boolean permitirGirar) {
         this.permitirGirar = permitirGirar;
@@ -45,9 +51,13 @@ public class TelefonoMedida extends PhoneStateListener {
         info = new imformacionDispositivos(context);
         adminSql = new AdminSql(context, "mydb", null, 1);
     }
-
-    public TelefonoMedida() {
+    /*Contructor el cual usamos cuando estamos instanciando la clase desde el fragmente de imformacion*/
+    public TelefonoMedida(ArrayAdapter datosRedes, Context context, List<String> datosRM) {
         nombreDeFragment = "imformacion";
+        adaptadorDatosRedes = datosRedes;
+        listDatosRm = datosRM;
+        info = new imformacionDispositivos(context);
+
     }
 
 
@@ -91,17 +101,40 @@ public class TelefonoMedida extends PhoneStateListener {
     public void onDataConnectionStateChanged(int state, int networkType) {
         super.onDataConnectionStateChanged(state, networkType);
         String mensajeNotificacion = "";
-        if (info.getTypeOfNetwork234().equals("2G"))
-            mensajeNotificacion = "El tipo de red es 2G";
-        if (info.getTypeOfNetwork234().equals("3G"))
-            mensajeNotificacion = "El tipo de red es 3G";
-        if (info.getTypeOfNetwork234().equals("4G"))
-            mensajeNotificacion = "El tipo de red es 4G";
-        if (!mensajeNotificacion.equals(""))
-            notificacionHelpe.createNotification(mensajeNotificacion, tituloMensajeNotificacion);
+        if(nombreDeFragment.equals("pruebas")){
+            if (info.getTypeOfNetwork234().equals("2G"))
+                mensajeNotificacion = "El tipo de red es 2G";
+            if (info.getTypeOfNetwork234().equals("3G"))
+                mensajeNotificacion = "El tipo de red es 3G";
+            if (info.getTypeOfNetwork234().equals("4G"))
+                mensajeNotificacion = "El tipo de red es 4G";
+            if (!mensajeNotificacion.equals(""))
+                notificacionHelpe.createNotification(mensajeNotificacion, tituloMensajeNotificacion);
+        }
+        else
+            actualizarGriedView();
 
     }
 
+    @Override
+    public void onDataActivity(int direction) {
+        super.onDataActivity(direction);
+        switch (direction) {
+            case TelephonyManager.DATA_CONNECTED:
+            case TelephonyManager.DATA_DISCONNECTED:
+            case TelephonyManager.DATA_CONNECTING:
+                actualizarGriedView();
+                break;
+        }
+
+    }
+
+
+    public void actualizarGriedView() {
+        adaptadorDatosRedes.clear();
+        info.getImformationRedesMoviles(listDatosRm);
+        Log.w("RRD", "Actualizando");
+    }
 
     /**
      * @return int

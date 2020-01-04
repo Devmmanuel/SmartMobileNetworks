@@ -26,7 +26,7 @@ public class SqlManager extends AppCompatActivity {
         btnEjecutarConsulta.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                adminSql.ejecutarConsulta(Integer.parseInt(txtConsulta.getText().toString()), getApplicationContext());
+                adminSql.ejecutarConsulta(txtConsulta.getText().toString(), getApplicationContext());
             }
         });
     }
