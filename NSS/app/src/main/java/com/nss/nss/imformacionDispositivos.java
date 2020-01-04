@@ -102,7 +102,6 @@ public class imformacionDispositivos {
     }
 
     /**
-     * @param
      * @return String
      * regresa un string con el nombre del operador
      */

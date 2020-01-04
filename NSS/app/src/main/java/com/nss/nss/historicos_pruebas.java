@@ -10,7 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Spinner;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -32,11 +31,10 @@ public class historicos_pruebas extends Fragment {
     private ArrayList<String> registros;
     private Button btnBuscar;
     public static EditText txtBuscar;
-    private boolean buscando = false;
+    private boolean buscando;
     private AdminSql adminSql;
     private CalendarioDialog calendarioFecha;
-    private Button btnCalendarioFecha;
-    private Spinner spinerFiltar;
+
 
     private OnFragmentInteractionListener mListener;
 
@@ -70,7 +68,6 @@ public class historicos_pruebas extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
         adminSql = new AdminSql(getActivity(), "mydb", null, 1);
-        registros = new ArrayList<>();
         calendarioFecha = new CalendarioDialog(getActivity());
 
     }

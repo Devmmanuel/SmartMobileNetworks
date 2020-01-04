@@ -51,6 +51,7 @@ public class TelefonoMedida extends PhoneStateListener {
         info = new imformacionDispositivos(context);
         adminSql = new AdminSql(context, "mydb", null, 1);
     }
+
     /*Contructor el cual usamos cuando estamos instanciando la clase desde el fragmente de imformacion*/
     public TelefonoMedida(ArrayAdapter datosRedes, Context context, List<String> datosRM) {
         nombreDeFragment = "imformacion";
@@ -101,7 +102,7 @@ public class TelefonoMedida extends PhoneStateListener {
     public void onDataConnectionStateChanged(int state, int networkType) {
         super.onDataConnectionStateChanged(state, networkType);
         String mensajeNotificacion = "";
-        if(nombreDeFragment.equals("pruebas")){
+        if (nombreDeFragment.equals("pruebas")) {
             if (info.getTypeOfNetwork234().equals("2G"))
                 mensajeNotificacion = "El tipo de red es 2G";
             if (info.getTypeOfNetwork234().equals("3G"))
@@ -110,8 +111,7 @@ public class TelefonoMedida extends PhoneStateListener {
                 mensajeNotificacion = "El tipo de red es 4G";
             if (!mensajeNotificacion.equals(""))
                 notificacionHelpe.createNotification(mensajeNotificacion, tituloMensajeNotificacion);
-        }
-        else
+        } else
             actualizarGriedView();
 
     }

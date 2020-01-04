@@ -22,10 +22,5 @@
     <string name="tab_text_2">Tab 2</string>
     <string name="title_activity_redes_moviles">RedesMovilesActivity</string>
     <string name="textview">TextView</string>
-    <string-array name="spinerBuscar">
-        <item>Fecha</item>
-        <item>Operador</item>
-        <item>Tipo de red telefonica</item>
-        <item>Tipo de red</item>
-    </string-array>
+
 </resources>
