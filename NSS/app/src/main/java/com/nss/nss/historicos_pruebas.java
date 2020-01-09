@@ -34,6 +34,7 @@ public class historicos_pruebas extends Fragment {
     private boolean buscando;
     private AdminSql adminSql;
     private CalendarioDialog calendarioFecha;
+    private Button btnCalendario;
 
 
     private OnFragmentInteractionListener mListener;
@@ -79,6 +80,7 @@ public class historicos_pruebas extends Fragment {
         table = vista.findViewById(R.id.tablelayout);
         btnBuscar = vista.findViewById(R.id.btnBuscar);
         txtBuscar = vista.findViewById(R.id.txtBuscar);
+
         txtBuscar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -104,7 +106,7 @@ public class historicos_pruebas extends Fragment {
         }
     }
 
-    public void agregarRegistrosAtabla() {
+    private void agregarRegistrosAtabla() {
         if (buscando) {
             registros = adminSql.regresarRegistrosConsulta(txtBuscar.getText().toString(), registros);
             buscando = false;

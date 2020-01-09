@@ -36,11 +36,10 @@ public class RedesMovilesActivity extends AppCompatActivity implements
         ponerIconos();
     }
 
-    public void ponerIconos() {
+    private void ponerIconos() {
         try {
             for (int i = 0; i < imagenes_tabs.length; i++)
                 tabs.getTabAt(i).setIcon(imagenes_tabs[i]);
-
         } catch (Exception e) {
             Log.w("ERROR", e.getMessage());
         }

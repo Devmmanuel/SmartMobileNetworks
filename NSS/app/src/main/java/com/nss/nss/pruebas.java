@@ -75,7 +75,7 @@ public class pruebas extends Fragment {
     }
 
 
-    public void btnPrueba() {
+    private void btnPrueba() {
         if (btnIniciarPrueba.getText().toString().equalsIgnoreCase("Detener"))
             btnIniciarPrueba.setText("Iniciar prueba");
         else {
@@ -112,7 +112,7 @@ public class pruebas extends Fragment {
         return vista;
     }
 
-    public void inicializarValoresSpeed() {
+    private void inicializarValoresSpeed() {
         speedometer.setWithTremble(false);
         speedDeluxe.setWithTremble(false);
         speedometer.setUnitUnderSpeedText(true);

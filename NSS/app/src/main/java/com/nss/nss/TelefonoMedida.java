@@ -1,6 +1,6 @@
 package com.nss.nss;
 
-import android.app.Fragment;
+
 import android.content.Context;
 import android.os.Build;
 import android.telephony.PhoneStateListener;
@@ -8,7 +8,7 @@ import android.telephony.SignalStrength;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.widget.ArrayAdapter;
-import android.widget.Toast;
+
 
 import com.github.anastr.speedviewlib.DeluxeSpeedView;
 import com.github.anastr.speedviewlib.SpeedView;
@@ -42,7 +42,7 @@ public class TelefonoMedida extends PhoneStateListener {
     }
 
 
-    /*constrcutor que es usado cuando estamos instanciado la clase desde el fragmente de pruebas*/
+    /*fragment de pruebas*/
     public TelefonoMedida(Context context, SpeedView sp, DeluxeSpeedView dx) {
         nombreDeFragment = "pruebas";
         speedDeluxe = dx;
@@ -52,7 +52,7 @@ public class TelefonoMedida extends PhoneStateListener {
         adminSql = new AdminSql(context, "mydb", null, 1);
     }
 
-    /*Contructor el cual usamos cuando estamos instanciando la clase desde el fragmente de imformacion*/
+    /* fragment de imformacion*/
     public TelefonoMedida(ArrayAdapter datosRedes, Context context, List<String> datosRM) {
         nombreDeFragment = "imformacion";
         adaptadorDatosRedes = datosRedes;
@@ -68,31 +68,35 @@ public class TelefonoMedida extends PhoneStateListener {
         try {
             allInfo = signalStrength.toString();
             partInfo = allInfo.split(" ");
-            if (info.getTypeOfNetwork234().equals("2G")) {
-                asu = signalStrength.getGsmSignalStrength();
-                dbm = esAsu(asu);
-                ponerMedidaSpeed(dbm, asu);
+
+            switch (info.getTypeOfNetwork234()) {
+                case "2G":
+                    asu = signalStrength.getGsmSignalStrength();
+                    dbm = esAsu(asu);
+                    Log.w("MM", "2G");
+                    break;
+                case "3G":
+                    if (Build.VERSION.RELEASE.equals("7.0")) {
+                        medidas = info.getSignalStrength();
+                        dbm = Integer.parseInt(medidas[0]);
+                        asu = Integer.parseInt(partInfo[1]);
+                    } else {
+                        dbm = Integer.parseInt(partInfo[14]);//14
+                        asu = esDbm(Integer.parseInt(partInfo[14]));//14
+                    }
+                    Log.w("MM", "3G");
+                    break;
+                case "4G":
+                    dbm = Integer.parseInt(partInfo[9]);
+                    asu = (Integer.parseInt(partInfo[2]));//140
+                    Log.w("MM", "4G");
+                    break;
             }
-            if (info.getTypeOfNetwork234().equals("3G")) {
-                if (Build.VERSION.RELEASE.equals("7.0")) {
-                    medidas = info.getSignalStrength();
-                    dbm = Integer.parseInt(medidas[0]);
-                    asu = Integer.parseInt(partInfo[1]);
-                } else {
-                    dbm = Integer.parseInt(partInfo[14]);//14
-                    asu = esDbm(Integer.parseInt(partInfo[14]));//14
-                }
-                ponerMedidaSpeed(dbm, asu);
-            }
-            if (info.getTypeOfNetwork234().equals("4G")) {
-                dbm = Integer.parseInt(partInfo[9]);
-                asu = (Integer.parseInt(partInfo[2]));//140
-                ponerMedidaSpeed(dbm, asu);
-            }
+            Log.w("MM", "dbm " + dbm + " asu " + asu);
+            ponerMedidaSpeed(dbm, asu);
             if (pruebas.btnIniciarPrueba.getText().toString().equalsIgnoreCase("DETENER")) {
                 adminSql.insertar(dbm, asu, info);
             }
-            Log.w("MENSAJE", dbm + "----" + asu);
         } catch (Exception e) {
             Log.w("MENSAJE", e.getMessage());
         }
@@ -103,17 +107,21 @@ public class TelefonoMedida extends PhoneStateListener {
         super.onDataConnectionStateChanged(state, networkType);
         String mensajeNotificacion = "";
         if (nombreDeFragment.equals("pruebas")) {
-            if (info.getTypeOfNetwork234().equals("2G"))
-                mensajeNotificacion = "El tipo de red es 2G";
-            if (info.getTypeOfNetwork234().equals("3G"))
-                mensajeNotificacion = "El tipo de red es 3G";
-            if (info.getTypeOfNetwork234().equals("4G"))
-                mensajeNotificacion = "El tipo de red es 4G";
+            switch (info.getTypeOfNetwork234()) {
+                case "2G":
+                    mensajeNotificacion = "El tipo de red es 2G";
+                    break;
+                case "3G":
+                    mensajeNotificacion = "El tipo de red es 3G";
+                    break;
+                case "4G":
+                    mensajeNotificacion = "El tipo de red es 4G";
+                    break;
+            }
             if (!mensajeNotificacion.equals(""))
                 notificacionHelpe.createNotification(mensajeNotificacion, tituloMensajeNotificacion);
         } else
             actualizarGriedView();
-
     }
 
     @Override
@@ -126,11 +134,10 @@ public class TelefonoMedida extends PhoneStateListener {
                 actualizarGriedView();
                 break;
         }
-
     }
 
 
-    public void actualizarGriedView() {
+    private void actualizarGriedView() {
         adaptadorDatosRedes.clear();
         info.getImformationRedesMoviles(listDatosRm);
         Log.w("RRD", "Actualizando");
@@ -141,17 +148,15 @@ public class TelefonoMedida extends PhoneStateListener {
      * metodo el cual recibe como parametro un int el cual es el asu y
      * regresa un dbm
      */
-    public int esAsu(int asu) {
-        int dbm = ((2 * asu) - 113);
-        return dbm;
+    private int esAsu(int asu) {
+        return ((2 * asu) - 113);
     }
 
-    public int esDbm(int dbm) {
-        int asu = (dbm + 120);
-        return asu;
+    private int esDbm(int dbm) {
+        return (dbm + 120);
     }
 
-    public void ponerMedidaSpeed(int pasu, int pdbm) {
+    private void ponerMedidaSpeed(int pasu, int pdbm) {
         if (permitirGirar) {
             speedometer.speedTo(pasu);
             speedDeluxe.speedTo(pdbm);

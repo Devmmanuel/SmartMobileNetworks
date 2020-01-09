@@ -19,7 +19,7 @@ public class SqlManager extends AppCompatActivity {
         iniciarlizar();
     }
 
-    public void iniciarlizar() {
+    private void iniciarlizar() {
         txtConsulta = findViewById(R.id.txtConsulta);
         btnEjecutarConsulta = findViewById(R.id.btnEjecutar);
         adminSql = new AdminSql(getApplicationContext(), "mydb", null, 1);

@@ -1,5 +1,6 @@
 package com.nss.nss;
 
+import android.annotation.TargetApi;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -8,7 +9,6 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.widget.Toast;
-
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -70,7 +70,7 @@ public class AdminSql extends SQLiteOpenHelper {
         try {
             registros = new ArrayList<>();
             db = this.getWritableDatabase();
-            Cursor fila = db.rawQuery("select * from historicosRedesMoviles", null);
+            Cursor fila = db.rawQuery("select * from "+TABLE_NAME +" limit 100", null);
             setTotalRegistros(fila.getCount());
             if (fila.moveToFirst()) {
                 do {
@@ -84,6 +84,7 @@ public class AdminSql extends SQLiteOpenHelper {
                 } while (fila.moveToNext());
                 Log.w("MENSAJE", registros.toString());
                 fila.close();
+                db.close();
             }
         } catch (Exception e) {
             Log.w("ERROR", e.getMessage());
@@ -95,7 +96,7 @@ public class AdminSql extends SQLiteOpenHelper {
         try {
             String consulta;
             if (pbuscador.equals("")) {
-                consulta = "select * from " + TABLE_NAME;
+                consulta = "select * from " + TABLE_NAME+" limit 100";
             } else
                 consulta = "select * from historicosRedesMoviles where fecha='" + pbuscador + "'";
             registros = new ArrayList<>();
@@ -114,6 +115,7 @@ public class AdminSql extends SQLiteOpenHelper {
                 } while (fila.moveToNext());
                 Log.w("MENSAJE", registros.toString());
                 fila.close();
+                db.close();
             }
         } catch (Exception e) {
             Log.w("ERROR", e.getMessage());
@@ -126,19 +128,19 @@ public class AdminSql extends SQLiteOpenHelper {
      * regresa la fecha actual en formato dd/mm/yy
      */
 
-    public String obtenerFecha() {
+    private String obtenerFecha() {
         long ahora = System.currentTimeMillis();
         Date fecha = new Date(ahora);
         DateFormat df = new SimpleDateFormat("dd/MM/yy");
-        String salida = df.format(fecha);
-        return salida;
+        return df.format(fecha);
     }
 
     public void ejecutarConsulta(String id, Context ctx) {
-        String consultaEliminar = "delete from historicosRedesMoviles where id in(" + id + ")";
+        String consultaEliminar = "delete from "+TABLE_NAME+" where id in(" + id + ")";
         String mensaje = "";
         db = this.getWritableDatabase();
         db.execSQL(consultaEliminar);
+        db.close();
         mensaje = "Se ha ejecutado correctamente la consulta";
         Toast.makeText(ctx, mensaje, Toast.LENGTH_SHORT).show();
 
@@ -151,8 +153,9 @@ public class AdminSql extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("DROP TABLE IF EXISTS historicosRedesMoviles");
+        db.execSQL("DROP TABLE IF EXISTS "+TABLE_NAME);
         db.execSQL(crearTabla);
+
     }
 
 

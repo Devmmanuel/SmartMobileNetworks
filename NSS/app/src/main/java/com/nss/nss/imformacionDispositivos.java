@@ -17,6 +17,7 @@ import android.telephony.CellSignalStrengthWcdma;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.widget.Toast;
+
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.util.Collections;
@@ -40,7 +41,10 @@ public class imformacionDispositivos {
      * estado del roaming activado , desactivado
      */
     public String getStateRoaming(TelephonyManager tm) {
-        return String.valueOf(tm.isNetworkRoaming());
+        if (tm.isNetworkRoaming())
+            return "Activado";
+        else
+            return "Desactivado";
     }
 
     /**
@@ -79,7 +83,7 @@ public class imformacionDispositivos {
             datosRM.add("Tipo de red");
             datosRM.add(getTypeOfNetwork234());
             datosRM.add("Codigo de pais");
-            datosRM.add(tm.getSimCountryIso());
+            datosRM.add(getCodigoPais());
             datosRM.add("mcc");
             datosRM.add(getMccAndMnc()[0]);
             datosRM.add("mnc");
@@ -138,6 +142,7 @@ public class imformacionDispositivos {
                 return res1.toString();
             }
         } catch (Exception ex) {
+            Log.w("ERROR", ex.getMessage());
         }
         return "";
     }
@@ -160,7 +165,7 @@ public class imformacionDispositivos {
                 }
             }
         } catch (Exception ex) {
-            Log.w("ERROR",ex.getMessage());
+            Log.w("ERROR", ex.getMessage());
         } // for now eat exceptions
         return "-";
     }
@@ -222,8 +227,8 @@ public class imformacionDispositivos {
             case TelephonyManager.DATA_CONNECTED:
                 dataConected = "Conectado";
                 break;
-                case TelephonyManager.DATA_CONNECTING:
-                    dataConected ="Conectando";
+            case TelephonyManager.DATA_CONNECTING:
+                dataConected = "Conectando";
 
         }
         return dataConected;

@@ -13,7 +13,7 @@ import java.util.Calendar;
 public class CalendarioDialog {
 
     private Calendar calendario;
-    public DatePickerDialog seleccionarFecha;
+    private DatePickerDialog seleccionarFecha;
     private Context context;
     private int dia;
     private int mes;
@@ -41,19 +41,19 @@ public class CalendarioDialog {
     }
 
 
-    public String cambiarAnio(int yy) {
+    private String cambiarAnio(int yy) {
         return String.valueOf(yy).substring(2, 4);
     }
 
 
-    public String changeDia(int day){
+    private String changeDia(int day){
         if(day < 10)
             return "0" + day;
             return String.valueOf(day);
     }
 
 
-    public void obtenerFecha() {
+    private void obtenerFecha() {
         calendario = Calendar.getInstance();
         dia = calendario.get(Calendar.DAY_OF_MONTH);
         mes = calendario.get(Calendar.MONTH);
