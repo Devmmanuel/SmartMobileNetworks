@@ -12,6 +12,7 @@ public class SqlManager extends AppCompatActivity {
     private EditText txtConsulta;
     private Button btnEjecutarConsulta;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -22,13 +23,16 @@ public class SqlManager extends AppCompatActivity {
     private void iniciarlizar() {
         txtConsulta = findViewById(R.id.txtConsulta);
         btnEjecutarConsulta = findViewById(R.id.btnEjecutar);
+
         adminSql = new AdminSql(getApplicationContext(), "mydb", null, 1);
+
         btnEjecutarConsulta.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 adminSql.ejecutarConsulta(txtConsulta.getText().toString(), getApplicationContext());
             }
         });
+
     }
 
 }

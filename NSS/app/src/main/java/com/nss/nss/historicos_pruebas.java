@@ -34,8 +34,7 @@ public class historicos_pruebas extends Fragment {
     private boolean buscando;
     private AdminSql adminSql;
     private CalendarioDialog calendarioFecha;
-    private Button btnCalendario;
-
+    private String[] columnas = {"id", "Fecha", "Dbm", "Asu", "Cod", "Red", "Telefonica"};
 
     private OnFragmentInteractionListener mListener;
 
@@ -118,16 +117,28 @@ public class historicos_pruebas extends Fragment {
             TableRow tableRow = new TableRow(getActivity());
             for (int j = 0; j < 7; j++) {
                 TextView textView = new TextView(getActivity());
-                textView.setPadding(11, 11, 11, 11);
-                textView.setBackgroundResource(R.color.colorNnsAuxiliar);
+                textView.setPadding(10, 10, 10, 10);
+                textView.setBackgroundResource(R.drawable.textview_border);
                 textView.setTypeface(Typeface.MONOSPACE);
-                textView.setTextColor(getResources().getColor(R.color.colorNnsAuxiliar2));
+                textView.setTextColor(getResources().getColor(R.color.colorNns1));
                 textView.setText(registros.get(contador));
                 tableRow.addView(textView);
                 contador++;
             }
             table.addView(tableRow);
         }
+    }
+
+    public void agregarColumnas(int numero_columnas, String[] cabecera) {
+        TableRow t = new TableRow(getActivity());
+        for (int i = 0; i < numero_columnas; i++) {
+            TextView textView = new TextView(getActivity());
+            textView.setPadding(7, 7, 7, 7);
+            textView.setTypeface(Typeface.MONOSPACE);
+            textView.setText(cabecera[i]);
+            t.addView(textView);
+        }
+        table.addView(t);
     }
 
 

@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 
 
 public class Inicio extends AppCompatActivity implements View.OnClickListener {
@@ -90,15 +91,7 @@ public class Inicio extends AppCompatActivity implements View.OnClickListener {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle(R.string.action_acerca_de);
             builder.setMessage(R.string.contenido_acerca_de);
-            builder.setPositiveButton(R.string.txt_cerrar, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-
-                }
-            });
-
-            Dialog dialogo = builder.create();
-            dialogo.show();
+            builder.show();
 
             return true;
         }

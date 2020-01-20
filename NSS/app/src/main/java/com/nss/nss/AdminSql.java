@@ -1,6 +1,5 @@
 package com.nss.nss;
 
-import android.annotation.TargetApi;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -9,6 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.widget.Toast;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -54,7 +54,7 @@ public class AdminSql extends SQLiteOpenHelper {
     }
 
 
-    public void setTotalRegistros(int total) {
+    private void setTotalRegistros(int total) {
         totalRegistros = total;
     }
 
@@ -70,7 +70,7 @@ public class AdminSql extends SQLiteOpenHelper {
         try {
             registros = new ArrayList<>();
             db = this.getWritableDatabase();
-            Cursor fila = db.rawQuery("select * from "+TABLE_NAME +" limit 100", null);
+            Cursor fila = db.rawQuery("select * from " + TABLE_NAME + " limit 100", null);
             setTotalRegistros(fila.getCount());
             if (fila.moveToFirst()) {
                 do {
@@ -96,7 +96,7 @@ public class AdminSql extends SQLiteOpenHelper {
         try {
             String consulta;
             if (pbuscador.equals("")) {
-                consulta = "select * from " + TABLE_NAME+" limit 100";
+                consulta = "select * from " + TABLE_NAME + " limit 100";
             } else
                 consulta = "select * from historicosRedesMoviles where fecha='" + pbuscador + "'";
             registros = new ArrayList<>();
@@ -136,7 +136,7 @@ public class AdminSql extends SQLiteOpenHelper {
     }
 
     public void ejecutarConsulta(String id, Context ctx) {
-        String consultaEliminar = "delete from "+TABLE_NAME+" where id in(" + id + ")";
+        String consultaEliminar = "delete from " + TABLE_NAME + " where id in(" + id + ")";
         String mensaje = "";
         db = this.getWritableDatabase();
         db.execSQL(consultaEliminar);
@@ -153,7 +153,7 @@ public class AdminSql extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("DROP TABLE IF EXISTS "+TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
         db.execSQL(crearTabla);
 
     }

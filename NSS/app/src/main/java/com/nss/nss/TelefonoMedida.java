@@ -9,7 +9,6 @@ import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.widget.ArrayAdapter;
 
-
 import com.github.anastr.speedviewlib.DeluxeSpeedView;
 import com.github.anastr.speedviewlib.SpeedView;
 
@@ -28,6 +27,7 @@ public class TelefonoMedida extends PhoneStateListener {
     private NotificationHelpener notificacionHelpe;
     private String tituloMensajeNotificacion = "La red cambio";
     private String nombreDeFragment;
+
     /*variables usadas con instanciaos desde el fragmente de pruebas*/
     private SpeedView speedometer;
     private DeluxeSpeedView speedDeluxe;

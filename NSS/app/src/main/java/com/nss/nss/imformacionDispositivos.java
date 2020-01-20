@@ -22,6 +22,7 @@ import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 public class imformacionDispositivos {
 
@@ -317,7 +318,7 @@ public class imformacionDispositivos {
     public String[] getSignalStrength() throws SecurityException {
         TelephonyManager telephonyManager = (TelephonyManager) ctx.getSystemService(Context.TELEPHONY_SERVICE);
         String[] strength = new String[2];
-        List<CellInfo> cellInfos = telephonyManager.getAllCellInfo();
+        List<CellInfo> cellInfos = Objects.requireNonNull(telephonyManager).getAllCellInfo();
         if (cellInfos != null) {
             for (int i = 0; i < cellInfos.size(); i++) {
                 if (cellInfos.get(i).isRegistered()) {

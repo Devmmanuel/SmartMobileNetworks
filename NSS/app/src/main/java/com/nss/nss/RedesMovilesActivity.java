@@ -6,11 +6,12 @@ import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.KeyEvent;
 
-
 import com.nss.nss.ui.main.SectionsPagerAdapter;
+
+import java.util.Objects;
+
 
 public class RedesMovilesActivity extends AppCompatActivity implements
         historicos_pruebas.OnFragmentInteractionListener, imformacion_redes_moviles.OnFragmentInteractionListener,
@@ -37,19 +38,10 @@ public class RedesMovilesActivity extends AppCompatActivity implements
     }
 
     private void ponerIconos() {
-        try {
-            for (int i = 0; i < imagenes_tabs.length; i++)
-                tabs.getTabAt(i).setIcon(imagenes_tabs[i]);
-        } catch (Exception e) {
-            Log.w("ERROR", e.getMessage());
-        }
-
+        for (int i = 0; i < imagenes_tabs.length; i++)
+            Objects.requireNonNull(tabs.getTabAt(i)).setIcon(imagenes_tabs[i]);
     }
 
-
-    /**
-     * metodo el cual destrulle la activity de redes moviles cuando presionamos el boton de retroseso
-     */
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if ((keyCode == KeyEvent.KEYCODE_BACK)) {

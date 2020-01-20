@@ -28,7 +28,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/colorNns1"
-            app:tabIndicatorColor="@color/colorNnsAuxiliar4" />
+            app:tabIndicatorColor="@color/colorNnsAuxiliar4"
+            app:tabSelectedTextColor="@color/colorNnsAuxiliar4"
+            />
 
     </android.support.design.widget.AppBarLayout>
 

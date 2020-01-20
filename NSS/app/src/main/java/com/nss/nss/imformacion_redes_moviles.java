@@ -15,6 +15,7 @@ import android.widget.GridView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 
 /**
@@ -42,6 +43,7 @@ public class imformacion_redes_moviles extends Fragment {
     private imformacionDispositivos info;
     private TelephonyManager tm;
     private TelefonoMedida telefonoMedida;
+    private int escucharTelefono = PhoneStateListener.LISTEN_DATA_ACTIVITY | PhoneStateListener.LISTEN_DATA_CONNECTION_STATE;
 
 
     // TODO: Rename and change types of parameters
@@ -80,13 +82,12 @@ public class imformacion_redes_moviles extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-        tm = (TelephonyManager) getActivity().getSystemService(Context.TELEPHONY_SERVICE);
+        tm = (TelephonyManager) Objects.requireNonNull(getActivity()).getSystemService(Context.TELEPHONY_SERVICE);
         info = new imformacionDispositivos(getActivity());
         datosRedes = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_activated_1, datosRM);
         info.getImformationRedesMoviles(datosRM);
         telefonoMedida = new TelefonoMedida(datosRedes, getActivity(), datosRM);
-        /*funcional pruebas a LISTEN_DATA_CONECTION_STATE*/
-        tm.listen(telefonoMedida, PhoneStateListener.LISTEN_DATA_ACTIVITY | PhoneStateListener.LISTEN_DATA_CONNECTION_STATE);
+        tm.listen(telefonoMedida, escucharTelefono);
     }
 
     @Override
@@ -107,7 +108,6 @@ public class imformacion_redes_moviles extends Fragment {
         }
     }
 
-
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -124,11 +124,6 @@ public class imformacion_redes_moviles extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
     }
 
     /**

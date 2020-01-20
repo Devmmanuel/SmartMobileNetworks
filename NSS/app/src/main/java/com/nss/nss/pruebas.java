@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+
 import com.github.anastr.speedviewlib.DeluxeSpeedView;
 import com.github.anastr.speedviewlib.SpeedView;
 
@@ -41,6 +42,7 @@ public class pruebas extends Fragment {
     private OnFragmentInteractionListener mListener;
     public static Button btnIniciarPrueba;
     private int escucharTelefono = PhoneStateListener.LISTEN_SIGNAL_STRENGTHS | PhoneStateListener.LISTEN_DATA_CONNECTION_STATE;
+
 
     public pruebas() {
         // Required empty public constructor
@@ -123,6 +125,7 @@ public class pruebas extends Fragment {
         speedometer.setMaxSpeed(-51);
         speedDeluxe.setMinSpeed(0);
         speedDeluxe.setMaxSpeed(63);
+        speedometer.setTickNumber(4);
     }
 
     // TODO: Rename method, update argument and hook method into UI event

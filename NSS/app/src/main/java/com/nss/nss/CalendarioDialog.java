@@ -26,7 +26,7 @@ public class CalendarioDialog {
                 new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-                        historicos_pruebas.txtBuscar.setText(changeDia(day) + "/" + (changeDia(month + 1)) + "/" + cambiarAnio(year));
+                        historicos_pruebas.txtBuscar.setText(String.format("%s/%s/%s", changeDia(day), (changeDia(month + 1)), cambiarAnio(year)));
                     }
 
                 }, anio, mes, dia);
@@ -46,10 +46,10 @@ public class CalendarioDialog {
     }
 
 
-    private String changeDia(int day){
-        if(day < 10)
+    private String changeDia(int day) {
+        if (day < 10)
             return "0" + day;
-            return String.valueOf(day);
+        return String.valueOf(day);
     }
 
 
