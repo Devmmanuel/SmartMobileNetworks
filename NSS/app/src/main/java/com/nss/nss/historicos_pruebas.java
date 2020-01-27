@@ -11,11 +11,10 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TableLayout;
-import android.widget.TableRow;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 
 public class historicos_pruebas extends Fragment {
@@ -34,12 +33,16 @@ public class historicos_pruebas extends Fragment {
     private boolean buscando;
     private AdminSql adminSql;
     private CalendarioDialog calendarioFecha;
-    private String[] columnas = {"id", "Fecha", "Dbm", "Asu", "Cod", "Red", "Telefonica"};
+    private TableLayoutDinamico tablaDinamica;
+    private String[] cabezera = {"ID", "FECHA", "DBM", "ASU", "CODIGO", "RED", "TIPO RED"};
+    private Typeface letra;
+
 
     private OnFragmentInteractionListener mListener;
 
     public historicos_pruebas() {
         // Required empty public constructor
+
     }
 
     /**
@@ -67,6 +70,7 @@ public class historicos_pruebas extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        letra = Typeface.createFromAsset(Objects.requireNonNull(getContext()).getAssets(), "fuentes/TitilliumWeb-Black.ttf");
         adminSql = new AdminSql(getActivity(), "mydb", null, 1);
         calendarioFecha = new CalendarioDialog(getActivity());
 
@@ -79,6 +83,7 @@ public class historicos_pruebas extends Fragment {
         table = vista.findViewById(R.id.tablelayout);
         btnBuscar = vista.findViewById(R.id.btnBuscar);
         txtBuscar = vista.findViewById(R.id.txtBuscar);
+        btnBuscar.setTypeface(letra);
 
         txtBuscar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -111,36 +116,10 @@ public class historicos_pruebas extends Fragment {
             buscando = false;
         } else
             registros = adminSql.regresarRegistros(registros);
-        int contador = 0;
-        Toast.makeText(getActivity(), "" + adminSql.getTotalRegistros(), Toast.LENGTH_SHORT).show();
-        for (int i = 0; i < adminSql.getTotalRegistros(); i++) {
-            TableRow tableRow = new TableRow(getActivity());
-            for (int j = 0; j < 7; j++) {
-                TextView textView = new TextView(getActivity());
-                textView.setPadding(10, 10, 10, 10);
-                textView.setBackgroundResource(R.drawable.textview_border);
-                textView.setTypeface(Typeface.MONOSPACE);
-                textView.setTextColor(getResources().getColor(R.color.colorNns1));
-                textView.setText(registros.get(contador));
-                tableRow.addView(textView);
-                contador++;
-            }
-            table.addView(tableRow);
-        }
+        Toast.makeText(getActivity(), "" + adminSql.getTotalRegistros() + " " + registros.size(), Toast.LENGTH_SHORT).show();
+        tablaDinamica = new TableLayoutDinamico(table, getContext());
+        tablaDinamica.agregarRegistrosTable(adminSql.getTotalRegistros(), registros);
     }
-
-    public void agregarColumnas(int numero_columnas, String[] cabecera) {
-        TableRow t = new TableRow(getActivity());
-        for (int i = 0; i < numero_columnas; i++) {
-            TextView textView = new TextView(getActivity());
-            textView.setPadding(7, 7, 7, 7);
-            textView.setTypeface(Typeface.MONOSPACE);
-            textView.setText(cabecera[i]);
-            t.addView(textView);
-        }
-        table.addView(t);
-    }
-
 
     @Override
     public void onAttach(Context context) {

@@ -51,6 +51,8 @@ public class grafica_medidas extends Fragment {
     private Handler handler = new Handler();
     private LineGraphSeries<DataPoint> series;
     private double lastXpoint = 1;
+    private String mensaje="Debes de de activar la ubicacion en android 8.0 para mostrar la grafica en tiempo real";
+
 
 
     private OnFragmentInteractionListener mListener;
@@ -144,7 +146,7 @@ public class grafica_medidas extends Fragment {
     /*este metodo obtiene el dbm Level en  en diferentes tipos de redes**/
     private String getSignalStrength(Context context) throws SecurityException {
         TelephonyManager telephonyManager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
-        String strength = "";
+        String strength = "0";
         List<CellInfo> cellInfos = telephonyManager.getAllCellInfo();
         if (cellInfos != null) {
             for (int i = 0; i < cellInfos.size(); i++) {
@@ -168,7 +170,12 @@ public class grafica_medidas extends Fragment {
                     }
                 }
             }
-        } else Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show();
+        }
+        if (strength.equals("0")){
+            Toast.makeText(context, mensaje,Toast.LENGTH_SHORT).show();
+            handler.removeCallbacksAndMessages(null);
+        }
+
         return strength;
     }
 

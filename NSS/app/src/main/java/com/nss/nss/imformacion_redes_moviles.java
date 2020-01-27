@@ -37,9 +37,9 @@ public class imformacion_redes_moviles extends Fragment {
      */
 
 
-    private List<String> datosRM = new ArrayList<>();
-    private ArrayAdapter datosRedes;
-    private GridView listaDatos;
+    private List<String> ListaDatosRM = new ArrayList<>();
+    private ArrayAdapter AdapterDatosRedes;
+    private GridView GridListaDatos;
     private imformacionDispositivos info;
     private TelephonyManager tm;
     private TelefonoMedida telefonoMedida;
@@ -84,9 +84,9 @@ public class imformacion_redes_moviles extends Fragment {
         }
         tm = (TelephonyManager) Objects.requireNonNull(getActivity()).getSystemService(Context.TELEPHONY_SERVICE);
         info = new imformacionDispositivos(getActivity());
-        datosRedes = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_activated_1, datosRM);
-        info.getImformationRedesMoviles(datosRM);
-        telefonoMedida = new TelefonoMedida(datosRedes, getActivity(), datosRM);
+        AdapterDatosRedes = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_activated_1, ListaDatosRM);
+        info.getImformationRedesMoviles(ListaDatosRM);
+        telefonoMedida = new TelefonoMedida(AdapterDatosRedes, getActivity(), ListaDatosRM);
         tm.listen(telefonoMedida, escucharTelefono);
     }
 
@@ -96,8 +96,8 @@ public class imformacion_redes_moviles extends Fragment {
 
         View vista = inflater.inflate(R.layout.fragment_imformacion_redes_moviles, container, false);
 
-        listaDatos = vista.findViewById(R.id.FIRM_gridViewDatos);
-        listaDatos.setAdapter(datosRedes);
+        GridListaDatos = vista.findViewById(R.id.FIRM_gridViewDatos);
+        GridListaDatos.setAdapter(AdapterDatosRedes);
 
         return vista;
     }
@@ -119,6 +119,7 @@ public class imformacion_redes_moviles extends Fragment {
         }
 
     }
+
 
     @Override
     public void onDetach() {

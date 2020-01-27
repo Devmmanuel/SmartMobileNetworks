@@ -19,7 +19,8 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:minHeight="?actionBarSize"
-            android:padding="@dimen/appbar_padding"
+            android:padding="16dp"
+            android:paddingStart="70dp"
             android:text="@string/app_name"
             android:textAppearance="@style/TextAppearance.Widget.AppCompat.Toolbar.Title" />
 
@@ -29,8 +30,7 @@
             android:layout_height="wrap_content"
             android:background="@color/colorNns1"
             app:tabIndicatorColor="@color/colorNnsAuxiliar4"
-            app:tabSelectedTextColor="@color/colorNnsAuxiliar4"
-            />
+            app:tabSelectedTextColor="@color/colorNnsAuxiliar4" />
 
     </android.support.design.widget.AppBarLayout>
 

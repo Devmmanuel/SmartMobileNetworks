@@ -1,28 +1,32 @@
 package com.nss.nss;
 
 import android.Manifest;
-import android.app.Dialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.DisplayMetrics;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageButton;
-import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 
 public class Inicio extends AppCompatActivity implements View.OnClickListener {
 
     private ImageButton btnMenuRedesMoviles;
     private ImageButton btnWifi;
+    private TextView txtWifi;
+    private TextView txtRedesMoviles;
+    private String urlFuente = "fuentes/TitilliumWeb-Black.ttf";
 
 
     @Override
@@ -34,9 +38,15 @@ public class Inicio extends AppCompatActivity implements View.OnClickListener {
 
         btnMenuRedesMoviles = findViewById(R.id.btnMovil);
         btnWifi = findViewById(R.id.btnWifi);
+        txtRedesMoviles = findViewById(R.id.txtMovil);
+        txtWifi = findViewById(R.id.txtWifi);
+        txtRedesMoviles.setTypeface(Typeface.createFromAsset(getAssets(), urlFuente));
+        txtWifi.setTypeface(Typeface.createFromAsset(getAssets(), urlFuente));
+
         btnMenuRedesMoviles.setOnClickListener(this);
         btnWifi.setOnClickListener(this);
         darPermisosApp();
+        mostraTamanio();
     }
 
     /*este metodo sirve para dar permisos a las aplicacion ya que si no le damos los permios suficientes a la aplicacion no pedemos
@@ -44,10 +54,19 @@ public class Inicio extends AppCompatActivity implements View.OnClickListener {
     private void darPermisosApp() {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions
-                    (this, new String[]{Manifest.permission.READ_PHONE_STATE, Manifest.permission.ACCESS_COARSE_LOCATION},
+                    (this, new String[]
+                                    {Manifest.permission.READ_PHONE_STATE, Manifest.permission.ACCESS_COARSE_LOCATION},
                             123);
         }
 
+    }
+
+    public void mostraTamanio(){
+        DisplayMetrics metrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(metrics);
+        int width = metrics.widthPixels; // ancho absoluto en pixels
+        int height = metrics.heightPixels; // alto absoluto en pixels
+        Toast.makeText(this, String.format("ancho (%d) %n alto (%d)",width,height), Toast.LENGTH_SHORT).show();
     }
 
     @Override

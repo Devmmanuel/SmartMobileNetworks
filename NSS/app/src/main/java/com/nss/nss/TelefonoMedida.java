@@ -32,7 +32,7 @@ public class TelefonoMedida extends PhoneStateListener {
     private SpeedView speedometer;
     private DeluxeSpeedView speedDeluxe;
     /*esta variable nos servida para saber en que fragment estamos ubicado y que metodos debemos de ejecutar dependiendo de que
-     * fragment esramos ubicado*/
+     * fragment estamos ubicado*/
 
     private ArrayAdapter adaptadorDatosRedes;
     private List<String> listDatosRm;

@@ -35,6 +35,7 @@ public class imformacionDispositivos {
         this.ctx = ctx;
     }
 
+
     /**
      * @param
      * @return String
@@ -346,7 +347,7 @@ public class imformacionDispositivos {
                     }
                 }
             }
-        } else Toast.makeText(ctx, "Error", Toast.LENGTH_SHORT).show();
+        }
         return strength;
     }
 

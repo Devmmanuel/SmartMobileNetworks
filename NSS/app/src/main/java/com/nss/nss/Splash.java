@@ -7,7 +7,7 @@ import android.os.Bundle;
 
 public class Splash extends AppCompatActivity {
 
-    Handler handler;
+    private Handler handler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

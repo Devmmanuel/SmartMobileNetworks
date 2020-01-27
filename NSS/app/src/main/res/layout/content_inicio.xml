@@ -30,10 +30,11 @@
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="60dp"
         android:text="@string/txt_redes_moviles"
+        android:textColor="@color/colorNns1"
         android:textSize="24sp"
         app:layout_constraintBottom_toTopOf="@+id/btnWifi"
         app:layout_constraintEnd_toEndOf="@+id/btnMovil"
-        app:layout_constraintStart_toStartOf="@+id/btnMovil" />" />
+        app:layout_constraintStart_toStartOf="@+id/btnMovil" />
 
     <ImageButton
         android:id="@+id/btnWifi"
@@ -56,6 +57,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="48dp"
         android:text="@string/txt_redes_wifi"
+        android:textColor="@color/colorNns1"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/btnWifi"

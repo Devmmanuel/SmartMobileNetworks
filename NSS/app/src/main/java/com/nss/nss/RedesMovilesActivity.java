@@ -7,9 +7,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
-
 import com.nss.nss.ui.main.SectionsPagerAdapter;
-
 import java.util.Objects;
 
 
@@ -41,6 +39,7 @@ public class RedesMovilesActivity extends AppCompatActivity implements
         for (int i = 0; i < imagenes_tabs.length; i++)
             Objects.requireNonNull(tabs.getTabAt(i)).setIcon(imagenes_tabs[i]);
     }
+
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {

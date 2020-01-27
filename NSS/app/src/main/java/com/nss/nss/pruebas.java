@@ -2,6 +2,7 @@ package com.nss.nss;
 
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -14,6 +15,8 @@ import android.widget.Button;
 
 import com.github.anastr.speedviewlib.DeluxeSpeedView;
 import com.github.anastr.speedviewlib.SpeedView;
+
+import java.util.Objects;
 
 
 /**
@@ -42,7 +45,7 @@ public class pruebas extends Fragment {
     private OnFragmentInteractionListener mListener;
     public static Button btnIniciarPrueba;
     private int escucharTelefono = PhoneStateListener.LISTEN_SIGNAL_STRENGTHS | PhoneStateListener.LISTEN_DATA_CONNECTION_STATE;
-
+    private Typeface letra;
 
     public pruebas() {
         // Required empty public constructor
@@ -73,6 +76,7 @@ public class pruebas extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        letra=Typeface.createFromAsset(Objects.requireNonNull(getContext()).getAssets(),"fuentes/TitilliumWeb-Bold.ttf");
 
     }
 
@@ -98,7 +102,8 @@ public class pruebas extends Fragment {
                              Bundle savedInstanceState) {
         View vista = inflater.inflate(R.layout.fragment_pruebas, container, false);
         btnIniciarPrueba = vista.findViewById(R.id.btnIniciarPrueba);
-        tm = (TelephonyManager) getActivity().getSystemService(Context.TELEPHONY_SERVICE);
+        btnIniciarPrueba.setTypeface(letra);
+        tm = (TelephonyManager) Objects.requireNonNull(getActivity()).getSystemService(Context.TELEPHONY_SERVICE);
         speedometer = vista.findViewById(R.id.speedView);
         speedDeluxe = vista.findViewById(R.id.speedDeluxe);
         phoneListen = new TelefonoMedida(getActivity(), speedometer, speedDeluxe);
