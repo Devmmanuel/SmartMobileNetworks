@@ -21,7 +21,7 @@ public class TableLayoutDinamico {
     public TableLayoutDinamico(TableLayout tabla, Context ctx) {
         myTabla = tabla;
         context = ctx;
-        letra = Typeface.createFromAsset(context.getAssets(),"fuentes/TitilliumWeb-SemiBold.ttf");
+        letra = Typeface.createFromAsset(context.getAssets(), "fuentes/TitilliumWeb-SemiBold.ttf");
     }
 
     private void agregarRenglon() {
@@ -31,7 +31,7 @@ public class TableLayoutDinamico {
     public void agregarCabezeras(String[] cabecera) {
         agregarRenglon();
         for (String c : cabecera)
-            crearCelda(c);
+            crearCeldaCabezera(c);
         myTabla.addView(renglon);
     }
 
@@ -44,6 +44,18 @@ public class TableLayoutDinamico {
         textView.setText(texto);
         renglon.addView(textView);
     }
+
+
+    private void crearCeldaCabezera(String texto) {
+        textView = new TextView(context);
+        textView.setPadding(2, 2, 2, 2);
+        textView.setBackgroundResource(R.drawable.textview_border);
+        textView.setTypeface(letra);
+        textView.setTextColor(context.getResources().getColor(R.color.colorNns1));
+        textView.setText(texto);
+        renglon.addView(textView);
+    }
+
 
     public void agregarRegistrosTable(int total, ArrayList<String> registros) {
         int contador = 0;

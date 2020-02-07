@@ -9,6 +9,8 @@ import android.support.annotation.Nullable;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.ajts.androidmads.library.SQLiteToExcel;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -29,12 +31,34 @@ public class AdminSql extends SQLiteOpenHelper {
     private SQLiteDatabase db;
     private int totalRegistros;
     private final String TABLE_NAME = "historicosRedesMoviles";
-
+    private Context ctx;
 
     public AdminSql(@Nullable Context context, @Nullable String name, @Nullable SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);
         db = this.getWritableDatabase();
+        ctx = context;
     }
+
+    public void exportarBase() {
+        SQLiteToExcel sqLiteToExcel = new SQLiteToExcel(ctx, "mydb");
+        sqLiteToExcel.exportSingleTable(TABLE_NAME, "historicos.xls", new SQLiteToExcel.ExportListener() {
+            @Override
+            public void onStart() {
+
+            }
+
+            @Override
+            public void onCompleted(String filePath) {
+                Toast.makeText(ctx, filePath, Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onError(Exception e) {
+                Toast.makeText(ctx, e.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
 
     public void insertar(int iDbm, int iAsu, imformacionDispositivos info) {
         try {
@@ -92,13 +116,14 @@ public class AdminSql extends SQLiteOpenHelper {
         return registros;
     }
 
-    public ArrayList<String> regresarRegistrosConsulta(String pbuscador, ArrayList<String> registros) {
+    public ArrayList<String> regresarRegistrosConsulta(String pbuscador, ArrayList<String> registros, String cBuscado) {
         try {
+            Toast.makeText(ctx, cBuscado, Toast.LENGTH_SHORT).show();
             String consulta;
             if (pbuscador.equals("")) {
                 consulta = "select * from " + TABLE_NAME + " limit 100";
             } else
-                consulta = "select * from historicosRedesMoviles where fecha='" + pbuscador + "'";
+                consulta = "select * from historicosRedesMoviles where " + cBuscado + "='" + pbuscador + "'";
             registros = new ArrayList<>();
             db = this.getWritableDatabase();
             Cursor fila = db.rawQuery(consulta, null);

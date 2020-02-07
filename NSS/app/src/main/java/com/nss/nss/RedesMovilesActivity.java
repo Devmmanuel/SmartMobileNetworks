@@ -7,7 +7,12 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.widget.Toast;
+
 import com.nss.nss.ui.main.SectionsPagerAdapter;
+
 import java.util.Objects;
 
 

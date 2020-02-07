@@ -13,14 +13,13 @@
         android:background="@color/colorNns1"
         android:theme="@style/AppTheme.AppBarOverlay">
 
+
         <TextView
             android:id="@+id/title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="272dp"
+            android:layout_height="match_parent"
             android:gravity="center"
             android:minHeight="?actionBarSize"
-            android:padding="16dp"
-            android:paddingStart="70dp"
             android:text="@string/app_name"
             android:textAppearance="@style/TextAppearance.Widget.AppCompat.Toolbar.Title" />
 

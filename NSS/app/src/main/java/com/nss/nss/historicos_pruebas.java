@@ -8,8 +8,10 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TableLayout;
 import android.widget.Toast;
 
@@ -36,8 +38,9 @@ public class historicos_pruebas extends Fragment {
     private TableLayoutDinamico tablaDinamica;
     private String[] cabezera = {"ID", "FECHA", "DBM", "ASU", "CODIGO", "RED", "TIPO RED"};
     private Typeface letra;
-
-
+    private Button btnExportar;
+    private Spinner spinerFiltrar;
+    private String CBuscada = "fecha";
     private OnFragmentInteractionListener mListener;
 
     public historicos_pruebas() {
@@ -63,6 +66,7 @@ public class historicos_pruebas extends Fragment {
         return fragment;
     }
 
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -81,6 +85,46 @@ public class historicos_pruebas extends Fragment {
                              Bundle savedInstanceState) {
         View vista = inflater.inflate(R.layout.fragment_historicos_pruebas, container, false);
         table = vista.findViewById(R.id.tablelayout);
+        btnExportar = vista.findViewById(R.id.btnExportar);
+        spinerFiltrar = vista.findViewById(R.id.spinner);
+        spinerFiltrar.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                switch (i) {
+                    case 0:
+                        CBuscada = "fecha";
+                        Toast.makeText(getContext(), CBuscada, Toast.LENGTH_SHORT).show();
+                        break;
+                    case 1:
+                        CBuscada = "dbm";
+                        Toast.makeText(getContext(), CBuscada, Toast.LENGTH_SHORT).show();
+                        break;
+                    case 2:
+                        CBuscada = "asu";
+                        Toast.makeText(getContext(), CBuscada, Toast.LENGTH_SHORT).show();
+                        break;
+                    case 3:
+                        CBuscada = "tipo_de_red";
+                        Toast.makeText(getContext(), CBuscada, Toast.LENGTH_SHORT).show();
+                        break;
+                    case 4:
+                        CBuscada = "tipo_de_red_telefonica";
+                        Toast.makeText(getContext(), CBuscada, Toast.LENGTH_SHORT).show();
+                        break;
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+        btnExportar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                adminSql.exportarBase();
+            }
+        });
         btnBuscar = vista.findViewById(R.id.btnBuscar);
         txtBuscar = vista.findViewById(R.id.txtBuscar);
         btnBuscar.setTypeface(letra);
@@ -88,7 +132,8 @@ public class historicos_pruebas extends Fragment {
         txtBuscar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                calendarioFecha.mostar();
+                if (CBuscada.equals("fecha"))
+                    calendarioFecha.mostar();
             }
         });
         btnBuscar.setOnClickListener(new View.OnClickListener() {
@@ -112,11 +157,11 @@ public class historicos_pruebas extends Fragment {
 
     private void agregarRegistrosAtabla() {
         if (buscando) {
-            registros = adminSql.regresarRegistrosConsulta(txtBuscar.getText().toString(), registros);
+            registros = adminSql.regresarRegistrosConsulta(txtBuscar.getText().toString(), registros, CBuscada);
             buscando = false;
         } else
             registros = adminSql.regresarRegistros(registros);
-        Toast.makeText(getActivity(), "" + adminSql.getTotalRegistros() + " " + registros.size(), Toast.LENGTH_SHORT).show();
+        Toast.makeText(getActivity(), "" + adminSql.getTotalRegistros() + "" + registros.size(), Toast.LENGTH_SHORT).show();
         tablaDinamica = new TableLayoutDinamico(table, getContext());
         tablaDinamica.agregarRegistrosTable(adminSql.getTotalRegistros(), registros);
     }

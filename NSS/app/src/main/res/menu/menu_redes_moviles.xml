@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/menuExportar"
+        android:icon="@mipmap/pruebas_round"
+        android:title="Exportar"
+        app:showAsAction="always" />
+    <item android:title="AcercaDe"
+        android:icon="@mipmap/ic_launcher"
+        android:id="@+id/menuAcercaDe"
+        app:showAsAction="ifRoom"/>
+</menu>

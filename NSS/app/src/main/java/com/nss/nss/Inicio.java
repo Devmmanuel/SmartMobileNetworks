@@ -10,14 +10,12 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.DisplayMetrics;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 
 public class Inicio extends AppCompatActivity implements View.OnClickListener {
@@ -46,7 +44,6 @@ public class Inicio extends AppCompatActivity implements View.OnClickListener {
         btnMenuRedesMoviles.setOnClickListener(this);
         btnWifi.setOnClickListener(this);
         darPermisosApp();
-        mostraTamanio();
     }
 
     /*este metodo sirve para dar permisos a las aplicacion ya que si no le damos los permios suficientes a la aplicacion no pedemos
@@ -55,18 +52,12 @@ public class Inicio extends AppCompatActivity implements View.OnClickListener {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions
                     (this, new String[]
-                                    {Manifest.permission.READ_PHONE_STATE, Manifest.permission.ACCESS_COARSE_LOCATION},
+                                    {Manifest.permission.READ_PHONE_STATE,
+                                            Manifest.permission.ACCESS_COARSE_LOCATION,
+                                    Manifest.permission.WRITE_EXTERNAL_STORAGE},
                             123);
         }
 
-    }
-
-    public void mostraTamanio(){
-        DisplayMetrics metrics = new DisplayMetrics();
-        getWindowManager().getDefaultDisplay().getMetrics(metrics);
-        int width = metrics.widthPixels; // ancho absoluto en pixels
-        int height = metrics.heightPixels; // alto absoluto en pixels
-        Toast.makeText(this, String.format("ancho (%d) %n alto (%d)",width,height), Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -94,7 +85,7 @@ public class Inicio extends AppCompatActivity implements View.OnClickListener {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_inicio, menu);
+        getMenuInflater().inflate(R.menu.menu_redes_moviles, menu);
         return true;
     }
 

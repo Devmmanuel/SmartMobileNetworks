@@ -46,6 +46,7 @@ public class imformacion_redes_moviles extends Fragment {
     private int escucharTelefono = PhoneStateListener.LISTEN_DATA_ACTIVITY | PhoneStateListener.LISTEN_DATA_CONNECTION_STATE;
 
 
+
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
