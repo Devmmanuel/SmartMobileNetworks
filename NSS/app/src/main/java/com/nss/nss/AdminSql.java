@@ -19,7 +19,8 @@ import java.util.Date;
 
 public class AdminSql extends SQLiteOpenHelper {
 
-    private String crearTabla = "CREATE TABLE historicosRedesMoviles (" +
+    private final String TABLE_NAME = "historicosRedesMoviles";
+    private String crearTabla = "CREATE TABLE " + TABLE_NAME + "(" +
             "id INTEGER PRIMARY KEY AUTOINCREMENT," +
             "fecha TEXT," +
             "dbm INTEGER," +
@@ -30,7 +31,6 @@ public class AdminSql extends SQLiteOpenHelper {
             ")";
     private SQLiteDatabase db;
     private int totalRegistros;
-    private final String TABLE_NAME = "historicosRedesMoviles";
     private Context ctx;
 
     public AdminSql(@Nullable Context context, @Nullable String name, @Nullable SQLiteDatabase.CursorFactory factory, int version) {
@@ -44,9 +44,8 @@ public class AdminSql extends SQLiteOpenHelper {
         sqLiteToExcel.exportSingleTable(TABLE_NAME, "historicos.xls", new SQLiteToExcel.ExportListener() {
             @Override
             public void onStart() {
-
+                Toast.makeText(ctx, "Exportando base de datos", Toast.LENGTH_SHORT).show();
             }
-
             @Override
             public void onCompleted(String filePath) {
                 Toast.makeText(ctx, filePath, Toast.LENGTH_SHORT).show();
@@ -54,7 +53,7 @@ public class AdminSql extends SQLiteOpenHelper {
 
             @Override
             public void onError(Exception e) {
-                Toast.makeText(ctx, e.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(ctx, "Error no se pudo exportar la base de datos", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -162,7 +161,7 @@ public class AdminSql extends SQLiteOpenHelper {
 
     public void ejecutarConsulta(String id, Context ctx) {
         String consultaEliminar = "delete from " + TABLE_NAME + " where id in(" + id + ")";
-        String mensaje = "";
+        String mensaje;
         db = this.getWritableDatabase();
         db.execSQL(consultaEliminar);
         db.close();

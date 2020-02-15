@@ -46,7 +46,6 @@ public class imformacion_redes_moviles extends Fragment {
     private int escucharTelefono = PhoneStateListener.LISTEN_DATA_ACTIVITY | PhoneStateListener.LISTEN_DATA_CONNECTION_STATE;
 
 
-
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
@@ -83,9 +82,9 @@ public class imformacion_redes_moviles extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-        tm = (TelephonyManager) Objects.requireNonNull(getActivity()).getSystemService(Context.TELEPHONY_SERVICE);
-        info = new imformacionDispositivos(getActivity());
-        AdapterDatosRedes = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_activated_1, ListaDatosRM);
+        tm = (TelephonyManager) Objects.requireNonNull(getContext()).getSystemService(Context.TELEPHONY_SERVICE);
+        info = new imformacionDispositivos(getContext());
+        AdapterDatosRedes = new ArrayAdapter(getContext(), android.R.layout.simple_list_item_activated_1, ListaDatosRM);
         info.getImformationRedesMoviles(ListaDatosRM);
         telefonoMedida = new TelefonoMedida(AdapterDatosRedes, getActivity(), ListaDatosRM);
         tm.listen(telefonoMedida, escucharTelefono);

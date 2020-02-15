@@ -53,7 +53,6 @@ public class GriedViewPersonalizado extends BaseAdapter {
 
     @Override
     public void notifyDataSetChanged() {
-
         super.notifyDataSetChanged();
     }
 

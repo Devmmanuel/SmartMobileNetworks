@@ -312,7 +312,7 @@ public class imformacionDispositivos {
         throw new RuntimeException("New type of network");
     }
 
-    /**
+    /**en android 8.1 es necesario tener encendidad la localizacion para acceder a estos metodos
      * @return String
      * @throws SecurityException Este metodo regresa un string con el actual dbm que se esta recibiendo en el dispositivo
      */

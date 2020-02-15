@@ -5,7 +5,11 @@ import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -13,8 +17,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TableLayout;
-import android.widget.Toast;
-
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -36,7 +38,7 @@ public class historicos_pruebas extends Fragment {
     private AdminSql adminSql;
     private CalendarioDialog calendarioFecha;
     private TableLayoutDinamico tablaDinamica;
-    private String[] cabezera = {"ID", "FECHA", "DBM", "ASU", "CODIGO", "RED", "TIPO RED"};
+    private String[] cabezera = {"Id", "Fecha", "Dbm", "Asu", "Codigo", "Red", "Tipo red"};
     private Typeface letra;
     private Button btnExportar;
     private Spinner spinerFiltrar;
@@ -66,7 +68,6 @@ public class historicos_pruebas extends Fragment {
         return fragment;
     }
 
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,8 +76,8 @@ public class historicos_pruebas extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
         letra = Typeface.createFromAsset(Objects.requireNonNull(getContext()).getAssets(), "fuentes/TitilliumWeb-Black.ttf");
-        adminSql = new AdminSql(getActivity(), "mydb", null, 1);
-        calendarioFecha = new CalendarioDialog(getActivity());
+        adminSql = new AdminSql(getContext(), "mydb", null, 1);
+        calendarioFecha = new CalendarioDialog(getContext());
 
     }
 
@@ -93,23 +94,18 @@ public class historicos_pruebas extends Fragment {
                 switch (i) {
                     case 0:
                         CBuscada = "fecha";
-                        Toast.makeText(getContext(), CBuscada, Toast.LENGTH_SHORT).show();
                         break;
                     case 1:
                         CBuscada = "dbm";
-                        Toast.makeText(getContext(), CBuscada, Toast.LENGTH_SHORT).show();
                         break;
                     case 2:
                         CBuscada = "asu";
-                        Toast.makeText(getContext(), CBuscada, Toast.LENGTH_SHORT).show();
                         break;
                     case 3:
                         CBuscada = "tipo_de_red";
-                        Toast.makeText(getContext(), CBuscada, Toast.LENGTH_SHORT).show();
                         break;
                     case 4:
                         CBuscada = "tipo_de_red_telefonica";
-                        Toast.makeText(getContext(), CBuscada, Toast.LENGTH_SHORT).show();
                         break;
                 }
             }
@@ -161,8 +157,9 @@ public class historicos_pruebas extends Fragment {
             buscando = false;
         } else
             registros = adminSql.regresarRegistros(registros);
-        Toast.makeText(getActivity(), "" + adminSql.getTotalRegistros() + "" + registros.size(), Toast.LENGTH_SHORT).show();
+        Log.w("Registros", adminSql.getTotalRegistros() + " " + registros.size());
         tablaDinamica = new TableLayoutDinamico(table, getContext());
+        tablaDinamica.agregarCabezeras(cabezera);
         tablaDinamica.agregarRegistrosTable(adminSql.getTotalRegistros(), registros);
     }
 

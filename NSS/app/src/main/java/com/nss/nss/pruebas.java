@@ -102,7 +102,7 @@ public class pruebas extends Fragment {
         View vista = inflater.inflate(R.layout.fragment_pruebas, container, false);
         btnIniciarPrueba = vista.findViewById(R.id.btnIniciarPrueba);
         btnIniciarPrueba.setTypeface(letra);
-        tm = (TelephonyManager) Objects.requireNonNull(getActivity()).getSystemService(Context.TELEPHONY_SERVICE);
+        tm = (TelephonyManager) Objects.requireNonNull(getContext()).getSystemService(Context.TELEPHONY_SERVICE);
         speedometer = vista.findViewById(R.id.speedView);
         speedDeluxe = vista.findViewById(R.id.speedDeluxe);
         phoneListen = new TelefonoMedida(getActivity(), speedometer, speedDeluxe);

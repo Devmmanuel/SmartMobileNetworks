@@ -1,15 +1,17 @@
 package com.nss.nss;
 
 
+import android.Manifest;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.widget.Toast;
+
 
 import com.nss.nss.ui.main.SectionsPagerAdapter;
 
@@ -38,13 +40,25 @@ public class RedesMovilesActivity extends AppCompatActivity implements
         tabs = findViewById(R.id.tabs);
         tabs.setupWithViewPager(viewPager);
         ponerIconos();
+        darPermisosApp();
+
+    }
+
+    private void darPermisosApp() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions
+                    (this, new String[]{
+                            Manifest.permission.READ_PHONE_STATE,
+                            Manifest.permission.ACCESS_COARSE_LOCATION,
+                            Manifest.permission.WRITE_EXTERNAL_STORAGE
+                    }, 123);
+        }
     }
 
     private void ponerIconos() {
         for (int i = 0; i < imagenes_tabs.length; i++)
             Objects.requireNonNull(tabs.getTabAt(i)).setIcon(imagenes_tabs[i]);
     }
-
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {

@@ -11,6 +11,8 @@ import android.widget.ArrayAdapter;
 
 import com.github.anastr.speedviewlib.DeluxeSpeedView;
 import com.github.anastr.speedviewlib.SpeedView;
+import com.jjoe64.graphview.series.DataPoint;
+import com.jjoe64.graphview.series.LineGraphSeries;
 
 import java.util.List;
 
@@ -27,15 +29,16 @@ public class TelefonoMedida extends PhoneStateListener {
     private NotificationHelpener notificacionHelpe;
     private String tituloMensajeNotificacion = "La red cambio";
     private String nombreDeFragment;
+    private int lastXpoint = 1;
+
 
     /*variables usadas con instanciaos desde el fragmente de pruebas*/
     private SpeedView speedometer;
     private DeluxeSpeedView speedDeluxe;
-    /*esta variable nos servida para saber en que fragment estamos ubicado y que metodos debemos de ejecutar dependiendo de que
-     * fragment estamos ubicado*/
-
     private ArrayAdapter adaptadorDatosRedes;
     private List<String> listDatosRm;
+    private LineGraphSeries<DataPoint> series;
+
 
     public void setPermitirGirar(boolean permitirGirar) {
         this.permitirGirar = permitirGirar;
@@ -61,6 +64,12 @@ public class TelefonoMedida extends PhoneStateListener {
 
     }
 
+    public TelefonoMedida(LineGraphSeries<DataPoint> series, Context context) {
+        this.series = series;
+        nombreDeFragment = "grafica";
+        info = new imformacionDispositivos(context);
+    }
+
 
     @Override
     public void onSignalStrengthsChanged(SignalStrength signalStrength) {
@@ -68,7 +77,6 @@ public class TelefonoMedida extends PhoneStateListener {
         try {
             allInfo = signalStrength.toString();
             partInfo = allInfo.split(" ");
-
             switch (info.getTypeOfNetwork234()) {
                 case "2G":
                     asu = signalStrength.getGsmSignalStrength();
@@ -92,6 +100,12 @@ public class TelefonoMedida extends PhoneStateListener {
                     Log.w("MM", "4G");
                     break;
             }
+            if (nombreDeFragment.equals("grafica")) {
+                lastXpoint++;
+                series.appendData(new DataPoint(lastXpoint, dbm), true, 100);
+                Log.w("ACC", "Actualizando grafica" + dbm + asu);
+            }
+
             Log.w("MM", "dbm " + dbm + " asu " + asu);
             ponerMedidaSpeed(dbm, asu);
             if (pruebas.btnIniciarPrueba.getText().toString().equalsIgnoreCase("DETENER")) {

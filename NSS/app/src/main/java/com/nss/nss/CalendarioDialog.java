@@ -40,11 +40,13 @@ public class CalendarioDialog {
         seleccionarFecha.show();
     }
 
-
+    /**
+     * @param yy anio en formato xxxx
+     * @return String anio formato xx
+     */
     private String cambiarAnio(int yy) {
         return String.valueOf(yy).substring(2, 4);
     }
-
 
     private String changeDia(int day) {
         if (day < 10)

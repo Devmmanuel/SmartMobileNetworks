@@ -4,11 +4,9 @@
 
     <item
         android:id="@+id/menuExportar"
-        android:icon="@mipmap/pruebas_round"
         android:title="Exportar"
-        app:showAsAction="always" />
+        app:showAsAction="never" />
     <item android:title="AcercaDe"
-        android:icon="@mipmap/ic_launcher"
         android:id="@+id/menuAcercaDe"
-        app:showAsAction="ifRoom"/>
+        app:showAsAction="never"/>
 </menu>

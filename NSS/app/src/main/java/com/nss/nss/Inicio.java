@@ -54,7 +54,7 @@ public class Inicio extends AppCompatActivity implements View.OnClickListener {
                     (this, new String[]
                                     {Manifest.permission.READ_PHONE_STATE,
                                             Manifest.permission.ACCESS_COARSE_LOCATION,
-                                    Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                                            Manifest.permission.WRITE_EXTERNAL_STORAGE},
                             123);
         }
 
@@ -79,7 +79,6 @@ public class Inicio extends AppCompatActivity implements View.OnClickListener {
             Intent intento = new Intent(Inicio.this, SqlManager.class);
             startActivity(intento);
         }
-
     }
 
     @Override
@@ -97,15 +96,15 @@ public class Inicio extends AppCompatActivity implements View.OnClickListener {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_acerca_de) {
+        if (id == R.id.menuAcercaDe) {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle(R.string.action_acerca_de);
             builder.setMessage(R.string.contenido_acerca_de);
             builder.show();
-
             return true;
         }
 
         return super.onOptionsItemSelected(item);
     }
+
 }
