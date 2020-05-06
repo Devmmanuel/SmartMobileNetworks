@@ -28,7 +28,6 @@ public class CalendarioDialog {
                     public void onDateSet(DatePicker datePicker, int year, int month, int day) {
                         historicos_pruebas.txtBuscar.setText(String.format("%s/%s/%s", changeDia(day), (changeDia(month + 1)), cambiarAnio(year)));
                     }
-
                 }, anio, mes, dia);
     }
 

@@ -87,7 +87,8 @@ public class AdminSql extends SQLiteOpenHelper {
 
 
     /*** metodo el cual regresa un arrayLIst con todos los elementos de la base de datos
-     * @return ArrayList<String>
+     * @param registros del tipo ArrayList<String>
+     * @return ArrayList<String> con los registros
      */
     public ArrayList<String> regresarRegistros(ArrayList<String> registros) {
         try {
