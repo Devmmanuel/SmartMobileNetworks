@@ -6,4 +6,5 @@ Superior de Loreto para el 9vo semestre de Practicas Profesionales las cuales es
 Se desarrollara una Aplicacion movil para medir la intensidad de señal en redes 2G, 3G y 4G a la cual hemos llamado 
 "Smart Mobile Networks", sera compatible con Dispositivos Moviles con SO Android v5.1(Lollilop) en adelante
 
-https://raw.githubusercontent.com/orlando1818/Plasmma/SmartMobileNetworks/blob/master/1.jpeg
+
+![ScreenShot](https://raw.githubusercontent.com/orlando1818/Plasmma/SmartMobileNetworks/blob/master/1.jpeg)
