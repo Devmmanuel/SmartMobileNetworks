@@ -9,7 +9,7 @@ Se desarrollara una Aplicacion movil para medir la intensidad de señal en redes
 
 ![GitHub Logo](https://raw.githubusercontent.com/Plasmma/SmartMobileNetworks/master/1.jpeg?token=AJMY7YO6UTEUJEPRMUQJNSK75FENM)
 ![GitHub Logo](https://raw.githubusercontent.com/Plasmma/SmartMobileNetworks/master/2.jpeg?token=AJMY7YIL2S5WM47HZUMUJRS75FER6)
-
+  
 ![GitHub Logo](https://raw.githubusercontent.com/Plasmma/SmartMobileNetworks/master/3.jpeg?token=AJMY7YLR3DRBZNB53TDSSH275FEUS)
 ![GitHub Logo](https://raw.githubusercontent.com/Plasmma/SmartMobileNetworks/master/5.jpeg?token=AJMY7YNVIILG3NBXBCQAKN275FEWU)
 
