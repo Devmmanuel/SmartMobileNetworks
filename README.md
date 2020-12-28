@@ -7,4 +7,4 @@ Se desarrollara una Aplicacion movil para medir la intensidad de señal en redes
 "Smart Mobile Networks", sera compatible con Dispositivos Moviles con SO Android v5.1(Lollilop) en adelante
 
 
-![ScreenShot](https://raw.githubusercontent.com/orlando1818/Plasmma/SmartMobileNetworks/blob/master/1.jpeg)
+![GitHub Logo](https://raw.githubusercontent.com/Plasmma/SmartMobileNetworks/master/1.jpeg?token=AJMY7YO6UTEUJEPRMUQJNSK75FENM)
