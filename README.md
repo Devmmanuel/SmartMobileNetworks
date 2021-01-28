@@ -7,19 +7,14 @@ Se desarrollara una Aplicacion movil para medir la intensidad de señal en redes
 "Smart Mobile Networks", sera compatible con Dispositivos Moviles con SO Android v5.1(Lollilop) en adelante
 
 
-**Speedometers...**<br/>
+*********************************************************************************************************...**<br/>
 <img src="1.jpeg" width="32%" />
 <img src="2.jpeg" width="32%" />
 <img src="3.jpeg" width="32%" />
-
-
-![Alt text](1.jpeg "PRUEBAS")             ![Alt text](2.jpeg "PRUEBAS") 
-![Alt text](3.jpeg "HISTORICOS")             ![Alt text](4.jpeg "HISTORICOS")  
-![Alt text](5.jpeg "HISTORICOS")             ![Alt text](6.jpeg "GRAFICA") 
-![Alt text](7.jpeg "IMFORMACION")
-
-
-
-
-
-
+*********************************************************************************************************...**<br/>
+*********************************************************************************************************...**<br/>
+<img src="4.jpeg" width="32%" />
+<img src="5.jpeg" width="32%" />
+<img src="6.jpeg" width="32%" />
+*********************************************************************************************************...**<br/>
+<img src="7.jpeg" width="32%" />
