@@ -7,14 +7,14 @@ Se desarrollara una Aplicacion movil para medir la intensidad de señal en redes
 "Smart Mobile Networks", sera compatible con Dispositivos Moviles con SO Android v5.1(Lollilop) en adelante
 
 
-*********************************************************************************************************...**<br/>
+<br/>
 <img src="1.jpeg" width="32%" />
 <img src="2.jpeg" width="32%" />
 <img src="3.jpeg" width="32%" />
-*********************************************************************************************************...**<br/>
-*********************************************************************************************************...**<br/>
+<br/>
+<br/>
 <img src="4.jpeg" width="32%" />
 <img src="5.jpeg" width="32%" />
 <img src="6.jpeg" width="32%" />
-*********************************************************************************************************...**<br/>
+<br/>
 <img src="7.jpeg" width="32%" />
