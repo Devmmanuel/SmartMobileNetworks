@@ -15,8 +15,7 @@ import com.nss.nss.R;
  */
 public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
-    @StringRes
-    private static final int[] TAB_TITLES = new int[]{R.string.tab1RM, R.string.tab4RM, R.string.tab2RM, R.string.tab3RM};
+
     private final Context mContext;
 
     public SectionsPagerAdapter(Context context, FragmentManager fm) {
@@ -31,11 +30,6 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
         return PlaceholderFragment.newInstance(position + 1);
     }
 
-    @Nullable
-    @Override
-    public CharSequence getPageTitle(int position) {
-        return mContext.getResources().getString(TAB_TITLES[position]);
-    }
 
     @Override
     public int getCount() {

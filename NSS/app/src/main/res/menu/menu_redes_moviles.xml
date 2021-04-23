@@ -4,9 +4,11 @@
 
     <item
         android:id="@+id/menuExportar"
-        android:title="Exportar"
-        app:showAsAction="never" />
-    <item android:title="AcercaDe"
+        android:icon="@mipmap/ic_download_database"
+        android:title="@string/txt_exportar"
+        app:showAsAction="ifRoom" />
+    <item android:title="@string/txt_acercade"
         android:id="@+id/menuAcercaDe"
-        app:showAsAction="never"/>
+        android:icon="@mipmap/ic_acercade"
+        app:showAsAction="ifRoom"/>
 </menu>

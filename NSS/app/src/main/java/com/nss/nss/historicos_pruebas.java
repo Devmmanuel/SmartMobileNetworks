@@ -5,8 +5,12 @@ import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -19,14 +23,8 @@ import java.util.Objects;
 
 
 public class historicos_pruebas extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+
     private TableLayout table;
     private ArrayList<String> registros;
     private Button btnBuscar;
@@ -37,7 +35,6 @@ public class historicos_pruebas extends Fragment {
     private TableLayoutDinamico tablaDinamica;
     private String[] cabezera = {"Id", "Fecha", "Dbm", "Asu", "Codigo", "Red", "Tipo red"};
     private Typeface letra;
-    private Button btnExportar;
     private Spinner spinerFiltrar;
     private String CBuscada = "fecha";
     private OnFragmentInteractionListener mListener;
@@ -47,31 +44,34 @@ public class historicos_pruebas extends Fragment {
 
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment historicos_pruebas.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static historicos_pruebas newInstance(String param1, String param2) {
-        historicos_pruebas fragment = new historicos_pruebas();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_redes_moviles,menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.menuExportar: {
+                adminSql.exportarBase();
+                break;
+            }
+            case R.id.menuAcercaDe:{
+                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                builder.setTitle(R.string.action_acerca_de);
+                builder.setMessage(R.string.contenido_acerca_de);
+                builder.show();
+                return true;
+            }
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+        setHasOptionsMenu(true);
         letra = Typeface.createFromAsset(Objects.requireNonNull(getContext()).getAssets(), "fuentes/TitilliumWeb-Black.ttf");
         adminSql = new AdminSql(getContext(), "mydb", null, 1);
         calendarioFecha = new CalendarioDialog(getContext());
@@ -83,7 +83,6 @@ public class historicos_pruebas extends Fragment {
                              Bundle savedInstanceState) {
         View vista = inflater.inflate(R.layout.fragment_historicos_pruebas, container, false);
         table = vista.findViewById(R.id.tablelayout);
-        btnExportar = vista.findViewById(R.id.btnExportar);
         spinerFiltrar = vista.findViewById(R.id.spinner);
         spinerFiltrar.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -112,12 +111,6 @@ public class historicos_pruebas extends Fragment {
 
             }
         });
-        btnExportar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                adminSql.exportarBase();
-            }
-        });
         btnBuscar = vista.findViewById(R.id.btnBuscar);
         txtBuscar = vista.findViewById(R.id.txtBuscar);
         btnBuscar.setTypeface(letra);
@@ -141,7 +134,6 @@ public class historicos_pruebas extends Fragment {
         return vista;
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);
@@ -177,16 +169,6 @@ public class historicos_pruebas extends Fragment {
         mListener = null;
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
