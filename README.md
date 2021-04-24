@@ -15,6 +15,10 @@ Se desarrollara una Aplicacion movil para medir la intensidad de señal en redes
 - Historial de pruebas que muestra en una tabla todos los resultados de las pruebas realizadas, se puede filtrar por fecha, dbm, asu y red
 - Se puede exportar todos los registros guardados en el historial de pruebas a un archivo Excel
 
+### Video de demostracion
+https://www.youtube.com/watch?v=LYaoJln_7FA
+    
+
 ### Librerías y Tecnologías utilizadas
 - Java
 - SQLite
