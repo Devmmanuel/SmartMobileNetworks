@@ -48,9 +48,11 @@ public class TableLayoutDinamico {
 
     private void crearCeldaCabezera(String texto) {
         textView = new TextView(context);
+        textView.setPadding(7, 7, 7, 7);
         textView.setBackgroundResource(R.drawable.textview_border);
         textView.setTypeface(letra);
-        textView.setTextColor(context.getResources().getColor(R.color.colorNnsAuxiliar4));
+        textView.setTextSize(15);
+        textView.setTextColor(context.getResources().getColor(R.color.colorPrimaryDark));
         textView.setText(texto);
         renglon.addView(textView);
     }

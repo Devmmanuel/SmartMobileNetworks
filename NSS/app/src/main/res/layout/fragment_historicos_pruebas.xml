@@ -44,12 +44,15 @@
                 android:background="@color/colorNnsAuxiliar5"
                 android:text="Buscar" />
 
+            <HorizontalScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
             <TableLayout
                 android:id="@+id/tablelayout"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:background="@color/colorNnsAuxiliar" />
-
+            </HorizontalScrollView>
         </LinearLayout>
     </ScrollView>
 </FrameLayout>

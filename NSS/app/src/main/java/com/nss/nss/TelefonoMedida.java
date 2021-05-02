@@ -64,8 +64,8 @@ public class TelefonoMedida extends PhoneStateListener {
 
     }
 
-    public TelefonoMedida(LineGraphSeries<DataPoint> series, Context context) {
-        this.series = series;
+    public TelefonoMedida(LineGraphSeries<DataPoint> dbm  , Context context) {
+        this.series = dbm;
         nombreDeFragment = "grafica";
         info = new imformacionDispositivos(context);
     }

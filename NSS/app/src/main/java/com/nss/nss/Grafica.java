@@ -37,6 +37,8 @@ public class Grafica {
         tm.listen(telefonoMedida, PhoneStateListener.LISTEN_SIGNAL_STRENGTHS);
     }
 
+
+
     public void inicializarGraphView() {
         graphView.setTitle("Grafica en tiempo real dBm");
         graphView.setTitleTextSize(15);
@@ -53,8 +55,9 @@ public class Grafica {
         gridLabelRenderer.setVerticalAxisTitle("dBm");
         gridLabelRenderer.setVerticalAxisTitleColor(Color.RED);
 
-        series = new LineGraphSeries<>(new DataPoint[]{
-                new DataPoint(0, 1),
+
+        series=new LineGraphSeries<>(new DataPoint[]{
+
         });
 
         series.setColor(Color.GREEN);

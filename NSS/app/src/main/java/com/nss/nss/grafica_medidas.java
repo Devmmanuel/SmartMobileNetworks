@@ -12,9 +12,8 @@ import com.jjoe64.graphview.GraphView;
 
 public class grafica_medidas extends Fragment {
 
-    private Grafica grafica;
-    private GraphView graphView;
-
+    private Grafica graficaDbm;
+    private GraphView graphViewDbm;
 
     private OnFragmentInteractionListener mListener;
 
@@ -27,9 +26,10 @@ public class grafica_medidas extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_grafica_medidas, container, false);
-        graphView = view.findViewById(R.id.graph);
-        grafica = new Grafica(graphView, getContext());
-        grafica.inicializarGraphView();
+        graphViewDbm = view.findViewById(R.id.graph);
+        graficaDbm = new Grafica(graphViewDbm, getContext());
+        graficaDbm.inicializarGraphView();
+
         return view;
     }
 

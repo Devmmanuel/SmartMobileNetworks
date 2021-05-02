@@ -8,6 +8,13 @@
     <com.jjoe64.graphview.GraphView
         android:layout_width="match_parent"
         android:layout_height="200dip"
+        android:layout_marginBottom="50dp"
         android:id="@+id/graph" />
 
+    <com.jjoe64.graphview.GraphView
+        android:layout_marginTop="230dp"
+        android:layout_width="match_parent"
+        android:layout_height="200dip"
+        android:layout_marginBottom="50dp"
+        android:id="@+id/graphAsu" />
 </FrameLayout>

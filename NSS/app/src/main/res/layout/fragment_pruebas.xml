@@ -17,13 +17,15 @@
 
 
             <com.github.anastr.speedviewlib.SpeedView
+                android:layout_marginStart="15dp"
                 android:id="@+id/speedView"
-                android:layout_width="285dp"
+                android:layout_width="match_parent"
                 android:layout_height="265dp" />
 
             <com.github.anastr.speedviewlib.DeluxeSpeedView
+                android:layout_marginStart="15dp"
                 android:id="@+id/speedDeluxe"
-                android:layout_width="285dp"
+                android:layout_width="match_parent"
                 android:layout_height="265dp" />
 
             <Button
