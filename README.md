@@ -22,6 +22,10 @@ https://www.youtube.com/watch?v=LYaoJln_7FA
 ### Librerías y Tecnologías utilizadas
 - Java
 - SQLite
+- Contol de versiones GIT
+- Notificaciones push
+- Fragments
+- Menus
 - [SpeedView](https://github.com/anastr/SpeedView)
 - [GraphView](https://github.com/jjoe64/GraphView)
 - [SQLite2XL](https://github.com/androidmads/SQLite2XL)
