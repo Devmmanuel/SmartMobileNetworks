@@ -26,6 +26,7 @@ https://www.youtube.com/watch?v=LYaoJln_7FA
 - Notificaciones push
 - Fragments
 - Menus
+- Permisos
 - [SpeedView](https://github.com/anastr/SpeedView)
 - [GraphView](https://github.com/jjoe64/GraphView)
 - [SQLite2XL](https://github.com/androidmads/SQLite2XL)
