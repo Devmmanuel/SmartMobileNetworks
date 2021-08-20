@@ -20,6 +20,7 @@ import android.widget.Toast;
 
 import java.net.InetAddress;
 import java.net.NetworkInterface;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
@@ -74,37 +75,35 @@ public class imformacionDispositivos {
     }
 
     /**
-     * @param datosRM recibe un Lista de tipo String y le asigna elementos
+     * @param  un Lista de tipo String y le asigna elementos
      */
-    public void getImformationRedesMoviles(List<String> datosRM) {
-        try {
-            datosRM.add("Operador");
-            datosRM.add(getOperator());
-            datosRM.add("Tipo de red telefonica");
-            datosRM.add(getTypeOfNetwork());
-            datosRM.add("Tipo de red");
-            datosRM.add(getTypeOfNetwork234());
-            datosRM.add("Codigo de pais");
-            datosRM.add(getCodigoPais());
-            datosRM.add("mcc");
-            datosRM.add(getMccAndMnc()[0]);
-            datosRM.add("mnc");
-            datosRM.add(getMccAndMnc()[1]);
-            datosRM.add("Roamig");
-            datosRM.add(getStateRoaming(tm));
-            datosRM.add("Phone type");
-            datosRM.add(getPhoneType());
-            datosRM.add("Data conected");
-            datosRM.add(getDataConected());
-            datosRM.add("Imei");
-            datosRM.add(getnImei());
-            datosRM.add("ip");
-            datosRM.add(getMobileIPAddress());
-            datosRM.add("Mac");
-            datosRM.add(getMacAddress());
-        } catch (Exception e) {
-            Toast.makeText(ctx, e.getMessage(), Toast.LENGTH_SHORT).show();
-        }
+    public List<String> getImformationRedesMoviles() {
+        List<String> datosRM = new ArrayList<>();
+        datosRM.add("Operador");
+        datosRM.add(getOperator());
+        datosRM.add("Tipo de red telefonica");
+        datosRM.add(getTypeOfNetwork());
+        datosRM.add("Tipo de red");
+        datosRM.add(getTypeOfNetwork234());
+        datosRM.add("Codigo de pais");
+        datosRM.add(getCodigoPais());
+        datosRM.add("mcc");
+        datosRM.add(getMccAndMnc()[0]);
+        datosRM.add("mnc");
+        datosRM.add(getMccAndMnc()[1]);
+        datosRM.add("Roamig");
+        datosRM.add(getStateRoaming(tm));
+        datosRM.add("Phone type");
+        datosRM.add(getPhoneType());
+        datosRM.add("Data conected");
+        datosRM.add(getDataConected());
+        datosRM.add("Imei");
+        datosRM.add(getnImei());
+        datosRM.add("ip");
+        datosRM.add(getMobileIPAddress());
+        datosRM.add("Mac");
+        datosRM.add(getMacAddress());
+        return datosRM;
     }
 
     /**
@@ -312,7 +311,9 @@ public class imformacionDispositivos {
         throw new RuntimeException("New type of network");
     }
 
-    /**en android 8.1 es necesario tener encendidad la localizacion para acceder a estos metodos
+    /**
+     * en android 8.1 es necesario tener encendidad la localizacion para acceder a estos metodos
+     *
      * @return String
      * @throws SecurityException Este metodo regresa un string con el actual dbm que se esta recibiendo en el dispositivo
      */

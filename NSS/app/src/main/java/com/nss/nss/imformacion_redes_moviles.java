@@ -5,6 +5,8 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
 import android.view.LayoutInflater;
@@ -12,6 +14,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.GridView;
+
+import com.nss.nss.adapters.AdaptadorImformationDevice;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,8 +26,8 @@ public class imformacion_redes_moviles extends Fragment {
 
 
     private List<String> ListaDatosRM = new ArrayList<>();
-    private ArrayAdapter AdapterDatosRedes;
-    private GridView GridListaDatos;
+    private RecyclerView recyclerViewDatos;
+    AdaptadorImformationDevice adaptador;
     private imformacionDispositivos info;
     private TelephonyManager tm;
     private TelefonoMedida telefonoMedida;
@@ -43,10 +47,7 @@ public class imformacion_redes_moviles extends Fragment {
         super.onCreate(savedInstanceState);
         tm = (TelephonyManager) Objects.requireNonNull(getContext()).getSystemService(Context.TELEPHONY_SERVICE);
         info = new imformacionDispositivos(getContext());
-        AdapterDatosRedes = new ArrayAdapter(getContext(), android.R.layout.simple_list_item_activated_1, ListaDatosRM);
-        info.getImformationRedesMoviles(ListaDatosRM);
-        telefonoMedida = new TelefonoMedida(AdapterDatosRedes, getActivity(), ListaDatosRM);
-        tm.listen(telefonoMedida, escucharTelefono);
+        adaptador = new AdaptadorImformationDevice(info.getImformationRedesMoviles());
     }
 
     @Override
@@ -55,8 +56,14 @@ public class imformacion_redes_moviles extends Fragment {
 
         View vista = inflater.inflate(R.layout.fragment_imformacion_redes_moviles, container, false);
 
-        GridListaDatos = vista.findViewById(R.id.FIRM_gridViewDatos);
-        GridListaDatos.setAdapter(AdapterDatosRedes);
+
+        recyclerViewDatos = vista.findViewById(R.id.recycler_datos);
+        GridLayoutManager layoutManager = new GridLayoutManager(requireContext(), 2);
+        recyclerViewDatos.setLayoutManager(layoutManager);
+        recyclerViewDatos.setAdapter(adaptador);
+        telefonoMedida = new TelefonoMedida(recyclerViewDatos, getActivity(), ListaDatosRM);
+        tm.listen(telefonoMedida, escucharTelefono);
+
 
         return vista;
     }

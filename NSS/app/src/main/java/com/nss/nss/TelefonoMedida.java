@@ -3,16 +3,17 @@ package com.nss.nss;
 
 import android.content.Context;
 import android.os.Build;
+import android.support.v7.widget.RecyclerView;
 import android.telephony.PhoneStateListener;
 import android.telephony.SignalStrength;
 import android.telephony.TelephonyManager;
 import android.util.Log;
-import android.widget.ArrayAdapter;
 
 import com.github.anastr.speedviewlib.DeluxeSpeedView;
 import com.github.anastr.speedviewlib.SpeedView;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
+import com.nss.nss.adapters.AdaptadorImformationDevice;
 
 import java.util.List;
 
@@ -35,7 +36,7 @@ public class TelefonoMedida extends PhoneStateListener {
     /*variables usadas con instanciaos desde el fragmente de pruebas*/
     private SpeedView speedometer;
     private DeluxeSpeedView speedDeluxe;
-    private ArrayAdapter adaptadorDatosRedes;
+    private RecyclerView recycler_view_data;
     private List<String> listDatosRm;
     private LineGraphSeries<DataPoint> series;
 
@@ -56,15 +57,15 @@ public class TelefonoMedida extends PhoneStateListener {
     }
 
     /* fragment de imformacion*/
-    public TelefonoMedida(ArrayAdapter datosRedes, Context context, List<String> datosRM) {
+    public TelefonoMedida(RecyclerView datosRedes, Context context, List<String> datosRM) {
         nombreDeFragment = "imformacion";
-        adaptadorDatosRedes = datosRedes;
+        recycler_view_data = datosRedes;
         listDatosRm = datosRM;
         info = new imformacionDispositivos(context);
 
     }
 
-    public TelefonoMedida(LineGraphSeries<DataPoint> dbm  , Context context) {
+    public TelefonoMedida(LineGraphSeries<DataPoint> dbm, Context context) {
         this.series = dbm;
         nombreDeFragment = "grafica";
         info = new imformacionDispositivos(context);
@@ -152,8 +153,8 @@ public class TelefonoMedida extends PhoneStateListener {
 
 
     private void actualizarGriedView() {
-        adaptadorDatosRedes.clear();
-        info.getImformationRedesMoviles(listDatosRm);
+        recycler_view_data.removeAllViews();
+        recycler_view_data.setAdapter(new AdaptadorImformationDevice(info.getImformationRedesMoviles()));
         Log.w("RRD", "Actualizando");
     }
 
