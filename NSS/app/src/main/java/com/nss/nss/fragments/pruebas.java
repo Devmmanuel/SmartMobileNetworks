@@ -1,4 +1,4 @@
-package com.nss.nss;
+package com.nss.nss.fragments;
 
 
 import android.content.Context;
@@ -14,6 +14,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import com.github.anastr.speedviewlib.DeluxeSpeedView;
 import com.github.anastr.speedviewlib.SpeedView;
+import com.nss.nss.R;
+import com.nss.nss.TelefonoMedida;
 
 import java.util.Objects;
 

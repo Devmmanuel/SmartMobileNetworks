@@ -1,4 +1,4 @@
-package com.nss.nss;
+package com.nss.nss.fragments;
 
 
 import android.content.Context;
@@ -15,7 +15,10 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.GridView;
 
+import com.nss.nss.R;
+import com.nss.nss.TelefonoMedida;
 import com.nss.nss.adapters.AdaptadorImformationDevice;
+import com.nss.nss.imformacionDispositivos;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -12,10 +12,10 @@ import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 
 import com.nss.nss.R;
-import com.nss.nss.grafica_medidas;
-import com.nss.nss.historicos_pruebas;
-import com.nss.nss.imformacion_redes_moviles;
-import com.nss.nss.pruebas;
+import com.nss.nss.fragments.grafica_medidas;
+import com.nss.nss.fragments.historicos_pruebas;
+import com.nss.nss.fragments.imformacion_redes_moviles;
+import com.nss.nss.fragments.pruebas;
 
 /**
  * A placeholder fragment containing a simple view.

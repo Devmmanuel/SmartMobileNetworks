@@ -1,4 +1,4 @@
-package com.nss.nss;
+package com.nss.nss.fragments;
 
 import android.content.Context;
 import android.graphics.Typeface;
@@ -18,6 +18,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TableLayout;
+
+import com.nss.nss.AdminSql;
+import com.nss.nss.CalendarioDialog;
+import com.nss.nss.R;
+import com.nss.nss.TableLayoutDinamico;
+
 import java.util.ArrayList;
 import java.util.Objects;
 

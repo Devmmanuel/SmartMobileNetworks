@@ -1,4 +1,4 @@
-package com.nss.nss;
+package com.nss.nss.fragments;
 
 import android.content.Context;
 import android.net.Uri;
@@ -8,6 +8,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import com.jjoe64.graphview.GraphView;
+import com.nss.nss.Grafica;
+import com.nss.nss.R;
 
 
 public class grafica_medidas extends Fragment {

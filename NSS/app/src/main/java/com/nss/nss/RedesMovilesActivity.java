@@ -14,6 +14,10 @@ import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
 
 
+import com.nss.nss.fragments.grafica_medidas;
+import com.nss.nss.fragments.historicos_pruebas;
+import com.nss.nss.fragments.imformacion_redes_moviles;
+import com.nss.nss.fragments.pruebas;
 import com.nss.nss.ui.main.SectionsPagerAdapter;
 
 import java.util.Objects;

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorNns1"
-    tools:context=".imformacion_redes_moviles">
+    tools:context=".fragments.imformacion_redes_moviles">
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler_datos"

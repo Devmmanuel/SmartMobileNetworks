@@ -14,6 +14,7 @@ import com.github.anastr.speedviewlib.SpeedView;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 import com.nss.nss.adapters.AdaptadorImformationDevice;
+import com.nss.nss.fragments.pruebas;
 
 import java.util.List;
 

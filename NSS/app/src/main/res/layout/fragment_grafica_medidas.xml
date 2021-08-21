@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".grafica_medidas">
+    tools:context=".fragments.grafica_medidas">
 
     <com.jjoe64.graphview.GraphView
         android:layout_width="match_parent"
