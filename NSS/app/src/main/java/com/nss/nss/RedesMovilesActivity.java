@@ -14,9 +14,9 @@ import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
 
 
-import com.nss.nss.fragments.grafica_medidas;
-import com.nss.nss.fragments.historicos_pruebas;
-import com.nss.nss.fragments.imformacion_redes_moviles;
+import com.nss.nss.fragments.Graph;
+import com.nss.nss.fragments.Historical;
+import com.nss.nss.fragments.ImformationMobile;
 import com.nss.nss.fragments.pruebas;
 import com.nss.nss.ui.main.SectionsPagerAdapter;
 
@@ -24,8 +24,8 @@ import java.util.Objects;
 
 
 public class RedesMovilesActivity extends AppCompatActivity implements
-        historicos_pruebas.OnFragmentInteractionListener, imformacion_redes_moviles.OnFragmentInteractionListener,
-        pruebas.OnFragmentInteractionListener, grafica_medidas.OnFragmentInteractionListener {
+        Historical.OnFragmentInteractionListener, ImformationMobile.OnFragmentInteractionListener,
+        pruebas.OnFragmentInteractionListener, Graph.OnFragmentInteractionListener {
 
     private TabLayout tabs;
     private int[] imagenes_tabs = {

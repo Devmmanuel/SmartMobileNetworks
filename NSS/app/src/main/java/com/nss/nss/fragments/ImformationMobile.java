@@ -25,7 +25,7 @@ import java.util.List;
 import java.util.Objects;
 
 
-public class imformacion_redes_moviles extends Fragment {
+public class ImformationMobile extends Fragment {
 
 
     private List<String> ListaDatosRM = new ArrayList<>();
@@ -39,7 +39,7 @@ public class imformacion_redes_moviles extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
-    public imformacion_redes_moviles() {
+    public ImformationMobile() {
         // Required empty public constructor
 
     }

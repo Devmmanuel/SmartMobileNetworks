@@ -2,6 +2,9 @@ package com.nss.nss;
 
 import android.content.Context;
 import android.graphics.Typeface;
+import android.view.Gravity;
+import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -40,6 +43,7 @@ public class TableLayoutDinamico {
         textView.setPadding(11, 7, 10, 11);
         textView.setBackgroundResource(R.drawable.textview_border);
         textView.setTypeface(letra);
+        textView.setGravity(Gravity.CENTER);
         textView.setTextColor(context.getResources().getColor(R.color.colorNns1));
         textView.setText(texto);
         renglon.addView(textView);
@@ -51,6 +55,7 @@ public class TableLayoutDinamico {
         textView.setPadding(7, 7, 7, 7);
         textView.setBackgroundResource(R.drawable.textview_border);
         textView.setTypeface(letra);
+        textView.setGravity(Gravity.CENTER);
         textView.setTextSize(15);
         textView.setTextColor(context.getResources().getColor(R.color.colorPrimaryDark));
         textView.setText(texto);

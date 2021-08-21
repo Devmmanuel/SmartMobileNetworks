@@ -7,7 +7,7 @@ import android.content.DialogInterface;
 import android.widget.Button;
 import android.widget.DatePicker;
 
-import com.nss.nss.fragments.historicos_pruebas;
+import com.nss.nss.fragments.Historical;
 
 import java.util.Calendar;
 
@@ -28,7 +28,7 @@ public class CalendarioDialog {
                 new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-                        historicos_pruebas.txtBuscar.setText(String.format("%s/%s/%s", changeDia(day), (changeDia(month + 1)), cambiarAnio(year)));
+                        Historical.txtBuscar.setText(String.format("%s/%s/%s", changeDia(day), (changeDia(month + 1)), cambiarAnio(year)));
                     }
                 }, anio, mes, dia);
     }

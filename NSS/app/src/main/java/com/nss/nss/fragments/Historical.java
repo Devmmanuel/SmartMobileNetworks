@@ -23,12 +23,14 @@ import com.nss.nss.AdminSql;
 import com.nss.nss.CalendarioDialog;
 import com.nss.nss.R;
 import com.nss.nss.TableLayoutDinamico;
+import com.nss.nss.controller.ControllerHistorical;
+import com.nss.nss.model.SpinerState;
 
 import java.util.ArrayList;
 import java.util.Objects;
 
 
-public class historicos_pruebas extends Fragment {
+public class Historical extends Fragment {
 
 
     private TableLayout table;
@@ -39,31 +41,32 @@ public class historicos_pruebas extends Fragment {
     private AdminSql adminSql;
     private CalendarioDialog calendarioFecha;
     private TableLayoutDinamico tablaDinamica;
-    private String[] cabezera = {"Id", "Fecha", "Dbm", "Asu", "Codigo", "Red", "Tipo red"};
+    private final String[] cabezera = {"Id", "Fecha", "Dbm", "Asu", "Codigo", "Red", "Tipo red"};
     private Typeface letra;
     private Spinner spinerFiltrar;
-    private String CBuscada = "fecha";
+    private SpinerState state = SpinerState.DATE;
     private OnFragmentInteractionListener mListener;
+    private ControllerHistorical ctrHistorical;
 
-    public historicos_pruebas() {
+    public Historical() {
         // Required empty public constructor
 
     }
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.menu_redes_moviles,menu);
+        inflater.inflate(R.menu.menu_redes_moviles, menu);
         super.onCreateOptionsMenu(menu, inflater);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.menuExportar: {
                 adminSql.exportarBase();
                 break;
             }
-            case R.id.menuAcercaDe:{
+            case R.id.menuAcercaDe: {
                 AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
                 builder.setTitle(R.string.action_acerca_de);
                 builder.setMessage(R.string.contenido_acerca_de);
@@ -95,19 +98,19 @@ public class historicos_pruebas extends Fragment {
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 switch (i) {
                     case 0:
-                        CBuscada = "fecha";
+                        state = SpinerState.DATE;
                         break;
                     case 1:
-                        CBuscada = "dbm";
+                        state = SpinerState.DBM;
                         break;
                     case 2:
-                        CBuscada = "asu";
+                        state = SpinerState.ASU;
                         break;
                     case 3:
-                        CBuscada = "tipo_de_red";
+                        state = SpinerState.RED;
                         break;
                     case 4:
-                        CBuscada = "tipo_de_red_telefonica";
+                        state = SpinerState.KIND_OF_RED;
                         break;
                 }
             }
@@ -124,7 +127,7 @@ public class historicos_pruebas extends Fragment {
         txtBuscar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (CBuscada.equals("fecha"))
+                if (state.equals(SpinerState.DATE))
                     calendarioFecha.mostar();
             }
         });
@@ -140,15 +143,12 @@ public class historicos_pruebas extends Fragment {
         return vista;
     }
 
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
-    }
 
     private void agregarRegistrosAtabla() {
         if (buscando) {
-            registros = adminSql.regresarRegistrosConsulta(txtBuscar.getText().toString(), registros, CBuscada);
+            ctrHistorical = new ControllerHistorical();
+            String cBuscada = ctrHistorical.buscando(state);
+            registros = adminSql.regresarRegistrosConsulta(txtBuscar.getText().toString(), registros, cBuscada);
             buscando = false;
         } else
             registros = adminSql.regresarRegistros(registros);

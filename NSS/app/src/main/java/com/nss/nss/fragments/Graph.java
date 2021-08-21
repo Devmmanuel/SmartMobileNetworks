@@ -8,18 +8,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import com.jjoe64.graphview.GraphView;
-import com.nss.nss.Grafica;
+import com.nss.nss.GraficaLibrery;
 import com.nss.nss.R;
 
 
-public class grafica_medidas extends Fragment {
+public class Graph extends Fragment {
 
-    private Grafica graficaDbm;
+    private GraficaLibrery graficaDbm;
     private GraphView graphViewDbm;
 
     private OnFragmentInteractionListener mListener;
 
-    public grafica_medidas() {
+    public Graph() {
         // Required empty public constructor
     }
 
@@ -29,7 +29,7 @@ public class grafica_medidas extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_grafica_medidas, container, false);
         graphViewDbm = view.findViewById(R.id.graph);
-        graficaDbm = new Grafica(graphViewDbm, getContext());
+        graficaDbm = new GraficaLibrery(graphViewDbm, getContext());
         graficaDbm.inicializarGraphView();
 
         return view;

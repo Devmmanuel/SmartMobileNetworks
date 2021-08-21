@@ -11,7 +11,7 @@ import com.jjoe64.graphview.Viewport;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 
-public class Grafica {
+public class GraficaLibrery {
 
 
     private GraphView graphView;
@@ -23,7 +23,7 @@ public class Grafica {
     private TelefonoMedida telefonoMedida;
 
 
-    public Grafica(GraphView grafica, Context context) {
+    public GraficaLibrery(GraphView grafica, Context context) {
         graphView = grafica;
         viewport = graphView.getViewport();
         gridLabelRenderer = graphView.getGridLabelRenderer();
