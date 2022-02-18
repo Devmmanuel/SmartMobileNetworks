@@ -1,13 +1,13 @@
-package com.nss.nss;
+package com.nss.nss.ui.historicos;
 
 import android.content.Context;
 import android.graphics.Typeface;
 import android.view.Gravity;
-import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+
+import com.nss.nss.R;
 
 import java.util.ArrayList;
 

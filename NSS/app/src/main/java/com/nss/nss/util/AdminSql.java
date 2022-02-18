@@ -1,4 +1,4 @@
-package com.nss.nss;
+package com.nss.nss.util;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -10,6 +10,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.ajts.androidmads.library.SQLiteToExcel;
+import com.nss.nss.ui.imformacion_device.imformacionDispositivos;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;

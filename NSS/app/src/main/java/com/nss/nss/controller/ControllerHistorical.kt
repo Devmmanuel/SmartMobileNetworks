@@ -1,8 +1,5 @@
 package com.nss.nss.controller
 
-import android.util.Log
-import com.nss.nss.TableLayoutDinamico
-import com.nss.nss.fragments.Historical
 import com.nss.nss.model.SpinerState
 
 class ControllerHistorical {

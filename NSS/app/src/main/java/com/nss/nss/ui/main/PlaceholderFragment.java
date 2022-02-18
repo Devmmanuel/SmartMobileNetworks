@@ -12,10 +12,10 @@ import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 
 import com.nss.nss.R;
-import com.nss.nss.fragments.Graph;
-import com.nss.nss.fragments.Historical;
-import com.nss.nss.fragments.ImformationMobile;
-import com.nss.nss.fragments.pruebas;
+import com.nss.nss.ui.graph.Graph;
+import com.nss.nss.ui.historicos.Historical;
+import com.nss.nss.ui.imformacion_device.ImformationMobile;
+import com.nss.nss.ui.pruebas.pruebas;
 
 /**
  * A placeholder fragment containing a simple view.

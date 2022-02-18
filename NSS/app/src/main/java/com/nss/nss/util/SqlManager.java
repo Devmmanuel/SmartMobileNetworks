@@ -1,10 +1,13 @@
-package com.nss.nss;
+package com.nss.nss.util;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+
+import com.nss.nss.R;
+import com.nss.nss.util.AdminSql;
 
 public class SqlManager extends AppCompatActivity {
 

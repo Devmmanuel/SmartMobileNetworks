@@ -1,8 +1,6 @@
-package com.nss.nss.fragments;
+package com.nss.nss.ui.historicos;
 
-import android.content.Context;
 import android.graphics.Typeface;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
@@ -19,10 +17,8 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TableLayout;
 
-import com.nss.nss.AdminSql;
-import com.nss.nss.CalendarioDialog;
+import com.nss.nss.util.AdminSql;
 import com.nss.nss.R;
-import com.nss.nss.TableLayoutDinamico;
 import com.nss.nss.controller.ControllerHistorical;
 import com.nss.nss.model.SpinerState;
 
@@ -45,7 +41,6 @@ public class Historical extends Fragment {
     private Typeface letra;
     private Spinner spinerFiltrar;
     private SpinerState state = SpinerState.DATE;
-    private OnFragmentInteractionListener mListener;
     private ControllerHistorical ctrHistorical;
 
     public Historical() {
@@ -158,25 +153,5 @@ public class Historical extends Fragment {
         tablaDinamica.agregarRegistrosTable(adminSql.getTotalRegistros(), registros);
     }
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
-    }
 
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-    }
-
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
-    }
 }

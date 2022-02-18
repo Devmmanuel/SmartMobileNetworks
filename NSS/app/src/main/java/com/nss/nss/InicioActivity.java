@@ -17,8 +17,10 @@ import android.view.MenuItem;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import com.nss.nss.util.SqlManager;
 
-public class Inicio extends AppCompatActivity implements View.OnClickListener {
+
+public class InicioActivity extends AppCompatActivity implements View.OnClickListener {
 
     private ImageButton btnMenuRedesMoviles;
     private ImageButton btnWifi;
@@ -72,11 +74,11 @@ public class Inicio extends AppCompatActivity implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         if (v == btnMenuRedesMoviles) {
-            Intent intento = new Intent(Inicio.this, RedesMovilesActivity.class);
+            Intent intento = new Intent(InicioActivity.this, RedesMovilesActivity.class);
             startActivity(intento);
         }
         if (v == btnWifi) {
-            Intent intento = new Intent(Inicio.this, SqlManager.class);
+            Intent intento = new Intent(InicioActivity.this, SqlManager.class);
             startActivity(intento);
         }
     }

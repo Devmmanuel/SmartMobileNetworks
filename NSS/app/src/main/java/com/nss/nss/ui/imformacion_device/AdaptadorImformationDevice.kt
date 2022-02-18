@@ -1,4 +1,4 @@
-package com.nss.nss.adapters
+package com.nss.nss.ui.imformacion_device
 
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater

@@ -1,14 +1,12 @@
-package com.nss.nss.fragments;
+package com.nss.nss.ui.graph;
 
-import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
 import com.jjoe64.graphview.GraphView;
-import com.nss.nss.GraficaLibrery;
 import com.nss.nss.R;
 
 
@@ -17,10 +15,9 @@ public class Graph extends Fragment {
     private GraficaLibrery graficaDbm;
     private GraphView graphViewDbm;
 
-    private OnFragmentInteractionListener mListener;
 
     public Graph() {
-        // Required empty public constructor
+
     }
 
 
@@ -40,26 +37,5 @@ public class Graph extends Fragment {
         super.onDestroy();
     }
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-    }
-
-
-    public interface OnFragmentInteractionListener {
-        void onFragmentInteraction(Uri uri);
-    }
 
 }

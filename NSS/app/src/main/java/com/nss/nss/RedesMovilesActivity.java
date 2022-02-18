@@ -3,7 +3,6 @@ package com.nss.nss;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.ActivityCompat;
@@ -12,20 +11,12 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
-
-
-import com.nss.nss.fragments.Graph;
-import com.nss.nss.fragments.Historical;
-import com.nss.nss.fragments.ImformationMobile;
-import com.nss.nss.fragments.pruebas;
 import com.nss.nss.ui.main.SectionsPagerAdapter;
 
 import java.util.Objects;
 
 
-public class RedesMovilesActivity extends AppCompatActivity implements
-        Historical.OnFragmentInteractionListener, ImformationMobile.OnFragmentInteractionListener,
-        pruebas.OnFragmentInteractionListener, Graph.OnFragmentInteractionListener {
+public class RedesMovilesActivity extends AppCompatActivity{
 
     private TabLayout tabs;
     private int[] imagenes_tabs = {
@@ -75,10 +66,6 @@ public class RedesMovilesActivity extends AppCompatActivity implements
         return super.onKeyDown(keyCode, event);
     }
 
-    @Override
-    public void onFragmentInteraction(Uri uri) {
-
-    }
 
 
 }

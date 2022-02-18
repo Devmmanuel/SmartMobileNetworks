@@ -1,4 +1,4 @@
-package com.nss.nss;
+package com.nss.nss.ui.historicos;
 
 
 import android.app.DatePickerDialog;
@@ -7,8 +7,7 @@ import android.content.DialogInterface;
 import android.widget.Button;
 import android.widget.DatePicker;
 
-import com.nss.nss.fragments.Historical;
-
+import com.nss.nss.R;
 import java.util.Calendar;
 
 

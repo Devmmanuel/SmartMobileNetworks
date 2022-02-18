@@ -1,4 +1,4 @@
-package com.nss.nss;
+package com.nss.nss.ui.graph;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -10,6 +10,7 @@ import com.jjoe64.graphview.GridLabelRenderer;
 import com.jjoe64.graphview.Viewport;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
+import com.nss.nss.ui.imformacion_device.TelefonoMedida;
 
 public class GraficaLibrery {
 

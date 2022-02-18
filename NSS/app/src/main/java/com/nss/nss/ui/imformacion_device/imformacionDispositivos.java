@@ -1,4 +1,4 @@
-package com.nss.nss;
+package com.nss.nss.ui.imformacion_device;
 
 import android.Manifest;
 import android.content.Context;
@@ -75,7 +75,7 @@ public class imformacionDispositivos {
     }
 
     /**
-     * @param  un Lista de tipo String y le asigna elementos
+     * @param  unz Lista de tipo String y le asigna elementos
      */
     public List<String> getImformationRedesMoviles() {
         List<String> datosRM = new ArrayList<>();

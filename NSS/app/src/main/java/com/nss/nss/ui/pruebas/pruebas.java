@@ -1,4 +1,4 @@
-package com.nss.nss.fragments;
+package com.nss.nss.ui.pruebas;
 
 
 import android.content.Context;
@@ -15,7 +15,7 @@ import android.widget.Button;
 import com.github.anastr.speedviewlib.DeluxeSpeedView;
 import com.github.anastr.speedviewlib.SpeedView;
 import com.nss.nss.R;
-import com.nss.nss.TelefonoMedida;
+import com.nss.nss.ui.imformacion_device.TelefonoMedida;
 
 import java.util.Objects;
 
@@ -25,7 +25,6 @@ public class pruebas extends Fragment {
     private SpeedView speedometer;
     private DeluxeSpeedView speedDeluxe;
     private TelephonyManager tm;
-    private OnFragmentInteractionListener mListener;
     public static Button btnIniciarPrueba;
     private int escucharTelefono = PhoneStateListener.LISTEN_SIGNAL_STRENGTHS | PhoneStateListener.LISTEN_DATA_CONNECTION_STATE;
     private Typeface letra;
@@ -39,7 +38,6 @@ public class pruebas extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         letra=Typeface.createFromAsset(Objects.requireNonNull(getContext()).getAssets(),"fuentes/TitilliumWeb-Bold.ttf");
-
     }
 
 
@@ -95,30 +93,6 @@ public class pruebas extends Fragment {
         speedometer.setTickNumber(4);
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
-    }
-
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-    }
 
 
     @Override
@@ -126,10 +100,5 @@ public class pruebas extends Fragment {
         super.onDestroyView();
         tm.listen(phoneListen, PhoneStateListener.LISTEN_NONE);
     }
-
-
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
-    }
+    
 }

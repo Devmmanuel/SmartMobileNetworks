@@ -1,4 +1,4 @@
-package com.nss.nss;
+package com.nss.nss.ui.imformacion_device;
 
 
 import android.content.Context;
@@ -13,8 +13,9 @@ import com.github.anastr.speedviewlib.DeluxeSpeedView;
 import com.github.anastr.speedviewlib.SpeedView;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
-import com.nss.nss.adapters.AdaptadorImformationDevice;
-import com.nss.nss.fragments.pruebas;
+import com.nss.nss.ui.pruebas.pruebas;
+import com.nss.nss.util.AdminSql;
+import com.nss.nss.util.NotificationHelpener;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package com.nss.nss;
+package com.nss.nss.util;
 
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -8,6 +8,9 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.provider.Settings;
 import android.support.v4.app.NotificationCompat;
+
+import com.nss.nss.R;
+import com.nss.nss.RedesMovilesActivity;
 
 public class NotificationHelpener {
 
