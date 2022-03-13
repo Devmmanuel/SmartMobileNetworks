@@ -2,8 +2,6 @@ package com.nss.nss.ui.historicos;
 
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -15,7 +13,9 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.TableLayout;
+
+import androidx.appcompat.app.AlertDialog;
+import androidx.fragment.app.Fragment;
 
 import com.nss.nss.databinding.FragmentHistoricosPruebasBinding;
 import com.nss.nss.ui.tableview.TableViewAdapter;
@@ -25,13 +25,11 @@ import com.nss.nss.controller.ControllerHistorical;
 import com.nss.nss.data.model.SpinerState;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
 
 public class Historical extends Fragment {
 
 
-    private TableLayout table;
     private ArrayList<String> registros;
     private Button btnBuscar;
     public static EditText txtBuscar;
@@ -80,7 +78,7 @@ public class Historical extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
-        letra = Typeface.createFromAsset(Objects.requireNonNull(getContext()).getAssets(), "fuentes/TitilliumWeb-Black.ttf");
+        letra = Typeface.createFromAsset(requireContext().getAssets(), "fuentes/TitilliumWeb-Black.ttf");
         adminSql = new AdminSql(getContext(), "mydb", null, 1);
         calendarioFecha = new CalendarioDialog(getContext());
 
@@ -123,20 +121,13 @@ public class Historical extends Fragment {
         txtBuscar = vista.findViewById(R.id.txtBuscar);
         btnBuscar.setTypeface(letra);
 
-        txtBuscar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (state.equals(SpinerState.DATE))
-                    calendarioFecha.mostar();
-            }
+        txtBuscar.setOnClickListener(view -> {
+            if (state.equals(SpinerState.DATE))
+                calendarioFecha.mostar();
         });
-        btnBuscar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                table.removeAllViews();
-                buscando = true;
-                agregarRegistrosAtabla();
-            }
+        btnBuscar.setOnClickListener(view -> {
+            buscando = true;
+            agregarRegistrosAtabla();
         });
         agregarRegistrosAtabla();
         return vista;
@@ -152,10 +143,7 @@ public class Historical extends Fragment {
         } else
             registros = adminSql.regresarRegistros(registros);
         Log.w("Registros", adminSql.getTotalRegistros() + " " + registros.size());
-        binding.recyclerHistoricos.setAdapter(tableViewAdapter);
-        tablaDinamica = new TableLayoutDinamico(table, getContext());
-        tablaDinamica.agregarCabezeras(cabezera);
-        tablaDinamica.agregarRegistrosTable(adminSql.getTotalRegistros(), registros);
+        //binding.recyclerHistoricos.setAdapter(tableViewAdapter);
     }
 
 

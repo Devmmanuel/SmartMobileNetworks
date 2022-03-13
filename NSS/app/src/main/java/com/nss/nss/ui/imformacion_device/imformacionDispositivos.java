@@ -1,10 +1,10 @@
 package com.nss.nss.ui.imformacion_device;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.os.Build;
-import android.support.v4.content.ContextCompat;
 import android.telephony.CellInfo;
 import android.telephony.CellInfoCdma;
 import android.telephony.CellInfoGsm;
@@ -16,7 +16,8 @@ import android.telephony.CellSignalStrengthLte;
 import android.telephony.CellSignalStrengthWcdma;
 import android.telephony.TelephonyManager;
 import android.util.Log;
-import android.widget.Toast;
+
+import androidx.core.content.ContextCompat;
 
 import java.net.InetAddress;
 import java.net.NetworkInterface;
@@ -75,7 +76,6 @@ public class imformacionDispositivos {
     }
 
     /**
-     * @param  unz Lista de tipo String y le asigna elementos
      */
     public List<String> getImformationRedesMoviles() {
         List<String> datosRM = new ArrayList<>();
@@ -98,7 +98,7 @@ public class imformacionDispositivos {
         datosRM.add("Data conected");
         datosRM.add(getDataConected());
         datosRM.add("Imei");
-        datosRM.add(getnImei());
+        datosRM.add("Null");
         datosRM.add("ip");
         datosRM.add(getMobileIPAddress());
         datosRM.add("Mac");
@@ -240,7 +240,7 @@ public class imformacionDispositivos {
      * Metodo el cual nos regresa el tipo de red en el cual nos encontramos
      */
     public String getTypeOfNetwork() {
-        int networkType = tm.getNetworkType();
+        @SuppressLint("MissingPermission") int networkType = tm.getNetworkType();
         switch (networkType) {
             case TelephonyManager.NETWORK_TYPE_1xRTT:
                 return "1xRTT";
