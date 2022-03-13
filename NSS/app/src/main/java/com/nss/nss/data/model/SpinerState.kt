@@ -1,4 +1,4 @@
-package com.nss.nss.model
+package com.nss.nss.data.model
 
 enum class SpinerState {
     DATE,

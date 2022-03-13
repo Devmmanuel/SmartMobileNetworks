@@ -1,6 +1,6 @@
 package com.nss.nss.controller
 
-import com.nss.nss.model.SpinerState
+import com.nss.nss.data.model.SpinerState
 
 class ControllerHistorical {
 

@@ -1,5 +1,8 @@
-package com.nss.nss.ui.tableview
+package com.nss.nss.data.db
 
+import androidx.room.Entity
+
+@Entity
 data class Historico(
     val id:Int,
     val fecha:String,

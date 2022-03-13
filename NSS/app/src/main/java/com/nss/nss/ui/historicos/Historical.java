@@ -22,7 +22,7 @@ import com.nss.nss.ui.tableview.TableViewAdapter;
 import com.nss.nss.util.AdminSql;
 import com.nss.nss.R;
 import com.nss.nss.controller.ControllerHistorical;
-import com.nss.nss.model.SpinerState;
+import com.nss.nss.data.model.SpinerState;
 
 import java.util.ArrayList;
 import java.util.Objects;
