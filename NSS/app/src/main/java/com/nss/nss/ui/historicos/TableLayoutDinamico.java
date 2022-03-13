@@ -1,8 +1,11 @@
 package com.nss.nss.ui.historicos;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.view.Gravity;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -29,6 +32,7 @@ public class TableLayoutDinamico {
 
     private void agregarRenglon() {
         renglon = new TableRow(context);
+        renglon.setBackgroundColor(Color.RED);
     }
 
     public void agregarCabezeras(String[] cabecera) {
@@ -47,18 +51,21 @@ public class TableLayoutDinamico {
         textView.setTextColor(context.getResources().getColor(R.color.colorNns1));
         textView.setText(texto);
         renglon.addView(textView);
+        renglon.setBackgroundColor(context.getResources().getColor(R.color.colorNnsAuxiliar3));
     }
 
 
     private void crearCeldaCabezera(String texto) {
         textView = new TextView(context);
-        textView.setPadding(7, 7, 7, 7);
         textView.setBackgroundResource(R.drawable.textview_border);
         textView.setTypeface(letra);
-        textView.setGravity(Gravity.CENTER);
         textView.setTextSize(15);
         textView.setTextColor(context.getResources().getColor(R.color.colorPrimaryDark));
         textView.setText(texto);
+        LinearLayout.LayoutParams parms_legen_layout = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT,100);
+        textView.setLayoutParams(parms_legen_layout);
         renglon.addView(textView);
     }
 

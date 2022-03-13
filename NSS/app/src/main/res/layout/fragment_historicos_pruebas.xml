@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorNns1"
+    android:background="@color/colorBackground"
     tools:context=".ui.historicos.Historical">
 
     <ScrollView
@@ -44,15 +44,11 @@
                 android:background="@color/colorNnsAuxiliar5"
                 android:text="Buscar" />
 
-            <HorizontalScrollView
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycler_historicos"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-            <TableLayout
-                android:id="@+id/tablelayout"
-                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:background="@color/colorNnsAuxiliar" />
-            </HorizontalScrollView>
         </LinearLayout>
     </ScrollView>
 </FrameLayout>

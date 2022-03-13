@@ -17,6 +17,8 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TableLayout;
 
+import com.nss.nss.databinding.FragmentHistoricosPruebasBinding;
+import com.nss.nss.ui.tableview.TableViewAdapter;
 import com.nss.nss.util.AdminSql;
 import com.nss.nss.R;
 import com.nss.nss.controller.ControllerHistorical;
@@ -42,6 +44,8 @@ public class Historical extends Fragment {
     private Spinner spinerFiltrar;
     private SpinerState state = SpinerState.DATE;
     private ControllerHistorical ctrHistorical;
+    private FragmentHistoricosPruebasBinding binding;
+    private TableViewAdapter tableViewAdapter;
 
     public Historical() {
         // Required empty public constructor
@@ -86,7 +90,7 @@ public class Historical extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View vista = inflater.inflate(R.layout.fragment_historicos_pruebas, container, false);
-        table = vista.findViewById(R.id.tablelayout);
+        tableViewAdapter= new TableViewAdapter();
         spinerFiltrar = vista.findViewById(R.id.spinner);
         spinerFiltrar.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -148,6 +152,7 @@ public class Historical extends Fragment {
         } else
             registros = adminSql.regresarRegistros(registros);
         Log.w("Registros", adminSql.getTotalRegistros() + " " + registros.size());
+        binding.recyclerHistoricos.setAdapter(tableViewAdapter);
         tablaDinamica = new TableLayoutDinamico(table, getContext());
         tablaDinamica.agregarCabezeras(cabezera);
         tablaDinamica.agregarRegistrosTable(adminSql.getTotalRegistros(), registros);

@@ -94,10 +94,17 @@ public class TelefonoMedida extends PhoneStateListener {
                     } else {
                         dbm = Integer.parseInt(partInfo[14]);//14
                         asu = esDbm(Integer.parseInt(partInfo[14]));//14
+                        Log.w("INFON DEB", dbm+""+asu);
                     }
                     Log.w("MM", "3G");
                     break;
                 case "4G":
+                    if (Build.VERSION.RELEASE.equals("11")){
+                        dbm = Integer.parseInt(partInfo[21]);//14
+                        asu = esDbm(Integer.parseInt(partInfo[21]));//14
+                        Log.w("LOG",dbm+""+asu);
+                        return;
+                    }
                     dbm = Integer.parseInt(partInfo[9]);
                     asu = (Integer.parseInt(partInfo[2]));//140
                     Log.w("MM", "4G");
