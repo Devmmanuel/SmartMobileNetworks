@@ -1,8 +1,10 @@
 package com.nss.nss.ui.tableview
 
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.nss.nss.R
 import com.nss.nss.data.db.Historico
 import com.nss.nss.databinding.ItemTableviewBinding
 
@@ -11,11 +13,16 @@ class TableViewAdapter() :
     RecyclerView.Adapter<TableViewAdapter.ViewHolder>() {
 
 
-    private var listaHistoricos: List<Historico> = arrayListOf()
+    private var listaHistoricos: MutableList<Historico> = arrayListOf()
 
     fun setData(lista: List<Historico>) {
-        listaHistoricos = lista
+        listaHistoricos = lista.toMutableList()
+        listaHistoricos.add(0,setHeader())
         notifyDataSetChanged()
+    }
+
+    private fun setHeader(): Historico {
+        return Historico(0, "Fecha", "Dbm", "Asu", "Codigo", "Red", "Tipo Red")
     }
 
     class ViewHolder(private val binding: ItemTableviewBinding) : RecyclerView.ViewHolder(binding.root) {

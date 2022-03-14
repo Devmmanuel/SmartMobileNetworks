@@ -7,46 +7,41 @@
     android:orientation="horizontal"
     android:layout_height="wrap_content">
     <TextView
-        android:layout_weight="7"
+        android:background="@drawable/textview_border"
         android:text="1"
         android:id="@+id/tv_id"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        style="@style/tableView"/>
     <TextView
-        android:layout_weight="7"
+        android:background="@drawable/textview_border"
         android:text="2"
-        android:id="@+id/tv_fecha"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        style="@style/tableView"
+        android:layout_width="150dp"
+        android:id="@+id/tv_fecha" />
     <TextView
-        android:layout_weight="7"
+        android:background="@drawable/textview_border"
         android:text="3"
-        android:id="@+id/tv_dbm"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        style="@style/tableView"
+        android:id="@+id/tv_dbm" />
     <TextView
-        android:layout_weight="7"
+        android:background="@drawable/textview_border"
         android:text="4"
-        android:id="@+id/tv_asu"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        style="@style/tableView"
+        android:id="@+id/tv_asu" />
     <TextView
-        android:layout_weight="7"
+        android:background="@drawable/textview_border"
         android:text="5"
-        android:id="@+id/tv_codigo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        style="@style/tableView"
+        android:id="@+id/tv_codigo" />
     <TextView
-        android:layout_weight="7"
+        android:background="@drawable/textview_border"
         android:text="6"
+        style="@style/tableView"
         android:id="@+id/tv_red"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+       />
     <TextView
-        android:layout_weight="7"
+        android:background="@drawable/textview_border"
         android:text="1"
         android:id="@+id/tv_tipo_red"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        style="@style/tableView"/>
 </LinearLayout>
 </layout>
