@@ -17,7 +17,9 @@ import com.nss.nss.ui.main.SectionsPagerAdapter;
 
 import java.util.Objects;
 
+import dagger.hilt.android.AndroidEntryPoint;
 
+@AndroidEntryPoint
 public class RedesMovilesActivity extends AppCompatActivity {
 
     private TabLayout tabs;

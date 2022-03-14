@@ -5,7 +5,7 @@ import androidx.room.PrimaryKey
 
 @Entity
 data class Historico(
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     val id:Int,
     val fecha:String,
     val dbm:String,

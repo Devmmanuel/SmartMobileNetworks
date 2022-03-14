@@ -16,8 +16,11 @@ import android.widget.Spinner;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.RecyclerView;
 
-import com.nss.nss.databinding.FragmentHistoricosPruebasBinding;
+import com.nss.nss.data.db.HistoricoDao;
+import com.nss.nss.ui.pruebas.PruebasViewModel;
 import com.nss.nss.ui.tableview.TableViewAdapter;
 import com.nss.nss.util.AdminSql;
 import com.nss.nss.R;
@@ -26,7 +29,12 @@ import com.nss.nss.data.model.SpinerState;
 
 import java.util.ArrayList;
 
+import javax.inject.Inject;
 
+import dagger.hilt.android.AndroidEntryPoint;
+
+
+@AndroidEntryPoint
 public class Historical extends Fragment {
 
 
@@ -42,8 +50,12 @@ public class Historical extends Fragment {
     private Spinner spinerFiltrar;
     private SpinerState state = SpinerState.DATE;
     private ControllerHistorical ctrHistorical;
-    private FragmentHistoricosPruebasBinding binding;
+    //private FragmentHistoricosPruebasBinding binding;
     private TableViewAdapter tableViewAdapter;
+    private RecyclerView recyclerView;
+    @Inject
+    HistoricoDao historicoDao;
+    private HistoricalViewModel historicalViewModel;
 
     public Historical() {
         // Required empty public constructor
@@ -81,15 +93,18 @@ public class Historical extends Fragment {
         letra = Typeface.createFromAsset(requireContext().getAssets(), "fuentes/TitilliumWeb-Black.ttf");
         adminSql = new AdminSql(getContext(), "mydb", null, 1);
         calendarioFecha = new CalendarioDialog(getContext());
-
+        historicalViewModel = new ViewModelProvider(this).get(HistoricalViewModel.class);
+        tableViewAdapter= new TableViewAdapter();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View vista = inflater.inflate(R.layout.fragment_historicos_pruebas, container, false);
-        tableViewAdapter= new TableViewAdapter();
         spinerFiltrar = vista.findViewById(R.id.spinner);
+        recyclerView=vista.findViewById(R.id.recycler_historicos);
+        recyclerView.setAdapter(tableViewAdapter);
+        historicalViewModel.getAllHistorics();
         spinerFiltrar.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
@@ -127,9 +142,11 @@ public class Historical extends Fragment {
         });
         btnBuscar.setOnClickListener(view -> {
             buscando = true;
-            agregarRegistrosAtabla();
         });
-        agregarRegistrosAtabla();
+        historicalViewModel.getHistoricos().observe(getViewLifecycleOwner(),historicos -> {
+            Log.w("LOG",historicos.toString());
+            tableViewAdapter.setData(historicos);
+        });
         return vista;
     }
 
@@ -143,7 +160,10 @@ public class Historical extends Fragment {
         } else
             registros = adminSql.regresarRegistros(registros);
         Log.w("Registros", adminSql.getTotalRegistros() + " " + registros.size());
-        //binding.recyclerHistoricos.setAdapter(tableViewAdapter);
+        recyclerView.setAdapter(tableViewAdapter);
+        requireActivity().runOnUiThread(() -> {
+            tableViewAdapter.setData(historicoDao.getAllHistoricos());
+        });
     }
 
 

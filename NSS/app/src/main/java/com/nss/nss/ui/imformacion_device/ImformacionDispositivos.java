@@ -26,13 +26,13 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
-public class imformacionDispositivos {
+public class ImformacionDispositivos {
 
     private TelephonyManager tm;
     private Context ctx;
 
 
-    public imformacionDispositivos(Context ctx) {
+    public ImformacionDispositivos(Context ctx) {
         tm = (TelephonyManager) ctx.getSystemService(Context.TELEPHONY_SERVICE);
         this.ctx = ctx;
     }

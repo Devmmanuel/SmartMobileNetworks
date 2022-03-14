@@ -14,6 +14,7 @@ import com.github.anastr.speedviewlib.DeluxeSpeedView;
 import com.github.anastr.speedviewlib.SpeedView;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
+import com.nss.nss.ui.pruebas.OnNetworkChange;
 import com.nss.nss.ui.pruebas.pruebas;
 import com.nss.nss.util.AdminSql;
 import com.nss.nss.util.NotificationHelpener;
@@ -26,7 +27,7 @@ public class TelefonoMedida extends PhoneStateListener {
     private String[] partInfo;
     private int asu;
     private int dbm;
-    private imformacionDispositivos info;
+    private ImformacionDispositivos info;
     private AdminSql adminSql;
     private String[] medidas = new String[2];
     private boolean permitirGirar;
@@ -37,6 +38,7 @@ public class TelefonoMedida extends PhoneStateListener {
 
 
     /*variables usadas con instanciaos desde el fragmente de pruebas*/
+    private OnNetworkChange onNetworkChange;
     private SpeedView speedometer;
     private DeluxeSpeedView speedDeluxe;
     private RecyclerView recycler_view_data;
@@ -50,12 +52,13 @@ public class TelefonoMedida extends PhoneStateListener {
 
 
     /*fragment de pruebas*/
-    public TelefonoMedida(Context context, SpeedView sp, DeluxeSpeedView dx) {
+    public TelefonoMedida(Context context, SpeedView sp, DeluxeSpeedView dx,OnNetworkChange onNetworkChangep) {
         nombreDeFragment = "pruebas";
         speedDeluxe = dx;
         speedometer = sp;
+        onNetworkChange=onNetworkChangep;
         notificacionHelpe = new NotificationHelpener(context);
-        info = new imformacionDispositivos(context);
+        info = new ImformacionDispositivos(context);
         adminSql = new AdminSql(context, "mydb", null, 1);
     }
 
@@ -64,14 +67,14 @@ public class TelefonoMedida extends PhoneStateListener {
         nombreDeFragment = "imformacion";
         recycler_view_data = datosRedes;
         listDatosRm = datosRM;
-        info = new imformacionDispositivos(context);
+        info = new ImformacionDispositivos(context);
 
     }
 
     public TelefonoMedida(LineGraphSeries<DataPoint> dbm, Context context) {
         this.series = dbm;
         nombreDeFragment = "grafica";
-        info = new imformacionDispositivos(context);
+        info = new ImformacionDispositivos(context);
     }
 
 
@@ -121,6 +124,7 @@ public class TelefonoMedida extends PhoneStateListener {
             ponerMedidaSpeed(dbm, asu);
             if (pruebas.btnIniciarPrueba.getText().toString().equalsIgnoreCase("DETENER")) {
                 adminSql.insertar(dbm, asu, info);
+                onNetworkChange.saveNetworkInfoToDatabase(dbm,asu,info);
             }
         } catch (Exception e) {
             Log.w("MENSAJE", e.getMessage());

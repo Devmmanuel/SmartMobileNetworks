@@ -10,7 +10,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.ajts.androidmads.library.SQLiteToExcel;
-import com.nss.nss.ui.imformacion_device.imformacionDispositivos;
+import com.nss.nss.ui.imformacion_device.ImformacionDispositivos;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -60,7 +60,7 @@ public class AdminSql extends SQLiteOpenHelper {
     }
 
 
-    public void insertar(int iDbm, int iAsu, imformacionDispositivos info) {
+    public void insertar(int iDbm, int iAsu, ImformacionDispositivos info) {
         try {
             db = AdminSql.this.getWritableDatabase();
             ContentValues registro = new ContentValues();

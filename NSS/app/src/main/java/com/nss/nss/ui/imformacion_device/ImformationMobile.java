@@ -24,7 +24,7 @@ public class ImformationMobile extends Fragment {
     private List<String> ListaDatosRM = new ArrayList<>();
     private RecyclerView recyclerViewDatos;
     AdaptadorImformationDevice adaptador;
-    private imformacionDispositivos info;
+    private ImformacionDispositivos info;
     private TelephonyManager tm;
     private TelefonoMedida telefonoMedida;
     private int escucharTelefono = PhoneStateListener.LISTEN_DATA_ACTIVITY | PhoneStateListener.LISTEN_DATA_CONNECTION_STATE;
@@ -39,7 +39,7 @@ public class ImformationMobile extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         tm = (TelephonyManager) requireContext().getSystemService(Context.TELEPHONY_SERVICE);
-        info = new imformacionDispositivos(getContext());
+        info = new ImformacionDispositivos(getContext());
         adaptador = new AdaptadorImformationDevice(info.getImformationRedesMoviles());
     }
 
