@@ -17,6 +17,7 @@ import android.telephony.CellSignalStrengthWcdma;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 
+import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import java.net.InetAddress;
@@ -240,7 +241,10 @@ public class ImformacionDispositivos {
      * Metodo el cual nos regresa el tipo de red en el cual nos encontramos
      */
     public String getTypeOfNetwork() {
-        @SuppressLint("MissingPermission") int networkType = tm.getNetworkType();
+        if (ActivityCompat.checkSelfPermission(ctx, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
+            return "";
+        }
+        int networkType = tm.getNetworkType();
         switch (networkType) {
             case TelephonyManager.NETWORK_TYPE_1xRTT:
                 return "1xRTT";
@@ -285,6 +289,9 @@ public class ImformacionDispositivos {
      * conectados (2G,3G,4G)
      */
     public String getTypeOfNetwork234() {
+        if (ActivityCompat.checkSelfPermission(ctx, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
+            return "";
+        }
         int networkType = tm.getNetworkType();
         switch (networkType) {
             case TelephonyManager.NETWORK_TYPE_GPRS:

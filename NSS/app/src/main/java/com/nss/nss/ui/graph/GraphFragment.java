@@ -11,13 +11,13 @@ import com.jjoe64.graphview.GraphView;
 import com.nss.nss.R;
 
 
-public class Graph extends Fragment {
+public class GraphFragment extends Fragment {
 
     private GraficaLibrery graficaDbm;
     private GraphView graphViewDbm;
 
 
-    public Graph() {
+    public GraphFragment() {
 
     }
 
