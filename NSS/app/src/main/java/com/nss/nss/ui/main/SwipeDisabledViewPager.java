@@ -18,7 +18,6 @@ public class SwipeDisabledViewPager extends ViewPager {
 
     @Override
     public boolean onTouchEvent(MotionEvent ev) {
-        // returning false will not propagate the swipe event
         return false;
     }
 

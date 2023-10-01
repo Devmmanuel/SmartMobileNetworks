@@ -19,13 +19,12 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.nss.nss.data.db.HistoricoDao;
-import com.nss.nss.ui.pruebas.PruebasViewModel;
-import com.nss.nss.ui.tableview.TableViewAdapter;
-import com.nss.nss.util.AdminSql;
 import com.nss.nss.R;
 import com.nss.nss.controller.ControllerHistorical;
+import com.nss.nss.data.db.HistoricoDao;
 import com.nss.nss.data.model.SpinerState;
+import com.nss.nss.ui.tableview.TableViewAdapter;
+import com.nss.nss.util.AdminSql;
 
 import java.util.ArrayList;
 
@@ -50,7 +49,6 @@ public class Historical extends Fragment {
     private Spinner spinerFiltrar;
     private SpinerState state = SpinerState.DATE;
     private ControllerHistorical ctrHistorical;
-    //private FragmentHistoricosPruebasBinding binding;
     private TableViewAdapter tableViewAdapter;
     private RecyclerView recyclerView;
     @Inject
@@ -94,7 +92,7 @@ public class Historical extends Fragment {
         adminSql = new AdminSql(getContext(), "mydb", null, 1);
         calendarioFecha = new CalendarioDialog(getContext());
         historicalViewModel = new ViewModelProvider(this).get(HistoricalViewModel.class);
-        tableViewAdapter= new TableViewAdapter();
+        tableViewAdapter = new TableViewAdapter();
     }
 
     @Override
@@ -102,7 +100,7 @@ public class Historical extends Fragment {
                              Bundle savedInstanceState) {
         View vista = inflater.inflate(R.layout.fragment_historicos_pruebas, container, false);
         spinerFiltrar = vista.findViewById(R.id.spinner);
-        recyclerView=vista.findViewById(R.id.recycler_historicos);
+        recyclerView = vista.findViewById(R.id.recycler_historicos);
         recyclerView.setAdapter(tableViewAdapter);
         historicalViewModel.getAllHistorics();
         spinerFiltrar.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -143,8 +141,8 @@ public class Historical extends Fragment {
         btnBuscar.setOnClickListener(view -> {
             buscando = true;
         });
-        historicalViewModel.getHistoricos().observe(getViewLifecycleOwner(),historicos -> {
-            Log.w("LOG",historicos.toString());
+        historicalViewModel.getHistoricos().observe(getViewLifecycleOwner(), historicos -> {
+            Log.w("LOG", historicos.toString());
             tableViewAdapter.setData(historicos);
         });
         return vista;

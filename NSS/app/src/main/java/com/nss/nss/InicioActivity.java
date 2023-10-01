@@ -49,8 +49,6 @@ public class InicioActivity extends AppCompatActivity implements View.OnClickLis
         darPermisosApp();
     }
 
-    /*este metodo sirve para dar permisos a las aplicacion ya que si no le damos los permios suficientes a la aplicacion no pedemos
-     * usar algunos metodos de PhoneManeger*/
     private void darPermisosApp() {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions
@@ -86,19 +84,13 @@ public class InicioActivity extends AppCompatActivity implements View.OnClickLis
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_redes_moviles, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
         if (id == R.id.menuAcercaDe) {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle(R.string.action_acerca_de);
@@ -106,7 +98,6 @@ public class InicioActivity extends AppCompatActivity implements View.OnClickLis
             builder.show();
             return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 

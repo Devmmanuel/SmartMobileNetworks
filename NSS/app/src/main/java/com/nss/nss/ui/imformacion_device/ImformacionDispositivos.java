@@ -1,7 +1,6 @@
 package com.nss.nss.ui.imformacion_device;
 
 import android.Manifest;
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.os.Build;
@@ -38,13 +37,6 @@ public class ImformacionDispositivos {
         this.ctx = ctx;
     }
 
-
-    /**
-     * @param
-     * @return String
-     * Este metodo regresa un String con el
-     * estado del roaming activado , desactivado
-     */
     public String getStateRoaming(TelephonyManager tm) {
         if (tm.isNetworkRoaming())
             return "Activado";
@@ -52,22 +44,12 @@ public class ImformacionDispositivos {
             return "Desactivado";
     }
 
-    /**
-     * regresa un string con el codigo de pais
-     *
-     * @return String
-     */
+
     public String getCodigoPais() {
         return tm.getSimCountryIso();
     }
 
-    /**
-     * regresa un String[] con mccymnc
-     *
-     * @return String []
-     * position 0 mcc
-     * position 1 mnc
-     */
+
     public String[] getMccAndMnc() {
         String infoMccYmnc = tm.getNetworkOperator();
         String[] mccyMnc = new String[2];
@@ -76,8 +58,6 @@ public class ImformacionDispositivos {
         return mccyMnc;
     }
 
-    /**
-     */
     public List<String> getImformationRedesMoviles() {
         List<String> datosRM = new ArrayList<>();
         datosRM.add("Operador");
@@ -107,18 +87,11 @@ public class ImformacionDispositivos {
         return datosRM;
     }
 
-    /**
-     * @return String
-     * regresa un string con el nombre del operador
-     */
-
     public String getOperator() {
         return tm.getNetworkOperatorName();
     }
 
-    /**
-     * @return String
-     */
+
     public String getMacAddress() {
         try {
             List<NetworkInterface> all = Collections.list(NetworkInterface.getNetworkInterfaces());
@@ -149,12 +122,6 @@ public class ImformacionDispositivos {
         return "";
     }
 
-
-    /**
-     * @return String
-     * Este metodo es usado para obtener la direccion ip actual del dispositivo
-     * Al ser un metodo statico se puede llamar sin la creacion de un objeto
-     */
     public String getMobileIPAddress() {
         try {
             List<NetworkInterface> interfaces = Collections.list(NetworkInterface.getNetworkInterfaces());
@@ -172,14 +139,7 @@ public class ImformacionDispositivos {
         return "-";
     }
 
-    /**
-     * @param
-     * @return String
-     * metodo el cual obtiene el imei del dispositivo  y nos regresa un string con el imei
-     * es es nesesario tener el permiso de
-     * READ_PHONE_STATE  en el archivo Manisfest y en versiones superios o igual a la api 26 es necesario
-     * verificar tambien desde la aplicacion ya que si no se verifica no nos dejara utilizar el metodo
-     */
+
     public String getnImei() {
         int chekarPermiso = ContextCompat.checkSelfPermission(ctx, Manifest.permission.READ_PHONE_STATE);
         if (chekarPermiso == PackageManager.PERMISSION_GRANTED)
@@ -190,12 +150,6 @@ public class ImformacionDispositivos {
             return "Desconocido";
     }
 
-    /**
-     * @return String
-     * El metodo getPhoneType nos regresa el phoneTYpe en una variable del tipo
-     * String con el dispositvio es necesario
-     * la creaacion de un objeto TelephonyManager para hacer uso del metodo
-     */
     public String getPhoneType() {
         String phoneType = "Unknown";
         switch (tm.getPhoneType()) {
@@ -215,11 +169,6 @@ public class ImformacionDispositivos {
         return phoneType;
     }
 
-    /**
-     * @return String
-     * Este metodo usa un objeto de telephonyManager para determinar
-     * las conexion de datos en el dispositivo esta actualmente conectada
-     */
     public String getDataConected() {
         String dataConected = "";
         switch (tm.getDataState()) {
@@ -236,10 +185,6 @@ public class ImformacionDispositivos {
         return dataConected;
     }
 
-    /**
-     * @return String
-     * Metodo el cual nos regresa el tipo de red en el cual nos encontramos
-     */
     public String getTypeOfNetwork() {
         if (ActivityCompat.checkSelfPermission(ctx, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
             return "";
@@ -283,11 +228,6 @@ public class ImformacionDispositivos {
 
     }
 
-    /**
-     * @return String
-     * Nos regresa un String con el tipo de conexion al cual estamos
-     * conectados (2G,3G,4G)
-     */
     public String getTypeOfNetwork234() {
         if (ActivityCompat.checkSelfPermission(ctx, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
             return "";

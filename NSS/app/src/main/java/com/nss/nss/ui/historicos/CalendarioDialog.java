@@ -9,6 +9,7 @@ import android.widget.DatePicker;
 
 
 import com.nss.nss.R;
+
 import java.util.Calendar;
 
 
@@ -41,10 +42,6 @@ public class CalendarioDialog {
         seleccionarFecha.show();
     }
 
-    /**
-     * @param yy anio en formato xxxx
-     * @return String anio formato xx
-     */
     private String cambiarAnio(int yy) {
         return String.valueOf(yy).substring(2, 4);
     }
