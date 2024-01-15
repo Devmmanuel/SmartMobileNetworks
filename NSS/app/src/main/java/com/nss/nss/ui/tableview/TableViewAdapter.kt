@@ -1,5 +1,6 @@
 package com.nss.nss.ui.tableview
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -7,12 +8,13 @@ import com.nss.nss.data.db.Historico
 import com.nss.nss.databinding.ItemTableviewBinding
 
 
-class TableViewAdapter() :
+class TableViewAdapter :
     RecyclerView.Adapter<TableViewAdapter.ViewHolder>() {
 
 
     private var listaHistoricos: MutableList<Historico> = arrayListOf()
 
+    @SuppressLint("NotifyDataSetChanged")
     fun setData(lista: List<Historico>) {
         listaHistoricos = lista.toMutableList()
         listaHistoricos.add(0, setHeader())

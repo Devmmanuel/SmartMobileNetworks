@@ -9,7 +9,6 @@ import androidx.annotation.Nullable;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.ajts.androidmads.library.SQLiteToExcel;
 import com.nss.nss.ui.imformacion_device.ImformacionDispositivos;
 
 import java.text.DateFormat;
@@ -41,6 +40,7 @@ public class AdminSql extends SQLiteOpenHelper {
     }
 
     public void exportarBase() {
+        /*
         SQLiteToExcel sqLiteToExcel = new SQLiteToExcel(ctx, "mydb");
         sqLiteToExcel.exportSingleTable(TABLE_NAME, "historicos.xls", new SQLiteToExcel.ExportListener() {
             @Override
@@ -56,7 +56,7 @@ public class AdminSql extends SQLiteOpenHelper {
             public void onError(Exception e) {
                 Toast.makeText(ctx, "Error no se pudo exportar la base de datos", Toast.LENGTH_SHORT).show();
             }
-        });
+        });*/
     }
 
 
